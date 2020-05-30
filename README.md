@@ -25,7 +25,7 @@ The commands:
 ***gui*** - Displays the graphical wizard.
 ***jar*** - Print the repository of the recipes.
  
-The standard folder is /app
-The recipes folder is /app/recipes 
+The standard folder is /apps
+The recipes folder is /apps/receitas 
 
 Obs.: the file i'ts not ready, this is only the purpose.
