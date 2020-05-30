@@ -1,0 +1,25 @@
+#!/bin/bash
+BUSQUE(){
+	atualizar $"APPIN"
+}
+export -f BUSQUE
+export GUI="
+<window decorated=\"false\" icon-name=\"gtk-dialog-question\">
+<vbox>
+<text label=\"Como?\"></text>
+<text label=\"Digite novamente o nome do App para\"></text>
+<text label=\"que eu possa encontrá-lo\"></text>
+<entry><variable>APPIN</variable>
+</entry>
+<hbox homogeneous=\"true\">
+<button space-fill=\"true\" label=\"OK\">
+<action>echo Busque por: $"APPIN"</action>
+<action>atualizar $"APPIN"</action>
+<action>EXIT:exit</action>
+</button>
+<button space-fill=\"true\" label=\"X\"></button>
+</hbox>
+</vbox>
+</window>
+"
+gtkdialog -p GUI
