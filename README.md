@@ -1,2 +1,2 @@
 # aio
-AppImage Oven for linux sistem
+AppImage Oven for linux system
