@@ -7,15 +7,18 @@ RECEITA_PASTA=/apps/aio_build
 APPS=/apps
 AUTOINTEGRAR=1
 
+### ARQUIVOS MONITORADOS
+## aio.list	- Coloca o nome completo dos apps instalados (Ex.: firefox: Firefox-76.0.1.glibc2.4-x86_64.AppImage). /apps/receitas
+## system.aio - Nomes dados aos aplicativos para fácil busca (Ex.: NavegadorFirefox: firefox). /apps/receitas
+## idata.aio - Lista dos .desktop integrados que foram gerados pela receita do app (Ex.: firefox: firefox.desktop). /apps/receitas /tmp
+
 CHECKINTEGRATE(){
 if [[ "$2" == "--nointegrate" || "$3" == "--nointegrate" || "$4" == "--nointegrate" || "$5" == "--nointegrate" ]]; then
   AUTOINTEGRAR="0"
 fi
 }
 
-BUSQUE(){
-	atualizar $"APPIN"
-}
+BUSQUE(){ atualizar $"APPIN" }
 
 COMO(){
 export GUI="
@@ -142,7 +145,7 @@ MSGU002(){ notify-send -i gtk-yes -u normal "Atualizar" "Instalação de $1 $2 $
 MSGUE001(){ notify-send -i gtk-dialog-question -u normal "Como?" "Não consegui encontrar o app para atualizar" }
 
 
-FILTRO
+#### COMANDOS E INTEGRAÇÔES
 
 if [ "$1" == "add" || "$1" == "install" || "$1" == "-i"]; then
  CHECKINTEGRATE
@@ -153,10 +156,14 @@ if [ "$1" == "add" || "$1" == "install" || "$1" == "-i"]; then
  MONTINTEGRAR
  DELOVEN
 elif [ "$1" == "del" || "$1" == "remove" || "$1" == "-d"]; then
+ FILTRO
  DEL
 elif [ "$1" == "upd" || "$1" == "update" || "$1" == "-u"]; then
+ FILTRO
  CHECKINTEGRATE
  echo "App para atualizar: $APP"
+ LERJARRA
+ GETNOMES
  if [ -e "RECEITA_PASTA/$ADD.yml" ]; then
    echo "Receita encontrada no disco"
    MSGU001
@@ -172,19 +179,22 @@ elif [ "$1" == "upd" || "$1" == "update" || "$1" == "-u"]; then
    COMO
  fi
 else
-#	echo "#################################
+	echo "
+##################################
 #Ooops... Algo aconteceu de errado
-#################################
+##################################
 #
 #As opções corretas são:
 #
 #add ou install - instala o app
 #del ou remove - remove a instalação de um app
 #upd ou update - Atualiza up app específico
-# -i	É o mesmo que "add"
-# -d	É o mesmo que "del"
-# -u	É o mesmo que "upd"
-#"
+# -i	É o mesmo que 'add'
+# -d	É o mesmo que 'del'
+# -u	É o mesmo que 'upd'
+#
+#
+"
 	WELCOME
 fi
 
