@@ -5,9 +5,10 @@ JARRA=/apps/aio_build/jar.aio
 RECEITA_PASTA=/apps/aio_build
 ##/apps/receitas/
 APPS=/apps
-AUTOINTEGRAR="1"
+AUTOINTEGRAR=1
 
-CHECKINTEGRATE(){if [[ $2 == "--nointegrate" || $3 == "--nointegrate" || $4 == "--nointegrate" || $5 == "--nointegrate" ]]; then
+CHECKINTEGRATE(){
+if [[ "$2" == "--nointegrate" || "$3" == "--nointegrate" || "$4" == "--nointegrate" || "$5" == "--nointegrate" ]]; then
   AUTOINTEGRAR="0"
 fi
 }
@@ -16,7 +17,8 @@ BUSQUE(){
 	atualizar $"APPIN"
 }
 
-COMO(){export GUI="
+COMO(){
+export GUI="
 <window decorated=\"false\" icon-name=\"gtk-dialog-question\"><vbox><text label=\"Como?\"></text><text label=\"Digite novamente o nome do App para\"></text><text label=\"que eu possa encontrá-lo\"></text>
 <entry><variable>APPIN</variable></entry><hbox homogeneous=\"true\"><button space-fill=\"true\" label=\"OK\"><action>echo Busque por: $"APPIN"</action><action>$2=$"APPIN"</action></button><button space-fill=\"true\" label=\"X\"></button></hbox></vbox></window>"
 gtkdialog -p GUI
@@ -45,7 +47,10 @@ DELBINS(){
 	rm -RF /usr/bin/$ADD	#Remove o binário principal
 	while IFS= read -r line
 	do
-	  if [[ awk '{print $1}' == $ADD ]]; then	#Cria uma lista dos parametros anteriormente adicionados
+	  ITEM=`awk '{print $1}'`
+	  echo $ITEM
+	  if [[ $ITEM == $ADD ]]; then
+#Cria uma lista dos parametros anteriormente adicionados
 		echo `awk '{print $2}'` > /tmp/idata.aio 	
 	  fi
 	done < "$RECEITA_PASTA/idata.aio"
@@ -167,24 +172,21 @@ elif [ "$1" == "upd" || "$1" == "update" || "$1" == "-u"]; then
    COMO
  fi
 else
-	echo "
+#	echo "#################################
+#Ooops... Algo aconteceu de errado
 #################################
-Ooops... Algo aconteceu de errado
-#################################
-
-As opções corretas são:
-
-add ou install - instala o app
-del ou remove - remove a instalação de um app
-upd ou update - Atualiza up app específico
- -i	É o mesmo que "add"
- -d	É o mesmo que "del"
- -u	É o mesmo que "upd"
-"
+#
+#As opções corretas são:
+#
+#add ou install - instala o app
+#del ou remove - remove a instalação de um app
+#upd ou update - Atualiza up app específico
+# -i	É o mesmo que "add"
+# -d	É o mesmo que "del"
+# -u	É o mesmo que "upd"
+#"
 	WELCOME
 fi
 
-
-#MENSAGEM: A fonte baixada possui o recurso de auto-integração. Desejaintergrar ao sistema?
-#sugests - sugestões de nomes para fácil identificação na atualização. #Para o arquivo /apps/receitas/aio.list
-#msg - Observações sobre o app para a loja.
+###sugests - sugestões de nomes para fácil identificação na atualização. #Para o arquivo /apps/receitas/aio.list
+##msg - Observações sobre o app para a loja.
