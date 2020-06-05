@@ -20,7 +20,7 @@ fi
 }
 
 CKLOCALNAMES(){
-ADD=`cat $RECEITA_PASTA/system.aio | grep -w "$1$2$3$4$5:" | awk '{print $2}'`
+ADD=`cat $RECEITA_PASTA/system.aio | grep -w "$2$3$4$5:" | awk '{print $2}'`
 }
 
 DOCOOK(){
@@ -76,7 +76,6 @@ if [[AUTOINTEGRAR=="1"]]; then
   fi
 }
 
-
 GETNOMES(){ 
 SUGESTS=`cat $RECEITA_PASTA/$ADD.yml | grep -w "sugests:"`
 sed -i '/'$ADD'/d' $RECEITA_PASTA/system.aio
@@ -98,11 +97,15 @@ if [[ `wget -S --spider $line$ADD.yml  2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
   fi
 }
 
+GETNETJARRA(){
+	while IFS= read -r line
+	do
+		wget $line/jarra -P /tmp/
+	done < $JAR/jar.aio
+}
+
 JARCONTENT(){
-  echo "https://raw.githubusercontent.com/AppImage/pkg2appimage/master/recipes/
-https://raw.githubusercontent.com/andryeltj/receitas/master/all/
-https://raw.githubusercontent.com/andryeltj/receitas/master/apt/
-" >  $JAR/jar.aio
+  echo "https://raw.githubusercontent.com/andryeltj/receitas/master" >  $JAR/jar.aio
 }
 
 LERJARRA(){
@@ -135,7 +138,6 @@ else
   echo "Esta receita não gera integração"
 fi
 }
-
 
 HELP(){
   echo "##################################
@@ -194,9 +196,6 @@ MSGUE001(){
 	notify-send -i gtk-dialog-question -u normal "Como?" "Não consegui encontrar o app para atualizar"
 }
 
-
-
-
 ### Lancadores
 if [ -e "$JAR" ]; then
  echo "           [🖴 ✔]"
@@ -209,7 +208,6 @@ else
 fi 
 
 #### COMANDOS E INTEGRAÇÔES
-
 if [[ "$1" == "add" || "$1" == "install" || "$1" == "-i" ]]; then
  CHECKINTEGRATE
  OVEN=`cat $ADD.yml | grep "app:" | awk '{print $0}'`
@@ -219,10 +217,14 @@ if [[ "$1" == "add" || "$1" == "install" || "$1" == "-i" ]]; then
  MONTINTEGRAR
  DELOVEN
 elif [[ "$1" == "del" || "$1" == "remove" || "$1" == "-d" ]]; then
- FILTRO
+ CKLOCALNAMES
  DEL
-elif [[ "$1" == "upd" || "$1" == "update" || "$1" == "-u" ]]; then
- FILTRO
+elif [[ "$1" == "list" || "$1" == "-l" ]]; then
+ 
+elif [[ "$1" == "up" || "$1" == "update" || "$1" == "-u" ]]; then
+ 
+elif [[ "$1" == "atu" || "$1" == "atualizar" || "$1" == "-a" ]]; then
+ CKLOCALNAMES
  CHECKINTEGRATE
  echo "App para atualizar: $APP"
  LERJARRA
@@ -245,9 +247,8 @@ elif [[ "$1" == "--help" || "$2" == "--help" || "$3" == "--help" || "$4" == "--h
  HELP
 elif [[ "$2" == "local" || "$3" == "local" || "$4" == "local" || "$5" == "local" ]]; then
  echo "jarra local [🖴]"
- GARRAFA="1"
+ GARRAFA=1
 else
 	
  WELCOME
 fi
-
