@@ -1,0 +1,253 @@
+#!/bin/bash
+ADD=$1
+JAR=/apps/aio_build
+JARRA=/apps/aio_build/jar.aio
+RECEITA_PASTA=/apps/aio_build
+APPS=/apps
+AUTOINTEGRAR=1
+GARRAFA=0
+
+echo $1
+
+### Funções
+CHECKINTEGRATE(){
+if [[ "$1" == "--nointegrate" || "$2" == "--nointegrate" || "$3" == "--nointegrate" || "$4" == "--nointegrate" ]]; then
+  echo "Ma oe"
+  echo $AUTOINTEGRAR
+  AUTOINTEGRAR="0"
+  echo $AUTOINTEGRAR
+fi
+}
+
+CKLOCALNAMES(){
+ADD=`cat $RECEITA_PASTA/system.aio | grep -w "$1$2$3$4$5:" | awk '{print $2}'`
+}
+
+DOCOOK(){
+ pkg2appimage $ADD.yml	#COZINHA
+ PRODUTO=`ls $RECEITA_PASTA/out/`	#Pega o nome do app criado
+ DEL
+ echo $ADD: $PRODUTO >> $RECEITA_PASTA/aio.list	#Coloca o nome do app novo na lista
+ cp -Rf $RECEITA_PASTA/out/*.AppImage $APPS	#Move o app para a pasta de apps
+}
+
+DELBINS(){
+	rm -RF /usr/bin/$ADD	#Remove o binário principal
+	while IFS= read -r line
+	do
+	  ITEM=`awk '{print $1}'`
+	  echo $ITEM
+	  if [[ $ITEM == $ADD ]]; then	#Cria uma lista dos parametros anteriormente adicionados
+		echo `awk '{print $2}'` > /tmp/idata.aio 	
+	  fi
+	done < "$RECEITA_PASTA/idata.aio"
+	
+	while IFS= read -r line
+	do
+	  IDATARM=`awk {print $0}`
+	  rm -Rf /usr/share/applications/$IDATARM	  #Remove os atalhos de integração
+	done < "/tmp/idata.aio"
+	
+}
+
+DEL(){
+	EXISTAPP=`cat $RECEITA_PASTA/aio.list | grep -w "$ADD:" | awk '{print $2}'`	#Detecta o nome do app antigo
+	sed -i '/'$ADD'/d' $RECEITA_PASTA/aio.list	#Remove da lista o nome do app existente
+	rm -Rf $APPS/$EXISTAPP	#Remove a ligação
+	if [[ -L "/usr/bin/$ADD" ]]; then
+	  pkexec DELBINS
+	fi
+	rm -Rf $APPS/$EXISTAPP	#Remove o app existente
+}
+
+DELOVEN(){
+ rm -Rf $RECEITA_PASTA/$OVEN
+ rm -Rf $RECEITA_PASTA/out
+ rm -Rf /tmp/idata
+ rm -Rf /tmp/idata.aio
+}
+
+EXEINTEGRAR(){
+if [[AUTOINTEGRAR=="1"]]; then
+    mv /tmp/idata/*.idata /tmp/idata/*.desktop    #Renomeia os .idata para .desktop
+    pkexec cp -Rf /tmp/idata/* /usr/share/applications    #Move com sudo para a pasta de aplicações do sistema
+#   rm -RF /tmp/idata	#Exclui a pasta de tranferencia
+    echo "App integrado com sucesso"
+  fi
+}
+
+
+GETNOMES(){ 
+SUGESTS=`cat $RECEITA_PASTA/$ADD.yml | grep -w "sugests:"`
+sed -i '/'$ADD'/d' $RECEITA_PASTA/system.aio
+for n in $SUGESTS; do
+ echo $n: $ADD >> $RECEITA_PASTA/system.aio
+ sed -i '/sugests/d' $RECEITA_PASTA/system.aio
+ shift
+done
+}
+
+GETRECEITA(){
+if [[ `wget -S --spider $line$ADD.yml  2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
+    echo "true";
+    rm -Rf $RECEITA_PASTA/$ADD.yml
+    wget $line$ADD.yml -P $RECEITA_PASTA/
+  else
+    echo "false";
+    MSGAE001
+  fi
+}
+
+JARCONTENT(){
+  echo "https://raw.githubusercontent.com/AppImage/pkg2appimage/master/recipes/
+https://raw.githubusercontent.com/andryeltj/receitas/master/all/
+https://raw.githubusercontent.com/andryeltj/receitas/master/apt/
+" >  $JAR/jar.aio
+}
+
+LERJARRA(){
+if [ "GARRAFA"=="0" ];then
+ while IFS= read -r line
+ do
+   GETRECEITA
+ done < "$JARRA"
+else
+ echo "A receita será lida da jarra (repositório) local [🖴]"
+fi
+}
+
+MONTINTEGRAR(){
+if [[ `cat $RECEITA_PASTA/$ADD.yml | grep -w "integrate:" | awk '{print $1}'` == "yes" ]]; then
+  echo "Esse é integrado"
+  mkdir /tmp/idata
+  #Cria a pasta de transferencia
+  if [ -e "$RECEITA_PASTA/$OVEN/$ADD.AppDir/*.idata" ]; then
+  #Checa se existem arquivos .idata na bandeja
+   mv -Rf $RECEITA_PASTA/$OVEN/$ADD.AppDir/*.idata /tmp/idata
+   #Move os .idata
+   echo `ls /tmp/idata`: $ADD >> $RECEITA_PASTA/idata.aio
+   #Lista o conteudo na pasta de transferencia para a lista dos dados integrados
+  else
+   cp -Rf $RECEITA_PASTA/$OVEN/*.desktop /tmp/idata
+  fi 
+  EXEINTEGRAR
+else
+  echo "Esta receita não gera integração"
+fi
+}
+
+
+HELP(){
+  echo "##################################
+#Ooops... Algo aconteceu de errado
+##################################
+#
+#As opções corretas são:
+#
+#add ou install - instala o app
+#del ou remove - remove a instalação de um app
+#upd ou update - Atualiza up app específico
+# -i	É o mesmo que 'add'
+# -d	É o mesmo que 'del'
+# -u	É o mesmo que 'upd'
+#
+#
+#"
+}
+
+### AMBIENTES GRÀFICOS
+APPIN=""
+COMO(){
+export GUI="
+<window decorated=\"false\" icon-name=\"gtk-dialog-question\"><vbox><text label=\"Como?\"></text><text label=\"Digite novamente o nome do App para\"></text><text label=\"que eu possa encontrá-lo\"></text>
+<entry><variable>APPIN</variable></entry><hbox homogeneous=\"true\"><button space-fill=\"true\" label=\"OK\"><action>echo Busque por: $"APPIN"</action><action>$2=$"APPIN"</action></button><button space-fill=\"true\" label=\"X\"></button></hbox></vbox></window>"
+gtkdialog -p GUI
+}
+
+WELCOME(){
+export GUI="
+<vbox><text label=\"AIO\"></text><text><label>Olá, Sou o gerenciador de aplicativos</label></text>
+<entry></entry><text><label>Para instalar coloque acima add e o nome do programa</label></text>
+<text><label>Para remover coloque acima del e o nome do programa</label></text><hbox homogeneous=\"true\"><button space-fill=\"true\" label=\"Executar\"></button><button space-fill=\"true\" label=\"Cancelar\"></button><button space-fill=\"true\" label=\"Opções...\"></button></hbox>
+</vbox>"
+gtkdialog -p GUI
+}
+
+
+############# MENSAGENS DO SISTEMA
+MSGA001(){
+	echo " "
+	}
+MSGAE001(){
+	notify-send -i "gtk-dialog-warning" "Não encontrado" "O App não foi encontrado nas fontes"
+	}
+MSGD001(){
+	echo " "
+	}
+MSGU001(){
+	notify-send -i gtk-refresh "Atualizando o app: $1 $2 $3 $4"
+	}
+	MSGU002(){
+	notify-send -i gtk-yes -u normal "Atualizar" "Instalação de $1 $2 $3 $4 completa"
+	}
+MSGUE001(){
+	notify-send -i gtk-dialog-question -u normal "Como?" "Não consegui encontrar o app para atualizar"
+}
+
+
+
+
+### Lancadores
+if [ -e "$JAR" ]; then
+ echo "           [🖴 ✔]"
+else
+ echo "O caminho não existe. CRIANDO. [📥]"
+ pkexec mkdir $JAR
+ sudo chmod -R 775 $JAR
+ echo "Jarra criada [🖴 ✔]"
+  JARCONTENT
+fi 
+
+#### COMANDOS E INTEGRAÇÔES
+
+if [[ "$1" == "add" || "$1" == "install" || "$1" == "-i" ]]; then
+ CHECKINTEGRATE
+ OVEN=`cat $ADD.yml | grep "app:" | awk '{print $0}'`
+ LERJARRA
+ GETNOMES
+ DOCOOK
+ MONTINTEGRAR
+ DELOVEN
+elif [[ "$1" == "del" || "$1" == "remove" || "$1" == "-d" ]]; then
+ FILTRO
+ DEL
+elif [[ "$1" == "upd" || "$1" == "update" || "$1" == "-u" ]]; then
+ FILTRO
+ CHECKINTEGRATE
+ echo "App para atualizar: $APP"
+ LERJARRA
+ GETNOMES
+ if [ -e "RECEITA_PASTA/$ADD.yml" ]; then
+   echo "Receita encontrada no disco"
+   MSGU001
+   DOCOOK
+   MONTINTEGRAR
+   DEL
+   DELOVEN
+   MSGU002
+ else
+   echo "Receita não encontrada"
+   echo "A receita buscada foi: $APP"
+   MSGUE001
+   COMO
+ fi
+elif [[ "$1" == "--help" || "$2" == "--help" || "$3" == "--help" || "$4" == "--help" || "$1" == "help" || "$2" == "help" || "$3" == "help" || "$4" == "help" ]]; then
+ HELP
+elif [[ "$2" == "local" || "$3" == "local" || "$4" == "local" || "$5" == "local" ]]; then
+ echo "jarra local [🖴]"
+ GARRAFA="1"
+else
+	
+ WELCOME
+fi
+
