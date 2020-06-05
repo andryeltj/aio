@@ -1,14 +1,17 @@
 #!/bin/bash
 #ADD=$1
+JAR=/apps/aio_build
 JARRA=/apps/aio_build/jar.aio
 ##Modificar o caminho da lista de repisitórios ao construir para /etc/aio
 RECEITA_PASTA=/apps/aio_build
 ##/apps/receitas/
 APPS=/apps
+
 AUTOINTEGRAR=1
+GARRAFA=0
 
 ### ARQUIVOS MONITORADOS
-## aio.list	- Coloca o nome completo dos apps instalados (Ex.: firefox: Firefox-76.0.1.glibc2.4-x86_64.AppImage). /apps/receitas
+## aio.list	- Coloca o nome completo dos apps instalados (Ex.: firefox: Firefox-77.0.1.glibc2.4-x86_64.AppImage). /apps/receitas
 ## system.aio - Nomes dados aos aplicativos para fácil busca (Ex.: NavegadorFirefox: firefox). /apps/receitas
 ## idata.aio - Lista dos .desktop integrados que foram gerados pela receita do app (Ex.: firefox: firefox.desktop). /apps/receitas /tmp
 
@@ -18,7 +21,35 @@ if [[ "$2" == "--nointegrate" || "$3" == "--nointegrate" || "$4" == "--nointegra
 fi
 }
 
-BUSQUE(){ atualizar $"APPIN" }
+if [[ "$2" == "--help" || "$3" == "--help" || "$4" == "--help" || "$5" == "--help" || "$2" == "help" || "$3" == "help" || "$4" == "help" || "$5" == "help" ]]; then
+ ##exibir o menu  ajuda
+ HELP
+fi
+
+if [[ "$2" == "local" || "$3" == "local" || "$4" == "local" || "$5" == "local" ]]; then
+ ### Atualizar ou instalar pelas receitas locais
+ echo "jarra local"
+ GARRAFA="1"
+fi
+
+JARCONTENT(){
+  echo "
+
+" >  $JAR/jar.aio
+}
+
+if [ -e "$JAR" ]; then
+ if [ -e "$JAR/jar.aio" ]; then
+  JARCONTENT
+ fi
+else
+ pkexec mkdir $JAR
+ sudo chmod -R 775 $JAR
+ echo "Jarra criada"
+  JARCONTENT
+fi 
+
+#BUSQUE(){ atualizar $"APPIN" }
 
 COMO(){
 export GUI="
@@ -94,10 +125,14 @@ if [[ `wget -S --spider $line$ADD.yml  2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
   fi
 }
 LERJARRA(){
-while IFS= read -r line
-do
-  GETRECEITA
-done < "$JARRA"
+if [ "GARRAFA"=="0" ];then
+ while IFS= read -r line
+ do
+   GETRECEITA
+ done < "$JARRA"
+else
+ echo "A receita será lida da jarra (repositório) local"
+fi
 }
 
 GETNOMES(){ ######INTEGRAR
@@ -126,60 +161,8 @@ else
 fi
 }
 
-WELCOME(){
-export GUI="
-<vbox><text label=\"AIO\"></text><text><label>Olá, Sou o gerenciador de aplicativos</label></text>
-<entry></entry><text><label>Para instalar coloque acima add e o nome do programa</label></text>
-<text><label>Para remover coloque acima del e o nome do programa</label></text><hbox homogeneous=\"true\"><button space-fill=\"true\" label=\"Executar\"></button><button space-fill=\"true\" label=\"Cancelar\"></button><button space-fill=\"true\" label=\"Opções...\"></button></hbox>
-</vbox>"
-gtkdialog -p GUI
-}
-
-
-############# MENSAGENS DO SISTEMA
-MSGA001(){ echo ""}
-MSGAE001(){ notify-send -i "gtk-dialog-warning" "Não encontrado" "O App não foi encontrado nas fontes" }
-MSGD001(){ echo "" }
-MSGU001(){ notify-send -i gtk-refresh "Atualizando o app: $1 $2 $3 $4"}
-MSGU002(){ notify-send -i gtk-yes -u normal "Atualizar" "Instalação de $1 $2 $3 $4 completa" }
-MSGUE001(){ notify-send -i gtk-dialog-question -u normal "Como?" "Não consegui encontrar o app para atualizar" }
-
-
-#### COMANDOS E INTEGRAÇÔES
-
-if [ "$1" == "add" || "$1" == "install" || "$1" == "-i"]; then
- CHECKINTEGRATE
- OVEN=`cat $ADD.yml | grep "app:" | awk '{print $0}'`
- LERJARRA
- GETNOMES
- DOCOOK
- MONTINTEGRAR
- DELOVEN
-elif [ "$1" == "del" || "$1" == "remove" || "$1" == "-d"]; then
- FILTRO
- DEL
-elif [ "$1" == "upd" || "$1" == "update" || "$1" == "-u"]; then
- FILTRO
- CHECKINTEGRATE
- echo "App para atualizar: $APP"
- LERJARRA
- GETNOMES
- if [ -e "RECEITA_PASTA/$ADD.yml" ]; then
-   echo "Receita encontrada no disco"
-   MSGU001
-   DOCOOK
-   MONTINTEGRAR
-   DEL
-   DELOVEN
-   MSGU002
- else
-   echo "Receita não encontrada"
-   echo "A receita buscada foi: $APP"
-   MSGUE001
-   COMO
- fi
-else
-	echo "
+HELP(){
+  echo "
 ##################################
 #Ooops... Algo aconteceu de errado
 ##################################
@@ -195,8 +178,63 @@ else
 #
 #
 "
-	WELCOME
-fi
+}
 
+WELCOME(){
+export GUI="
+<vbox><text label=\"AIO\"></text><text><label>Olá, Sou o gerenciador de aplicativos</label></text>
+<entry></entry><text><label>Para instalar coloque acima add e o nome do programa</label></text>
+<text><label>Para remover coloque acima del e o nome do programa</label></text><hbox homogeneous=\"true\"><button space-fill=\"true\" label=\"Executar\"></button><button space-fill=\"true\" label=\"Cancelar\"></button><button space-fill=\"true\" label=\"Opções...\"></button></hbox>
+</vbox>"
+gtkdialog -p GUI
+}
+
+
+############# MENSAGENS DO SISTEMA
+#MSGA001(){ echo " "}
+#MSGAE001(){ notify-send -i "gtk-dialog-warning" "Não encontrado" "O App não foi encontrado nas fontes" }
+#MSGD001(){ echo " " }
+#MSGU001(){ notify-send -i gtk-refresh "Atualizando o app: $1 $2 $3 $4"}
+#MSGU002(){ notify-send -i gtk-yes -u normal "Atualizar" "Instalação de $1 $2 $3 $4 completa" }
+#MSGUE001(){ notify-send -i gtk-dialog-question -u normal "Como?" "Não consegui encontrar o app para atualizar" }
+
+
+#### COMANDOS E INTEGRAÇÔES
+
+#if [ "$1" == "add" || "$1" == "install" || "$1" == "-i"]; then
+# CHECKINTEGRATE
+# OVEN=`cat $ADD.yml | grep "app:" | awk '{print $0}'`
+# LERJARRA
+# GETNOMES
+# DOCOOK
+# MONTINTEGRAR
+# DELOVEN
+#elif [ "$1" == "del" || "$1" == "remove" || "$1" == "-d"]; then
+# FILTRO
+# DEL
+#elif [ "$1" == "upd" || "$1" == "update" || "$1" == "-u"]; then
+# FILTRO
+# CHECKINTEGRATE
+# echo "App para atualizar: $APP"
+# LERJARRA
+# GETNOMES
+# if [ -e "RECEITA_PASTA/$ADD.yml" ]; then
+#   echo "Receita encontrada no disco"
+#   MSGU001
+#   DOCOOK
+#   MONTINTEGRAR
+#   DEL
+#   DELOVEN
+#   MSGU002
+# else
+#   echo "Receita não encontrada"
+#   echo "A receita buscada foi: $APP"
+#   MSGUE001
+#   COMO
+# fi
+#else	
+# WELCOME
+#fi
+echo "kkkkkk"
 ###sugests - sugestões de nomes para fácil identificação na atualização. #Para o arquivo /apps/receitas/aio.list
 ##msg - Observações sobre o app para a loja.
