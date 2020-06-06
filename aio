@@ -79,7 +79,9 @@ DELOVEN(){
 EXEINTEGRAR(){
 if [[AUTOINTEGRAR=="1"]]; then
     mv /tmp/idata/*.idata /tmp/idata/*.desktop    #Renomeia os .idata para .desktop
-    pkexec cp -Rf /tmp/idata/* /usr/share/applications    #Move com sudo para a pasta de aplicações do sistema
+    pkexec cp -Rf /tmp/idata/*.desktop /usr/share/applications    #Move com sudo para a pasta de aplicações do sistema
+    pkexec cp -Rf /tmp/idata/*.svg /usr/share/icons/hicolor/256x256/apps/	#Copia os icones baixados para a pasta do sistema
+    pkexec cp -Rf /tmp/idata/*.png /usr/share/icons/hicolor/256x256/apps/
 #   rm -RF /tmp/idata	#Exclui a pasta de tranferencia
     echo "App integrado com sucesso"
   fi
@@ -127,17 +129,22 @@ JARCONTENT(){
 MONTINTEGRAR(){
 if [[ `cat $RECEITA_PASTA/$ADD.yml | grep -w "integrate:" | awk '{print $1}'` == "yes" ]]; then
   echo "Esse é integrado"
-  mkdir /tmp/idata
-  #Cria a pasta de transferencia
-  if [ -e "$RECEITA_PASTA/$OVEN/$ADD.AppDir/*.idata" ]; then
-  #Checa se existem arquivos .idata na bandeja
-   mv -Rf $RECEITA_PASTA/$OVEN/$ADD.AppDir/*.idata /tmp/idata
-   #Move os .idata
-   echo `ls /tmp/idata`: $ADD >> $RECEITA_PASTA/idata.aio
-   #Lista o conteudo na pasta de transferencia para a lista dos dados integrados
+  mkdir /tmp/idata	#Cria a pasta de transferencia
+  if [ -e "$RECEITA_PASTA/$OVEN/$ADD.AppDir/*.idata" ]; then	#Checa se existem arquivos .idata na bandeja
+   cp -Rf $RECEITA_PASTA/$OVEN/$ADD.AppDir/*.idata /tmp/idata	#Copia os .idata
+   echo `ls /tmp/idata`: $ADD >> $RECEITA_PASTA/idata.aio	#Lista o conteudo na pasta de transferencia para a lista dos dados integrados
   else
    cp -Rf $RECEITA_PASTA/$OVEN/*.desktop /tmp/idata
-  fi 
+  fi
+  if [ -e "$RECEITA_PASTA/$OVEN/$ADD.AppDir/icons.aio" ]; then
+    mkdir /tmp/idata/icons
+    mv -Rf $RECEITA_PASTA/$OVEN/$ADD.AppDir/icons.aio /tmp/idata
+	while IFS= read -r line
+	do
+		wget $line -P /tmp/idata/icons/	#BAIXA OS ICONES LISTADOS
+	done < /tmp/idata/icons.aio
+	echo `ls /tmp/idata`: $ADD >> $RECEITA_PASTA/idata.aio	#Lista os icones a ser inseridos no sistema
+  fi
   EXEINTEGRAR
 else
   echo "Esta receita não gera integração"
