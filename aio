@@ -46,10 +46,12 @@ if [ "$VERSIONY"=="$AIOY" ]; then
    if [ "$VERSIOND"=="$AIOD" ]; then
      troca=troca
    else
+    echo "Existe uma nova atualização de base. Digite a sua senha para realizar"
     MSGU003
 	pkexec GETAIO
    fi
 else
+	echo "Existe uma nova atualização de base. Digite a sua senha para realizar"
 	MSGU003
 	pkexec GETAIO
 fi
@@ -259,7 +261,6 @@ elif [[ "$1" == "del" || "$1" == "remove" || "$1" == "-d" ]]; then
  CKLOCALNAMES
  DEL
 elif [[ "$1" == "list" || "$1" == "-l" ]]; then
- echo "lista a lista e exibe"
  GETNETBOOK
  echo "
  #######################################################
@@ -271,8 +272,10 @@ elif [[ "$1" == "list" || "$1" == "-l" ]]; then
  cat /tmp/book2
  echo " #######################################################
  #######################################################"
+ CHECKAIOVERSION
 elif [[ "$1" == "up" || "$1" == "update" || "$1" == "-u" ]]; then
  GETNETBOOK
+ CHECKAIOVERSION
 elif [[ "$1" == "atu" || "$1" == "atualizar" || "$1" == "-a" ]]; then
  CKLOCALNAMES
  CHECKINTEGRATE
