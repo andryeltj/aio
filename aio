@@ -42,6 +42,8 @@ GETAIO(){
 CHECKAIOVERSION(){
 AIOY=`cat /tmp/book | grep -w "aio:" | awk '{print $2}'`
 AIOD=`cat /tmp/book | grep -w "aio:" | awk '{print $3}'`
+echo $AIOY
+echo $AIOD
 if [ "$VERSIONY"=="$AIOY" ]; then
    if [ "$VERSIOND"=="$AIOD" ]; then
      troca=troca
