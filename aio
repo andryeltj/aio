@@ -68,6 +68,12 @@ DOCOOK(){
  cp -Rf $RECEITA_PASTA/out/*.AppImage $APPS	#Move o app para a pasta de apps
 }
 
+NATIVEFIER(){
+	#wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1WG_aVWqyIdpX7Yd4I3sZlB4oex-1FEy_' -O NativefierBasis.tar.xz
+	#se a receita apresentar nativefier: yes, cheque se a base já existe na pasta do sistema, senão baixe do endereço listado na receita(acima)
+	if [  ]
+}
+
 DELBINS(){
 	rm -RF /usr/bin/$ADD	#Remove o binário principal
 	while IFS= read -r line
