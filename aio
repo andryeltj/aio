@@ -6,6 +6,9 @@ HOST="https://raw.githubusercontent.com"
 APPS=/apps
 AUTOINTEGRAR=1
 GARRAFA=0
+VERSIONY=2020
+VERSIOND=0606
+troca=""
 
 echo $1 $2
 
@@ -30,6 +33,26 @@ if [ "$5"=="local" || "$5"=="nointegrate" || "$5"=="--local" || "$5"=="--nointeg
 	$5=""
 fi
 ADD=`cat $RECEITA_PASTA/system.aio | grep -w "$2$3$4$5:" | awk '{print $2}'`
+}
+
+GETAIO(){
+	wget $HOST/andryeltj/aio/master/aio -P RECEITA_PASTA
+}
+
+CHECKAIOVERSION(){
+AIOY=`cat /tmp/book | grep -w "aio:" | awk '{print $2}'`
+AIOD=`cat /tmp/book | grep -w "aio:" | awk '{print $3}'`
+if [ "$VERSIONY"=="$AIOY" ]; then
+   if [ "$VERSIOND"=="$AIOD" ]; then
+     troca=troca
+   else
+    MSGU003
+	pkexec GETAIO
+   fi
+else
+	MSGU003
+	pkexec GETAIO
+fi
 }
 
 DOCOOK(){
@@ -118,6 +141,7 @@ GETNETBOOK(){
 	fi
 	while IFS= read -r line
 	do
+		rm -Rf /tmp/book
 		wget $line/book -P /tmp/	#BAIXA O NOVO LIVRO
 	done < $JAR/jar.aio
 }
@@ -143,7 +167,7 @@ if [[ `cat $RECEITA_PASTA/$ADD.yml | grep -w "integrate:" | awk '{print $1}'` ==
 	do
 		wget $line -P /tmp/idata/icons/	#BAIXA OS ICONES LISTADOS
 	done < /tmp/idata/icons.aio
-	echo `ls /tmp/idata`: $ADD >> $RECEITA_PASTA/idata.aio	#Lista os icones a ser inseridos no sistema
+	echo `ls /tmp/idata/icons`: $ADD >> $RECEITA_PASTA/idata.aio	#Lista os icones a ser inseridos no sistema
   fi
   EXEINTEGRAR
 else
@@ -201,8 +225,11 @@ MSGD001(){
 MSGU001(){
 	notify-send -i gtk-refresh "Atualizando o app: $1 $2 $3 $4"
 	}
-	MSGU002(){
+MSGU002(){
 	notify-send -i gtk-yes -u normal "Atualizar" "Instalação de $1 $2 $3 $4 completa"
+	}
+MSGU003(){
+	notify-send -i gtk-refresh "Existe uma nova atualização de base. Digite a sua senha para realizar"
 	}
 MSGUE001(){
 	notify-send -i gtk-dialog-question -u normal "Como?" "Não consegui encontrar o app para atualizar"
@@ -238,7 +265,10 @@ elif [[ "$1" == "list" || "$1" == "-l" ]]; then
  #######################################################
  #######################################################
  <Nome>	<Receita>	<Jarra(Repositório)>	<Comentário>"
- cat /tmp/book
+ rm -Rf /tmp/book2
+ cp /tmp/book /tmp/book2
+ sed -i '/aio:/d' /tmp/book2
+ cat /tmp/book2
  echo " #######################################################
  #######################################################"
 elif [[ "$1" == "up" || "$1" == "update" || "$1" == "-u" ]]; then
