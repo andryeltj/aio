@@ -5,17 +5,23 @@ RECEITA_PASTA=/apps/aio_build
 HOST="https://raw.githubusercontent.com"
 APPS=/apps
 AUTOINTEGRAR=1
-GARRAFA=0
 VERSIONY=2020
 VERSIOND=0607
+ISLOCAL=0
 troca=""
 
 echo $1 $2
 
 ### Funções
+CALLLOCAL(){
+if [[ "$2" == "local" || "$3" == "local" || "$4" == "local" || "$5" == "local" || "$2" == "--local" || "$3" == "--local" || "$4" == "--local" || "$5" == "--local" ]]; then
+  ISLOCAL=1
+fi
+}
+CALLLOCAL
 CHECKINTEGRATE(){
 if [[ "$1" == "--nointegrate" || "$2" == "--nointegrate" || "$3" == "--nointegrate" || "$4" == "--nointegrate" || "$5" == "--nointegrate" ]]; then
-  AUTOINTEGRAR="0"
+  AUTOINTEGRAR=0
 fi
 }
 
@@ -37,7 +43,7 @@ ADD=`cat $RECEITA_PASTA/system.aio | grep -w "$2$3$4$5:" | awk '{print $2}'`
 
 GETAIO(){
 	rm -Rf $RECEITA_PASTA
-	wget $HOST/andryeltj/aio/master/aio -P $RECEITA_PASTA
+	wget $HOST/andryeltj/aio/master/aio -P $JAR
 }
 
 CHECKAIOVERSION(){
@@ -61,17 +67,11 @@ fi
 }
 
 DOCOOK(){
- pkg2appimage $ADD.yml	#COZINHA
+ pkg2appimage $RECEITA_PASTA/$ADD.yml	#COZINHA
  PRODUTO=`ls $RECEITA_PASTA/out/`	#Pega o nome do app criado
  DEL
  echo $ADD: $PRODUTO >> $RECEITA_PASTA/aio.list	#Coloca o nome do app novo na lista
  cp -Rf $RECEITA_PASTA/out/*.AppImage $APPS	#Move o app para a pasta de apps
-}
-
-NATIVEFIER(){
-	#wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1WG_aVWqyIdpX7Yd4I3sZlB4oex-1FEy_' -O NativefierBasis.tar.xz
-	#se a receita apresentar nativefier: yes, cheque se a base já existe na pasta do sistema, senão baixe do endereço listado na receita(acima)
-	if [  ]
 }
 
 DELBINS(){
@@ -132,13 +132,9 @@ done
 }
 
 GETRECEITA(){
-if [ "GARRAFA"=="0" ];then
  ADD=`cat /tmp/book | grep -w "$ADD:" | awk '{print $2}'`
  JARRA=`cat /tmp/book | grep -w "$ADD:" | awk '{print $3}'`
  wget $HOST/$JARRA/$ADD.yml -P $RECEITA_PASTA/
-else
- echo "A receita será lida a partir da jarra (repositório) local [🖴]"
-fi
 }
 
 GETNETBOOK(){
@@ -159,6 +155,19 @@ GETNETBOOK(){
 
 JARCONTENT(){
   echo "https://raw.githubusercontent.com/andryeltj/receitas/master" > $JAR/jar.aio
+}
+
+LISTJAR(){
+ echo "
+ #######################################################
+ #######################################################
+ <Nome>	<Receita>	<Jarra(Repositório)>	<Comentário>"
+ rm -Rf /tmp/book2
+ cp /tmp/book /tmp/book2
+ sed -i '/aio:/d' /tmp/book2
+ cat /tmp/book2
+ echo " #######################################################
+ #######################################################"
 }
 
 MONTINTEGRAR(){
@@ -183,6 +192,32 @@ if [[ `cat $RECEITA_PASTA/$ADD.yml | grep -w "integrate:" | awk '{print $1}'` ==
   EXEINTEGRAR
 else
   echo "Esta receita não gera integração"
+fi
+}
+
+NATIVEFIER(){
+	#A função deve ser iniciada antes de OVEN para baixar no disco a base que vai para a receita.	
+	NATIVEFIERCK=`cat $RECEITA_PASTA/$ADD.yml | grep -w "nativefier:" | awk '{print $2}'`
+	if [[ -e "$RECEITA_PASTA/nucleo" ]]; then
+	 troca=troca; else;	mkdir $RECEITA_PASTA/nucleo
+	fi
+	if [ "$NATIVEFIERCK" == "yes" ]; then
+	  if [[ -e "$RECEITA_PASTA/nucleo/NativefierBasis.tar.xz" ]]; then
+	   troca=troca;	  else
+	   BASISLINK=`cat $RECEITA_PASTA/$ADD.yml | grep -w "nativefierlink:" | awk '{print $2}'`
+	   wget --no-check-certificate '$BASISLINK' -O $RECEITA_PASTA/nucleo/NativefierBasis.tar.xz
+	  fi
+	fi
+}
+
+TESTLOCAL(){
+if [[ ISLOCAL="1" ]]; then
+  echo "📜 Offline"
+  MSGU004
+else
+  echo "📜 ONLINE"
+  GETRECEITA
+  GETNOMES
 fi
 }
 
@@ -242,6 +277,9 @@ MSGU002(){
 MSGU003(){
 	notify-send -i gtk-refresh "Existe uma nova atualização de base. Digite a sua senha para realizar"
 	}
+MSGU004(){
+	notify-send -i gtk-yes "A instalação está sendo realizada com uma receita local"
+	}
 MSGUE001(){
 	notify-send -i gtk-dialog-question -u normal "Como?" "Não consegui encontrar o app para atualizar"
 }
@@ -261,8 +299,8 @@ fi
 if [[ "$1" == "add" || "$1" == "install" || "$1" == "-i" ]]; then
  CHECKINTEGRATE
  OVEN=`cat $ADD.yml | grep "app:" | awk '{print $0}'`
- GETRECEITA
- GETNOMES
+ TESTLOCAL
+ NATIVEFIER
  DOCOOK
  MONTINTEGRAR
  DELOVEN
@@ -271,16 +309,7 @@ elif [[ "$1" == "del" || "$1" == "remove" || "$1" == "-d" ]]; then
  DEL
 elif [[ "$1" == "list" || "$1" == "-l" ]]; then
  GETNETBOOK
- echo "
- #######################################################
- #######################################################
- <Nome>	<Receita>	<Jarra(Repositório)>	<Comentário>"
- rm -Rf /tmp/book2
- cp /tmp/book /tmp/book2
- sed -i '/aio:/d' /tmp/book2
- cat /tmp/book2
- echo " #######################################################
- #######################################################"
+ LISTJAR
  CHECKAIOVERSION
 elif [[ "$1" == "up" || "$1" == "update" || "$1" == "-u" ]]; then
  GETNETBOOK
@@ -289,11 +318,11 @@ elif [[ "$1" == "atu" || "$1" == "atualizar" || "$1" == "-a" ]]; then
  CKLOCALNAMES
  CHECKINTEGRATE
  echo "App para atualizar: $ADD"
- GETRECEITA
- GETNOMES
+ TESTLOCAL
  if [ -e "RECEITA_PASTA/$ADD.yml" ]; then
    echo "Receita encontrada no disco"
    MSGU001
+   NATIVEFIER
    DOCOOK
    MONTINTEGRAR
    DEL
@@ -307,10 +336,6 @@ elif [[ "$1" == "atu" || "$1" == "atualizar" || "$1" == "-a" ]]; then
  fi
 elif [[ "$1" == "--help" || "$2" == "--help" || "$3" == "--help" || "$4" == "--help" || "$1" == "help" || "$2" == "help" || "$3" == "help" || "$4" == "help" ]]; then
  HELP
-elif [[ "$2" == "local" || "$3" == "local" || "$4" == "local" || "$5" == "local" || "$2" == "--local" || "$3" == "--local" || "$4" == "--local" || "$5" == "--local" ]]; then
- echo "jarra local [🖴]"
- GARRAFA=1
-else
-	
+else	
  WELCOME
 fi
