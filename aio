@@ -42,7 +42,7 @@ ADD=`cat $RECEITA_PASTA/system.aio | grep -w "$2$3$4$5:" | awk '{print $2}'`
 }
 
 GETAIO(){
-	rm -Rf $RECEITA_PASTA
+	rm -Rf $RECEITA_PASTA/aio
 	wget $HOST/andryeltj/aio/master/aio -P $JAR
 }
 
