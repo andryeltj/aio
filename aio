@@ -36,7 +36,8 @@ ADD=`cat $RECEITA_PASTA/system.aio | grep -w "$2$3$4$5:" | awk '{print $2}'`
 }
 
 GETAIO(){
-	wget $HOST/andryeltj/aio/master/aio -P RECEITA_PASTA
+	rm -Rf $RECEITA_PASTA
+	wget $HOST/andryeltj/aio/master/aio -P $RECEITA_PASTA
 }
 
 CHECKAIOVERSION(){
@@ -44,18 +45,18 @@ AIOY=`cat /tmp/book | grep -w "aio:" | awk '{print $2}'`
 AIOD=`cat /tmp/book | grep -w "aio:" | awk '{print $3}'`
 echo $AIOY
 echo $AIOD
-if [ "$VERSIONY"=="$AIOY" ]; then
-   if [ "$VERSIOND"=="$AIOD" ]; then
+if [ "$VERSIONY" -gt "$AIOY" ]; then
+   if [ "$VERSIOND" -gt "$AIOD" ]; then
      troca=troca
    else
     echo "Existe uma nova atualização de base. Digite a sua senha para realizar"
     MSGU003
-	pkexec GETAIO
+	GETAIO
    fi
 else
 	echo "Existe uma nova atualização de base. Digite a sua senha para realizar"
 	MSGU003
-	pkexec GETAIO
+	GETAIO
 fi
 }
 
