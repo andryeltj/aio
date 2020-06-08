@@ -119,7 +119,7 @@ if [[AUTOINTEGRAR=="1"]]; then
 GETAIO(){
 	rm -Rf $RECEITA_PASTA/aio
 	wget $HOST/andryeltj/aio/master/aio -P $JAR
-	chmod -x $JAR/aio
+	chmod +x $JAR/aio
 }
 
 GETRECEITA(){
