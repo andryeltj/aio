@@ -1,5 +1,5 @@
 #!/bin/bash
-ADD=$1
+ADD=$2
 JAR=/apps/aio_build
 RECEITA_PASTA=/apps/aio_build
 HOST="https://raw.githubusercontent.com"
@@ -121,7 +121,7 @@ if [[AUTOINTEGRAR=="1"]]; then
   fi
 }
 
-GETNOMES(){ 
+GETSUGESTS(){ 
 SUGESTS=`cat $RECEITA_PASTA/$ADD.yml | grep -w "sugests:"`	#Cria a lista de provaveis nomes para o app atravez da receita
 sed -i '/'$ADD'/d' $RECEITA_PASTA/system.aio
 for n in $SUGESTS; do
@@ -143,7 +143,7 @@ GETNETBOOK(){
 	else
 	  JARCONTENT
 	fi
-	if [[ -e "/tmp/jarra" ]]; then
+	if [[ -e "/tmp/book" ]]; then
 	  rm -Rf /tmp/book	#REMOVE O LIVRO ANTIGO
 	fi
 	while IFS= read -r line
@@ -199,7 +199,7 @@ NATIVEFIER(){
 	#A função deve ser iniciada antes de OVEN para baixar no disco a base que vai para a receita.	
 	NATIVEFIERCK=`cat $RECEITA_PASTA/$ADD.yml | grep -w "nativefier:" | awk '{print $2}'`
 	if [[ -e "$RECEITA_PASTA/nucleo" ]]; then
-	 troca=troca; else;	mkdir $RECEITA_PASTA/nucleo
+	 troca=troca; else	mkdir $RECEITA_PASTA/nucleo
 	fi
 	if [ "$NATIVEFIERCK" == "yes" ]; then
 	  if [[ -e "$RECEITA_PASTA/nucleo/NativefierBasis.tar.xz" ]]; then
@@ -216,8 +216,9 @@ if [[ ISLOCAL="1" ]]; then
   MSGU004
 else
   echo "📜 ONLINE"
+  GETNETBOOK
   GETRECEITA
-  GETNOMES
+  GETSUGESTS
 fi
 }
 
@@ -304,16 +305,24 @@ if [[ "$1" == "add" || "$1" == "install" || "$1" == "-i" ]]; then
  DOCOOK
  MONTINTEGRAR
  DELOVEN
+ 
+ 
 elif [[ "$1" == "del" || "$1" == "remove" || "$1" == "-d" ]]; then
  CKLOCALNAMES
  DEL
+ 
+ 
 elif [[ "$1" == "list" || "$1" == "-l" ]]; then
  GETNETBOOK
  LISTJAR
  CHECKAIOVERSION
+ 
+ 
 elif [[ "$1" == "up" || "$1" == "update" || "$1" == "-u" ]]; then
  GETNETBOOK
  CHECKAIOVERSION
+ 
+ 
 elif [[ "$1" == "atu" || "$1" == "atualizar" || "$1" == "-a" ]]; then
  CKLOCALNAMES
  CHECKINTEGRATE
@@ -334,8 +343,12 @@ elif [[ "$1" == "atu" || "$1" == "atualizar" || "$1" == "-a" ]]; then
    MSGUE001
    COMO
  fi
+ 
+ 
 elif [[ "$1" == "--help" || "$2" == "--help" || "$3" == "--help" || "$4" == "--help" || "$1" == "help" || "$2" == "help" || "$3" == "help" || "$4" == "help" ]]; then
  HELP
+ 
+ 
 else	
  WELCOME
 fi
