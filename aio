@@ -46,8 +46,8 @@ AIOY=`cat /tmp/book | grep -w "aio:" | awk '{print $2}'`
 AIOD=`cat /tmp/book | grep -w "aio:" | awk '{print $3}'`
 echo $AIOY
 echo $AIOD
-if [ "$VERSIONY" -gt "$AIOY" ]; then
-   if [ "$VERSIOND" -gt "$AIOD" ]; then
+if [ "$VERSIONY" -lt "$AIOY" ]; then
+   if [ "$VERSIOND" -lt "$AIOD" ]; then
      troca=troca
    else
     echo "Existe uma nova atualização de base. Digite a sua senha para realizar"
