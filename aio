@@ -41,11 +41,6 @@ fi
 ADD=`cat $RECEITA_PASTA/system.aio | grep -w "$2$3$4$5:" | awk '{print $2}'`
 }
 
-GETAIO(){
-	rm -Rf $RECEITA_PASTA/aio
-	wget $HOST/andryeltj/aio/master/aio -P $JAR
-}
-
 CHECKAIOVERSION(){
 AIOY=`cat /tmp/book | grep -w "aio:" | awk '{print $2}'`
 AIOD=`cat /tmp/book | grep -w "aio:" | awk '{print $3}'`
@@ -121,14 +116,10 @@ if [[AUTOINTEGRAR=="1"]]; then
   fi
 }
 
-GETSUGESTS(){ 
-SUGESTS=`cat $RECEITA_PASTA/$ADD.yml | grep -w "sugests:"`	#Cria a lista de provaveis nomes para o app atravez da receita
-sed -i '/'$ADD'/d' $RECEITA_PASTA/system.aio
-for n in $SUGESTS; do
- echo $n: $ADD >> $RECEITA_PASTA/system.aio
- sed -i '/sugests/d' $RECEITA_PASTA/system.aio
- shift
-done
+GETAIO(){
+	rm -Rf $RECEITA_PASTA/aio
+	wget $HOST/andryeltj/aio/master/aio -P $JAR
+	chmod $JAR/aio
 }
 
 GETRECEITA(){
@@ -151,6 +142,16 @@ GETNETBOOK(){
 		rm -Rf /tmp/book
 		wget $line/book -P /tmp/	#BAIXA O NOVO LIVRO
 	done < $JAR/jar.aio
+}
+
+GETSUGESTS(){ 
+SUGESTS=`cat $RECEITA_PASTA/$ADD.yml | grep -w "sugests:"`	#Cria a lista de provaveis nomes para o app atravez da receita
+sed -i '/'$ADD'/d' $RECEITA_PASTA/system.aio
+for n in $SUGESTS; do
+ echo $n: $ADD >> $RECEITA_PASTA/system.aio
+ sed -i '/sugests/d' $RECEITA_PASTA/system.aio
+ shift
+done
 }
 
 JARCONTENT(){
