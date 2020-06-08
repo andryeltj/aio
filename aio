@@ -6,7 +6,7 @@ HOST="https://raw.githubusercontent.com"
 APPS=/apps
 AUTOINTEGRAR=1
 VERSIONY=2020
-VERSIOND=0607
+VERSIOND=0608
 ISLOCAL=0
 troca=""
 
