@@ -43,7 +43,7 @@ ADD=`cat $RECEITA_PASTA/system.aio | grep -w "$2$3$4$5:" | awk '{print $2}'`
 CHECKAIOVERSION(){
 AIOR=`cat /tmp/book | grep -w "aio:" | awk '{print $2}'`
 echo $AIOR
-if [ "$VERSIONY" -lt "$AIOR" ]; then
+if [ "$VERSIONR" -lt "$AIOR" ]; then
     troca=troca
     echo "Existe uma nova atualização de base. Digite a sua senha para realizar"
     MSGU003
