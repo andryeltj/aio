@@ -110,6 +110,8 @@ GETAIO(){
 	rm -Rf $RECEITA_PASTA/aio
 	wget $HOST/andryeltj/aio/master/aio -P $JAR
 	chmod +x $JAR/aio
+	AIOR=`cat $JAR/aio | grep -w "VERSIONR=" | awk '{print $2}'`
+	echo "🗘AIO: $AIOR"
 }
 
 GETRECEITA(){
