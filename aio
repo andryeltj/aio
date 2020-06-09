@@ -5,8 +5,7 @@ RECEITA_PASTA=/apps/aio_build
 HOST="https://raw.githubusercontent.com"
 APPS=/apps
 AUTOINTEGRAR=1
-VERSIONY=2020
-VERSIOND=0608
+VERSIONR=20200608
 ISLOCAL=0
 troca=""
 
@@ -42,21 +41,12 @@ ADD=`cat $RECEITA_PASTA/system.aio | grep -w "$2$3$4$5:" | awk '{print $2}'`
 }
 
 CHECKAIOVERSION(){
-AIOY=`cat /tmp/book | grep -w "aio:" | awk '{print $2}'`
-AIOD=`cat /tmp/book | grep -w "aio:" | awk '{print $3}'`
-echo $AIOY
-echo $AIOD
-if [ "$VERSIONY" -lt "$AIOY" ]; then
-   if [ "$VERSIOND" -lt "$AIOD" ]; then
-     troca=troca
-   else
+AIOR=`cat /tmp/book | grep -w "aio:" | awk '{print $2}'`
+echo $AIOR
+if [ "$VERSIONY" -lt "$AIOR" ]; then
+    troca=troca
     echo "Existe uma nova atualização de base. Digite a sua senha para realizar"
     MSGU003
-	GETAIO
-   fi
-else
-	echo "Existe uma nova atualização de base. Digite a sua senha para realizar"
-	MSGU003
 	GETAIO
 fi
 }
