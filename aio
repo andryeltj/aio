@@ -1,15 +1,16 @@
 #!/bin/bash
 ADD=$2
-JAR=/apps/aio_build	#Pasta das definições
-RECEITA_PASTA=/apps/aio_build	#Pasta das receitas
+JAR=/etc/aio	#Pasta das definições
+RECEITA_PASTA=/apps/receitas	#Pasta das receitas
 BASIS=$RECEITA_PASTA/basis	#Pasta das bases para receitas
 HOST="https://raw.githubusercontent.com"
 APPS=/apps	#Pasta dos apps
+CAMINHO=`pwd`
 AUTOINTEGRAR=1
-VERSIONR=202006091325
+VERSIONR=202006092021
 ISLOCAL=0
 troca=""
-
+echo $CAMINHO
 echo $1 $2
 
 ### Funções
@@ -84,7 +85,7 @@ DEL(){
 	sed -i '/'$ADD'/d' $RECEITA_PASTA/aio.list	#Remove da lista o nome do app existente
 	rm -Rf $APPS/$EXISTAPP	#Remove a ligação
 	if [[ -L "/usr/bin/$ADD" ]]; then
-	  pkexec bash -c "$DELBINS"
+	  sudo bash -c "$DELBINS"
 	fi
 	rm -Rf $APPS/$EXISTAPP	#Remove o app existente
 }
@@ -99,9 +100,9 @@ DELOVEN(){
 EXEINTEGRAR(){
 if [[AUTOINTEGRAR=="1"]]; then
     mv /tmp/idata/*.idata /tmp/idata/*.desktop    #Renomeia os .idata para .desktop
-    pkexec bash -c "cp -Rf /tmp/idata/*.desktop /usr/share/applications"    #Move com sudo para a pasta de aplicações do sistema
-    pkexec bash -c "cp -Rf /tmp/idata/*.svg /usr/share/icons/hicolor/256x256/apps/"	#Copia os icones baixados para a pasta do sistema
-    pkexec bash -c "cp -Rf /tmp/idata/*.png /usr/share/icons/hicolor/256x256/apps/"
+    sudo bash -c "cp -Rf /tmp/idata/*.desktop /usr/share/applications"    #Move com sudo para a pasta de aplicações do sistema
+    sudo bash -c "cp -Rf /tmp/idata/*.svg /usr/share/icons/hicolor/256x256/apps/"	#Copia os icones baixados para a pasta do sistema
+    sudo bash -c "cp -Rf /tmp/idata/*.png /usr/share/icons/hicolor/256x256/apps/"
 #   rm -RF /tmp/idata	#Exclui a pasta de tranferencia
     echo "App integrado com sucesso"
   fi
@@ -279,18 +280,23 @@ MSGUE001(){
 ### Lancadores
 if [ -e "$APPS" ]; then
  troca=troca
-else
- pkexec mkdir $APPS; sudo chmod -R 775 $APPS; echo "Pasta de Apps criada [📥 ✔]"
+  else
+ sudo mkdir $APPS;
+ sudo chmod -R 775 $APPS;
+ if [ -e "$APPS" ]; then  echo " [📥✔] Pasta de Apps criada"; fi
 fi
-if [[ -e "$BASIS" ]]; then
- troca=troca; else	mkdir $BASIS	#Cria a pasta aonde vão ficar as bases
+if [[ -e "$RECEITA_PASTA" ]]; then troca=troca; else mkdir $RECEITA_PASTA; if [ -e "$RECEITA_PASTA" ]; then echo " [📜✔] Criou a pasta aonde vão as receitas"; fi	#Cria a pasta aonde vão ficar as bases
 fi
-if [ -e "$JAR" ]; then
- troca=troca
-else
- pkexec mkdir $JAR	#Cria a pasta aonde vão ficar as definições
- sudo chmod -R 775 $JAR; echo "Jarra criada [🖴 ✔]"; JARCONTENT
-fi 
+if [[ -e "$BASIS" ]]; then troca=troca; else mkdir $BASIS; if [ -e "$BASIS" ]; then echo " [📜✔] Criou a pasta para as bases das receitas"; fi 	#Cria a pasta aonde vão ficar as bases
+fi
+if [ -e "$JAR" ]; then troca=troca; 
+else sudo mkdir $JAR; sudo chmod -R 775 $JAR;	#Cria a pasta aonde vão ficar as definições
+ if [ -e "$JAR" ]; then mv $CAMINHO/aio $JAR; rm -Rf /usr/bin/aio; ln -s $JAR/aio /usr/bin/aio; echo " [🖴 ✔] Jarra criada"; fi
+ if [ -e "/usr/bin/aio" ]; then ln -s $JAR/aio /usr/bin/aio; fi
+fi
+if [ -e "$JAR/jar.aio" ]; then troca=troca; else JARCONTENT; fi
+if [ -e "$JAR/aio" ]; then troca=troca;	if  [ -e "/usr/bin/aio" ]; then troca=troca; else ln -s $JAR/aio /usr/bin/aio; fi
+ else mv $CAMINHO/aio $JAR; ln -s $JAR/aio /usr/bin/aio; fi
 
 #### COMANDOS E INTEGRAÇÔES
 if [[ "$1" == "add" || "$1" == "install" || "$1" == "-i" ]]; then
