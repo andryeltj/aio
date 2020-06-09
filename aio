@@ -7,7 +7,7 @@ HOST="https://raw.githubusercontent.com"
 APPS=/apps	#Pasta dos apps
 CAMINHO=`pwd`
 AUTOINTEGRAR=1
-VERSIONR=202006092021
+VERSIONR=202006092025
 ISLOCAL=0
 troca=""
 echo $CAMINHO
@@ -113,7 +113,7 @@ GETAIO(){
 	wget $HOST/andryeltj/aio/master/aio -P $JAR
 	chmod +x $JAR/aio
 	AIOR=`cat $JAR/aio | grep -w "VERSIONR=" | awk '{print $2}'`
-	echo "🗘AIO: $AIOR"
+	echo "🗘 AIO: $AIOR"
 }
 
 GETRECEITA(){
@@ -282,7 +282,7 @@ if [ -e "$APPS" ]; then
  troca=troca
   else
  sudo mkdir $APPS;
- sudo chmod -R 775 $APPS;
+ sudo chmod -R 777 $APPS;
  if [ -e "$APPS" ]; then  echo " [📥✔] Pasta de Apps criada"; fi
 fi
 if [[ -e "$RECEITA_PASTA" ]]; then troca=troca; else mkdir $RECEITA_PASTA; if [ -e "$RECEITA_PASTA" ]; then echo " [📜✔] Criou a pasta aonde vão as receitas"; fi	#Cria a pasta aonde vão ficar as bases
@@ -290,7 +290,7 @@ fi
 if [[ -e "$BASIS" ]]; then troca=troca; else mkdir $BASIS; if [ -e "$BASIS" ]; then echo " [📜✔] Criou a pasta para as bases das receitas"; fi 	#Cria a pasta aonde vão ficar as bases
 fi
 if [ -e "$JAR" ]; then troca=troca; 
-else sudo mkdir $JAR; sudo chmod -R 775 $JAR;	#Cria a pasta aonde vão ficar as definições
+else sudo mkdir $JAR; sudo chmod -R 777 $JAR;	#Cria a pasta aonde vão ficar as definições
  if [ -e "$JAR" ]; then mv $CAMINHO/aio $JAR; rm -Rf /usr/bin/aio; ln -s $JAR/aio /usr/bin/aio; echo " [🖴 ✔] Jarra criada"; fi
  if [ -e "/usr/bin/aio" ]; then ln -s $JAR/aio /usr/bin/aio; fi
 fi
