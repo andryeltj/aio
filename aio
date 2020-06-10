@@ -3,23 +3,25 @@ ADD=$2
 JAR=/etc/aio	#Pasta das definições
 RECEITA_PASTA=/apps/receitas	#Pasta das receitas
 BASIS=$RECEITA_PASTA/basis	#Pasta das bases para receitas
-HOST="https://raw.githubusercontent.com"
+RAIZ="https://raw.githubusercontent.com"
 APPS=/apps	#Pasta dos apps
+OVEN=""
 CAMINHO=`pwd`
 AUTOINTEGRAR=1
-VERSIONR=202006092025
+VERSIONR=202006100500
 ISLOCAL=0
 troca=""
 echo $CAMINHO
-echo $1 $2
+echo $1 $2 $3
 
 ### Funções
 CALLLOCAL(){
 if [[ "$2" == "local" || "$3" == "local" || "$4" == "local" || "$5" == "local" || "$2" == "--local" || "$3" == "--local" || "$4" == "--local" || "$5" == "--local" ]]; then
+  echo "local"
   ISLOCAL=1
 fi
 }
-CALLLOCAL
+
 CHECKINTEGRATE(){
 if [[ "$1" == "--nointegrate" || "$2" == "--nointegrate" || "$3" == "--nointegrate" || "$4" == "--nointegrate" || "$5" == "--nointegrate" ]]; then
   AUTOINTEGRAR=0
@@ -39,7 +41,7 @@ fi
 if [ "$5"=="local" || "$5"=="nointegrate" || "$5"=="--local" || "$5"=="--nointegrate"]; then
 	$5=""
 fi
-ADD=`cat $RECEITA_PASTA/system.aio | grep -w "$2$3$4$5:" | awk '{print $2}'`
+ADD=`cat $JAR/system.aio | grep -w "$2$3$4$5:" | awk '{print $2}'`
 }
 
 CHECKAIOVERSION(){
@@ -54,11 +56,16 @@ fi
 }
 
 DOCOOK(){
- pkg2appimage $RECEITA_PASTA/$ADD.yml	#COZINHA
- PRODUTO=`ls $RECEITA_PASTA/out/`	#Pega o nome do app criado
- DEL
- echo $ADD: $PRODUTO >> $RECEITA_PASTA/aio.list	#Coloca o nome do app novo na lista
- cp -Rf $RECEITA_PASTA/out/*.AppImage $APPS	#Move o app para a pasta de apps
+if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then
+ pkg2appimage "$RECEITA_PASTA/$ADD.yml"	#COZINHA
+ if [ -e "$RECEITA_PASTA/out/" ]; then	#Testa pra ver se foi cozinhado
+  PRODUTO=`ls $RECEITA_PASTA/out/`	#Pega o nome do app criado
+  echo $ADD: $PRODUTO >> $JAR/aio.list	#Coloca o nome do app novo na lista
+  cp -Rf $RECEITA_PASTA/out/*.AppImage $APPS	#Move o app para a pasta de apps
+ fi
+else
+ echo "Não existe receita para cozinhar"
+fi
 }
 
 DELBINS(){
@@ -81,8 +88,8 @@ DELBINS(){
 }
 
 DEL(){
-	EXISTAPP=`cat $RECEITA_PASTA/aio.list | grep -w "$ADD:" | awk '{print $2}'`	#Detecta o nome do app antigo
-	sed -i '/'$ADD'/d' $RECEITA_PASTA/aio.list	#Remove da lista o nome do app existente
+	EXISTAPP=`cat $JAR/aio.list | grep -w "$ADD:" | awk '{print $2}'`	#Detecta o nome do app antigo
+	sed -i '/'$ADD'/d' $JAR/aio.list	#Remove da lista o nome do app existente
 	rm -Rf $APPS/$EXISTAPP	#Remove a ligação
 	if [[ -L "/usr/bin/$ADD" ]]; then
 	  sudo bash -c "$DELBINS"
@@ -91,14 +98,14 @@ DEL(){
 }
 
 DELOVEN(){
- rm -Rf $RECEITA_PASTA/$OVEN
- rm -Rf $RECEITA_PASTA/out
- rm -Rf /tmp/idata
- rm -Rf /tmp/idata.aio
+ if [ -e "$RECEITA_PASTA/$OVEN" ]; then rm -Rf $RECEITA_PASTA/$OVEN; fi
+ if [ -e "$RECEITA_PASTA/out/" ]; then rm -Rf $RECEITA_PASTA/out; fi
+ if [ -e "/tmp/idata" ]; then rm -Rf /tmp/idata; fi
+ if [ -e "/tmp/idata.aio" ]; then rm -Rf /tmp/idata.aio; fi
 }
 
 EXEINTEGRAR(){
-if [[AUTOINTEGRAR=="1"]]; then
+if [[ "$AUTOINTEGRAR"=="1" ]]; then
     mv /tmp/idata/*.idata /tmp/idata/*.desktop    #Renomeia os .idata para .desktop
     sudo bash -c "cp -Rf /tmp/idata/*.desktop /usr/share/applications"    #Move com sudo para a pasta de aplicações do sistema
     sudo bash -c "cp -Rf /tmp/idata/*.svg /usr/share/icons/hicolor/256x256/apps/"	#Copia os icones baixados para a pasta do sistema
@@ -109,8 +116,8 @@ if [[AUTOINTEGRAR=="1"]]; then
 }
 
 GETAIO(){
-	rm -Rf $RECEITA_PASTA/aio
-	wget $HOST/andryeltj/aio/master/aio -P $JAR
+	rm -Rf $JAR/aio
+	wget $RAIZ/andryeltj/aio/master/aio -P $JAR
 	chmod +x $JAR/aio
 	AIOR=`cat $JAR/aio | grep -w "VERSIONR=" | awk '{print $2}'`
 	echo "🗘 AIO: $AIOR"
@@ -119,12 +126,14 @@ GETAIO(){
 GETRECEITA(){
  ADD=`cat /tmp/book | grep -w "$ADD:" | awk '{print $2}'`
  JARRA=`cat /tmp/book | grep -w "$ADD:" | awk '{print $3}'`
- wget $HOST/$JARRA/$ADD.yml -P $RECEITA_PASTA/
+ if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then rm -Rf $RECEITA_PASTA/$ADD.yml; fi
+ wget $RAIZ/$JARRA/$ADD.yml -P $RECEITA_PASTA/
+ if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then OVEN=`cat $RECEITA_PASTA/$ADD.yml | grep "app:" | awk '{print $0}'`;  else echo "Receita não baixada"; fi
 }
 
 GETNETBOOK(){
 	if [[ -e "$JAR/jar.aio" ]]; then
-	  echo ""
+	  troca=troca
 	else
 	  JARCONTENT
 	fi
@@ -139,13 +148,17 @@ GETNETBOOK(){
 }
 
 GETSUGESTS(){ 
+if [[ -e "$RECEITA_PASTA/$ADD.yml" ]]; then
 SUGESTS=`cat $RECEITA_PASTA/$ADD.yml | grep -w "sugests:"`	#Cria a lista de provaveis nomes para o app atravez da receita
-sed -i '/'$ADD'/d' $RECEITA_PASTA/system.aio
+sed -i '/'$ADD'/d' $JAR/system.aio
 for n in $SUGESTS; do
- echo $n: $ADD >> $RECEITA_PASTA/system.aio
- sed -i '/sugests/d' $RECEITA_PASTA/system.aio
+ echo $n: $ADD >> $JAR/system.aio
+ sed -i '/sugests/d' $JAR/system.aio
  shift
 done
+else
+ GETRECEITA
+fi
 }
 
 JARCONTENT(){
@@ -165,33 +178,39 @@ LISTJAR(){
  #######################################################"
 }
 
-MONTINTEGRAR(){
-if [[ `cat $RECEITA_PASTA/$ADD.yml | grep -w "integrate:" | awk '{print $1}'` == "yes" ]]; then
-  echo "Esse é integrado"
-  mkdir /tmp/idata	#Cria a pasta de transferencia
-  if [ -e "$RECEITA_PASTA/$OVEN/$ADD.AppDir/*.idata" ]; then	#Checa se existem arquivos .idata na bandeja
-   cp -Rf $RECEITA_PASTA/$OVEN/$ADD.AppDir/*.idata /tmp/idata	#Copia os .idata
-   echo `ls /tmp/idata`: $ADD >> $RECEITA_PASTA/idata.aio	#Lista o conteudo na pasta de transferencia para a lista dos dados integrados
+TSTINTEGRAR(){
+if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then
+ if [[ `cat $RECEITA_PASTA/$ADD.yml | grep -w "integrate:" | awk '{print $2}'` == "yes" ]]; then
+  echo "Receita com integração"
+  if [ -e "$RECEITA_PASTA/out" ]; then
+   mkdir /tmp/idata	#Cria a pasta de transferencia
+   if [ -e "$RECEITA_PASTA/$OVEN/$ADD.AppDir/*.idata" ]; then	#Checa se existem arquivos .idata na bandeja
+    cp -Rf $RECEITA_PASTA/$OVEN/$ADD.AppDir/*.idata /tmp/idata	#Copia os .idata
+    echo `ls /tmp/idata`: $ADD >> $RECEITA_PASTA/idata.aio	#Lista o conteudo na pasta de transferencia para a lista dos dados integrados
+   else cp -Rf $RECEITA_PASTA/$OVEN/*.desktop /tmp/idata
+   fi
+   if [ -e "$RECEITA_PASTA/$OVEN/$ADD.AppDir/icons.aio" ]; then
+    mkdir /tmp/idata/icons;    mv -Rf $RECEITA_PASTA/$OVEN/$ADD.AppDir/icons.aio /tmp/idata
+    while IFS= read -r line
+    do
+	wget $line -P /tmp/idata/icons/	#BAIXA OS ICONES LISTADOS
+    done < /tmp/idata/icons.aio
+    echo `ls /tmp/idata/icons`: $ADD >> $RECEITA_PASTA/idata.aio	#Lista os icones a ser inseridos no sistema
+   fi
+   EXEINTEGRAR
   else
-   cp -Rf $RECEITA_PASTA/$OVEN/*.desktop /tmp/idata
+   echo "Ocorreu algum erro ao cozinhar"
   fi
-  if [ -e "$RECEITA_PASTA/$OVEN/$ADD.AppDir/icons.aio" ]; then
-    mkdir /tmp/idata/icons
-    mv -Rf $RECEITA_PASTA/$OVEN/$ADD.AppDir/icons.aio /tmp/idata
-	while IFS= read -r line
-	do
-		wget $line -P /tmp/idata/icons/	#BAIXA OS ICONES LISTADOS
-	done < /tmp/idata/icons.aio
-	echo `ls /tmp/idata/icons`: $ADD >> $RECEITA_PASTA/idata.aio	#Lista os icones a ser inseridos no sistema
-  fi
-  EXEINTEGRAR
-else
+ else
   echo "Esta receita não gera integração"
+ fi
+else
+ echo "TSTINTEGRAR: Esta receita não existe"
 fi
 }
 
 NATIVEFIER(){
-	#A função deve ser iniciada antes de OVEN para baixar no disco a base que vai para a receita.	
+	#A função deve ser iniciada antes de DOCOOK para baixar no disco a base que vai para a receita.	
 	NATIVEFIERCK=`cat $RECEITA_PASTA/$ADD.yml | grep -w "nativefier:" | awk '{print $2}'`
 	if [ "$NATIVEFIERCK" == "yes" ]; then
 	  if [[ -e "$BASIS/NativefierBasis.tar.xz" ]]; then
@@ -203,9 +222,12 @@ NATIVEFIER(){
 }
 
 TESTLOCAL(){
-if [[ ISLOCAL="1" ]]; then
+echo "##################### $ISLOCAL ###################"
+if [ "$ISLOCAL" == "1" ]; then
+  echo "##################### $ISLOCAL ###################"
   echo "📜 Offline"
   MSGU004
+  OVEN=`cat $RECEITA_PASTA/$ADD.yml | grep "app:" | awk '{print $0}'`
 else
   echo "📜 ONLINE"
   GETNETBOOK
@@ -281,13 +303,12 @@ MSGUE001(){
 if [ -e "$APPS" ]; then
  troca=troca
   else
- sudo mkdir $APPS;
- sudo chmod -R 777 $APPS;
+ sudo mkdir $APPS; sudo chmod -R 777 $APPS;
  if [ -e "$APPS" ]; then  echo " [📥✔] Pasta de Apps criada"; fi
 fi
-if [[ -e "$RECEITA_PASTA" ]]; then troca=troca; else mkdir $RECEITA_PASTA; if [ -e "$RECEITA_PASTA" ]; then echo " [📜✔] Criou a pasta aonde vão as receitas"; fi	#Cria a pasta aonde vão ficar as bases
+if [[ -e "$RECEITA_PASTA" ]]; then troca=troca; else mkdir $RECEITA_PASTA; sudo chmod -R 777 $RECEITA_PASTA; if [ -e "$RECEITA_PASTA" ]; then echo " [📜✔] Criou a pasta aonde vão as receitas"; fi	#Cria a pasta aonde vão ficar as bases
 fi
-if [[ -e "$BASIS" ]]; then troca=troca; else mkdir $BASIS; if [ -e "$BASIS" ]; then echo " [📜✔] Criou a pasta para as bases das receitas"; fi 	#Cria a pasta aonde vão ficar as bases
+if [[ -e "$BASIS" ]]; then troca=troca; else mkdir $BASIS; sudo chmod -R 777 $BASIS; if [ -e "$BASIS" ]; then echo " [📜✔] Criou a pasta para as bases das receitas"; fi 	#Cria a pasta aonde vão ficar as bases
 fi
 if [ -e "$JAR" ]; then troca=troca; 
 else sudo mkdir $JAR; sudo chmod -R 777 $JAR;	#Cria a pasta aonde vão ficar as definições
@@ -295,17 +316,20 @@ else sudo mkdir $JAR; sudo chmod -R 777 $JAR;	#Cria a pasta aonde vão ficar as 
  if [ -e "/usr/bin/aio" ]; then ln -s $JAR/aio /usr/bin/aio; fi
 fi
 if [ -e "$JAR/jar.aio" ]; then troca=troca; else JARCONTENT; fi
-if [ -e "$JAR/aio" ]; then troca=troca;	if  [ -e "/usr/bin/aio" ]; then troca=troca; else ln -s $JAR/aio /usr/bin/aio; fi
- else mv $CAMINHO/aio $JAR; ln -s $JAR/aio /usr/bin/aio; fi
+ if [ -e "$JAR/aio" ]; then troca=troca;	if  [ -e "/usr/bin/aio" ]; then troca=troca; else ln -s $JAR/aio /usr/bin/aio; fi
+ else mv $CAMINHO/aio $JAR; ln -s $JAR/aio /usr/bin/aio; 
+fi
+if [ -e "/usr/bin/pkg2appimage" ]; then troca=troca;
+ else sudo wget https://raw.githubusercontent.com/AppImage/AppImages/master/pkg2appimage -P /usr/bin/
+fi
 
 #### COMANDOS E INTEGRAÇÔES
 if [[ "$1" == "add" || "$1" == "install" || "$1" == "-i" ]]; then
  CHECKINTEGRATE
- OVEN=`cat $ADD.yml | grep "app:" | awk '{print $0}'`
  TESTLOCAL
  NATIVEFIER
  DOCOOK
- MONTINTEGRAR
+ TSTINTEGRAR
  DELOVEN
  
  
@@ -327,6 +351,7 @@ elif [[ "$1" == "up" || "$1" == "update" || "$1" == "-u" ]]; then
  
 elif [[ "$1" == "atu" || "$1" == "atualizar" || "$1" == "-a" ]]; then
  CKLOCALNAMES
+ CALLLOCAL
  CHECKINTEGRATE
  echo "App para atualizar: $ADD"
  TESTLOCAL
@@ -335,7 +360,7 @@ elif [[ "$1" == "atu" || "$1" == "atualizar" || "$1" == "-a" ]]; then
    MSGU001
    NATIVEFIER
    DOCOOK
-   MONTINTEGRAR
+   TSTINTEGRAR
    DEL
    DELOVEN
    MSGU002
