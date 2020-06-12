@@ -57,8 +57,9 @@ fi
 
 DOCOOK(){
 if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then
- ls $RECEITA_PASTA
+ cd $RECEITA_PASTA
  pkg2appimage "$RECEITA_PASTA/$ADD.yml"	#COZINHA
+ cd $CAMINHO
  if [ -e "$RECEITA_PASTA/out/" ]; then	#Testa pra ver se foi cozinhado
   PRODUTO=`ls $RECEITA_PASTA/out/`	#Pega o nome do app criado
   echo $ADD: $PRODUTO >> $JAR/aio.list	#Coloca o nome do app novo na lista
