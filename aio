@@ -9,7 +9,7 @@ OVEN=""
 JARRA=""
 CAMINHO=`pwd`
 AUTOINTEGRAR=1
-VERSIONR=202006121706
+VERSIONR=202006121900
 ISLOCAL=0
 troca=""
 echo $CAMINHO
@@ -100,8 +100,9 @@ DEL(){
 }
 
 DELOVEN(){
- if [ -e "$RECEITA_PASTA/$OVEN" ]; then rm -Rf $RECEITA_PASTA/$OVEN; fi
- if [ -e "$RECEITA_PASTA/out/" ]; then rm -Rf $RECEITA_PASTA/out; fi
+ if [ "$OVEN"=="" ]; then OVEN="0"; fi 
+ if [ -e "$RECEITA_PASTA/$OVEN" ]; then rm -Rf $RECEITA_PASTA/$OVEN; echo "removendo forno"; else  echo "o forno não existe"; fi
+ if [ -e "$RECEITA_PASTA/out/" ]; then rm -Rf $RECEITA_PASTA/out; echo "removendo bandeja"; else  echo "a bandeja não existe"; fi
  if [ -e "/tmp/idata" ]; then rm -Rf /tmp/idata; fi
  if [ -e "/tmp/idata.aio" ]; then rm -Rf /tmp/idata.aio; fi
 }
@@ -127,8 +128,11 @@ GETAIO(){
 
 GETRECEITA(){
  ADD=`cat /tmp/book | grep -w "$ADD:" | awk '{print $2}'`
- JARRA=`cat /tmp/book | grep -w "$ADD:" | awk '{print $3}'`
+echo "$ADD <-"
+ JARRA=`cat /tmp/book | grep -w "$ADD" | awk '{print $3}'`
+echo "$JARRA <-"
  if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then rm -Rf $RECEITA_PASTA/$ADD.yml; fi
+ echo "$RAIZ/$JARRA/$ADD.yml"
  wget -q --show-progress $RAIZ/$JARRA/$ADD.yml -P $RECEITA_PASTA/
  if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then OVEN=`cat $RECEITA_PASTA/$ADD.yml | grep "app:" | awk '{print $0}'`;  else echo "Receita não baixada"; fi
 }
@@ -151,15 +155,15 @@ GETNETBOOK(){
 
 GETSUGESTS(){ 
 if [[ -e "$RECEITA_PASTA/$ADD.yml" ]]; then
-SUGESTS=`cat $RECEITA_PASTA/$ADD.yml | grep -w "sugests:"`	#Cria a lista de provaveis nomes para o app atravez da receita
-sed -i '/'$ADD'/d' $JAR/system.aio
-for n in $SUGESTS; do
- echo $n: $ADD >> $JAR/system.aio
- sed -i '/sugests/d' $JAR/system.aio
- shift
-done
+ SUGESTS=`cat $RECEITA_PASTA/$ADD.yml | grep -w "sugests:"`	#Cria a lista de provaveis nomes para o app atravez da receita
+ sed -i '/'$ADD'/d' $JAR/system.aio
+ for n in $SUGESTS; do
+  echo $n: $ADD >> $JAR/system.aio
+  sed -i '/sugests/d' $JAR/system.aio
+  shift
+ done
 else
- GETRECEITA
+ echo "A receita não existe para ver se existem sugestões de palavras"
 fi
 }
 
