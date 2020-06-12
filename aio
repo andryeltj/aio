@@ -6,13 +6,13 @@ BASIS=$RECEITA_PASTA/basis	#Pasta das bases para receitas
 RAIZ="https://raw.githubusercontent.com"
 APPS=/apps	#Pasta dos apps
 OVEN=""
+JARRA=""
 CAMINHO=`pwd`
 AUTOINTEGRAR=1
 VERSIONR=202006121527
 ISLOCAL=0
 troca=""
 echo $CAMINHO
-echo $1 $2 $3
 
 ### Funções
 CALLLOCAL(){
@@ -57,6 +57,7 @@ fi
 
 DOCOOK(){
 if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then
+ ls "$RECEITA_PASTA
  pkg2appimage "$RECEITA_PASTA/$ADD.yml"	#COZINHA
  if [ -e "$RECEITA_PASTA/out/" ]; then	#Testa pra ver se foi cozinhado
   PRODUTO=`ls $RECEITA_PASTA/out/`	#Pega o nome do app criado
@@ -169,9 +170,12 @@ LISTJAR(){
  echo "
  #######################################################
  #######################################################
- <Nome>	<Receita>	<Jarra(Repositório)>	<Comentário>"
+ 	<Nome>		<Jarra(Repositório)>"
  rm -Rf /tmp/book2
- cp /tmp/book /tmp/book2
+while IFS= read -r line
+do
+   echo $line | awk '{print "  "$1"		"$3}' >> /tmp/book2
+done < /tmp/book
  sed -i '/aio:/d' /tmp/book2
  cat /tmp/book2
  echo " #######################################################
