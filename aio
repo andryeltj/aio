@@ -128,9 +128,7 @@ GETAIO(){
 
 GETRECEITA(){
  ADD=`cat /tmp/book | grep -w "$ADD:" | awk '{print $2}'`
-echo "$ADD <-"
  JARRA=`cat /tmp/book | grep -w "$ADD" | awk '{print $3}'`
-echo "$JARRA <-"
  if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then rm -Rf $RECEITA_PASTA/$ADD.yml; fi
  echo "$RAIZ/$JARRA/$ADD.yml"
  wget -q --show-progress $RAIZ/$JARRA/$ADD.yml -P $RECEITA_PASTA/
