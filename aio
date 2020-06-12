@@ -57,7 +57,7 @@ fi
 
 DOCOOK(){
 if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then
- ls "$RECEITA_PASTA
+ ls $RECEITA_PASTA
  pkg2appimage "$RECEITA_PASTA/$ADD.yml"	#COZINHA
  if [ -e "$RECEITA_PASTA/out/" ]; then	#Testa pra ver se foi cozinhado
   PRODUTO=`ls $RECEITA_PASTA/out/`	#Pega o nome do app criado
