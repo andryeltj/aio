@@ -73,6 +73,7 @@ else
 fi
 }
 MOVEAPP(){
+if [[ "$AUTOINTEGRAR"=="0" ]]; then
   cp -Rf $RECEITA_PASTA/out/*.AppImage $APPS	#Move o app para a pasta de apps
   sudo chmod 777 $PRODUTO
   if [ -L "/usr/bin/$ADD" ]; then
@@ -86,7 +87,9 @@ MOVEAPP(){
     echo "Os binários estão sendo atualizados"
     sudo mv /usr/bin/$ADD /usr/bin/$ADD.old
     sudo ln -s $APPS/$ADD.AppImage /usr/bin/$ADD
+    echo "$ADD: $ADD" >> $JAR/system.aio
     sudo chmod 777 /usr/bin/$ADD
+    sudo chmod 777 $JAR/system.aio
     "Binários atualizados"
     else
     echo "Tornando disponível para o sistema. Digite sua senha 🡣"
@@ -96,6 +99,9 @@ MOVEAPP(){
     echo "ligação atualizada"
    fi
   fi
+else
+  cp -Rf $RECEITA_PASTA/out/*.AppImage $APPS
+fi
 }
 DELBINS(){
 	rm -RF /usr/bin/$ADD	#Remove o binário principal
@@ -147,10 +153,11 @@ if [[ "$AUTOINTEGRAR"=="1" ]]; then
 }
 
 EXENOINTEGRADO(){
-	sudo bash -c "cp -Rf $OVEN/$OVEN.AppDir/*.desktop /usr/share/applications/"
+	sudo cp -Rf $OVEN/$OVEN.AppDir/*.desktop /usr/share/applications/
 	LOCALAPPICON="$RECEITA_PASTA/$OVEN/$ADD.AppDir"
-	if [ -e "$LOCALAPPICON/*.svg" ]; then sudo bash -c "cp -Rf $LOCALAPPICON/*.svg /usr/share/icons/hicolor/256x256/apps/"
-	else sudo bash -c "cp -Rf $LOCALAPPICON/*.png /usr/share/icons/hicolor/256x256/apps/"; fi
+	echo $LOCALAPPICON
+	if [ -e "$LOCALAPPICON/*.svg" ]; then sudo cp -Rf $LOCALAPPICON/*.svg /usr/share/icons/hicolor/256x256/apps/
+	else sudo cp -Rf $LOCALAPPICON/*.png /usr/share/icons/hicolor/256x256/apps/; fi
 	echo "App adicionado ao sistema"
 }
 
