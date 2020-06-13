@@ -7,9 +7,10 @@ RAIZ="https://raw.githubusercontent.com"
 APPS=/apps	#Pasta dos apps
 OVEN=""
 JARRA=""
+PRODUTO=""
 CAMINHO=`pwd`
 AUTOINTEGRAR=1
-VERSIONR=202006121900
+VERSIONR=202006122130
 ISLOCAL=0
 troca=""
 echo $CAMINHO
@@ -62,14 +63,29 @@ if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then
  cd $CAMINHO
  if [ -e "$RECEITA_PASTA/out/" ]; then	#Testa pra ver se foi cozinhado
   PRODUTO=`ls $RECEITA_PASTA/out/`	#Pega o nome do app criado
-  echo $ADD: $PRODUTO >> $JAR/aio.list	#Coloca o nome do app novo na lista
-  cp -Rf $RECEITA_PASTA/out/*.AppImage $APPS	#Move o app para a pasta de apps
+  echo $ADD: $PRODUTO >> $JAR/aio.list	#Coloca o nome do app novo na lista 
  fi
 else
  echo "Não existe receita para cozinhar"
 fi
 }
-
+MOVEAPP(){
+  cp -Rf $RECEITA_PASTA/out/*.AppImage $APPS	#Move o app para a pasta de apps
+  ln -s $APPS/$PRODUTO $APPS/$ADD.AppImage
+  if [ -L "/usr/bin/$ADD" ]; then
+   sudo rm -Rf $APPS/$ADD.AppImage
+   ln -s $APPS/$PRODUTO $APPS/$ADD.AppImage
+  else 
+   if [ -e "/usr/bin/$ADD" ]; then
+    ln -s $APPS/$PRODUTO $APPS/$ADD.AppImage
+    sudo mv /usr/bin/$ADD /usr/bin/$ADD.old
+    sudo ln -s $APPS/$ADD.AppImage /usr/bin/$ADD
+    else
+    ln -s $APPS/$PRODUTO $APPS/$ADD.AppImage
+    sudo ln -s $APPS/$ADD.AppImage /usr/bin/$ADD
+   fi
+  fi
+}
 DELBINS(){
 	rm -RF /usr/bin/$ADD	#Remove o binário principal
 	while IFS= read -r line
@@ -101,6 +117,7 @@ DEL(){
 
 DELOVEN(){
  if [ "$OVEN"=="" ]; then OVEN="0"; fi 
+ echo "'$RECEITA_PASTA/$OVEN'"
  if [ -e "$RECEITA_PASTA/$OVEN" ]; then rm -Rf $RECEITA_PASTA/$OVEN; echo "removendo forno"; else  echo "o forno não existe"; fi
  if [ -e "$RECEITA_PASTA/out/" ]; then rm -Rf $RECEITA_PASTA/out; echo "removendo bandeja"; else  echo "a bandeja não existe"; fi
  if [ -e "/tmp/idata" ]; then rm -Rf /tmp/idata; fi
@@ -116,6 +133,14 @@ if [[ "$AUTOINTEGRAR"=="1" ]]; then
 #   rm -RF /tmp/idata	#Exclui a pasta de tranferencia
     echo "App integrado com sucesso"
   fi
+}
+
+EXENOINTEGRADO(){
+	sudo bash -c "cp -Rf $OVEN/$OVEN.AppDir/*.desktop /usr/share/applications/"
+	LOCALAPPICON="$RECEITA_PASTA/$OVEN/$ADD.AppDir"
+	if [ -e "$LOCALAPPICON/*.svg" ]; then sudo bash -c "cp -Rf $LOCALAPPICON/*.svg /usr/share/icons/hicolor/256x256/apps/"
+	else sudo bash -c "cp -Rf $LOCALAPPICON/*.png /usr/share/icons/hicolor/256x256/apps/"; fi
+	echo "App adicionado ao sistema"
 }
 
 GETAIO(){
@@ -191,6 +216,7 @@ if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then
   echo "Receita com integração"
   if [ -e "$RECEITA_PASTA/out" ]; then
    mkdir /tmp/idata	#Cria a pasta de transferencia
+   
    if [ -e "$RECEITA_PASTA/$OVEN/$ADD.AppDir/*.idata" ]; then	#Checa se existem arquivos .idata na bandeja
     cp -Rf $RECEITA_PASTA/$OVEN/$ADD.AppDir/*.idata /tmp/idata	#Copia os .idata
     echo `ls /tmp/idata`: $ADD >> $RECEITA_PASTA/idata.aio	#Lista o conteudo na pasta de transferencia para a lista dos dados integrados
@@ -204,12 +230,14 @@ if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then
     done < /tmp/idata/icons.aio
     echo `ls /tmp/idata/icons`: $ADD >> $RECEITA_PASTA/idata.aio	#Lista os icones a ser inseridos no sistema
    fi
+   
    EXEINTEGRAR
   else
    echo "Ocorreu algum erro ao cozinhar"
   fi
  else
   echo "Esta receita não gera integração"
+  EXENOINTEGRADO
  fi
 else
  echo "TSTINTEGRAR: Esta receita não existe"
