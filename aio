@@ -154,7 +154,7 @@ if [[ "$AUTOINTEGRAR"=="1" ]]; then
 
 EXENOINTEGRADO(){
 	sudo cp -Rf $OVEN/$OVEN.AppDir/*.desktop /usr/share/applications/
-	LOCALAPPICON="$RECEITA_PASTA/$OVEN/$ADD.AppDir"
+	LOCALAPPICON="$RECEITA_PASTA/$OVEN/$OVEN.AppDir"
 	echo $LOCALAPPICON
 	if [ -e "$LOCALAPPICON/*.svg" ]; then sudo cp -Rf $LOCALAPPICON/*.svg /usr/share/icons/hicolor/256x256/apps/
 	else sudo cp -Rf $LOCALAPPICON/*.png /usr/share/icons/hicolor/256x256/apps/; fi
@@ -175,6 +175,7 @@ GETRECEITA(){
  if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then rm -Rf $RECEITA_PASTA/$ADD.yml; fi
  echo "$RAIZ/$JARRA/$ADD.yml"
  wget -q --show-progress $RAIZ/$JARRA/$ADD.yml -P $RECEITA_PASTA/
+ if [ "$whoami"=="root" ]; then chmod 777 $RECEITA_PASTA/$ADD.yml
  if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then OVEN=`cat $RECEITA_PASTA/$ADD.yml | grep "app:" | awk '{print $0}'`;  else echo "Receita não baixada"; fi
 }
 
@@ -237,13 +238,13 @@ if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then
   if [ -e "$RECEITA_PASTA/out" ]; then
    mkdir /tmp/idata	#Cria a pasta de transferencia
    
-   if [ -e "$RECEITA_PASTA/$OVEN/$ADD.AppDir/*.idata" ]; then	#Checa se existem arquivos .idata na bandeja
-    cp -Rf $RECEITA_PASTA/$OVEN/$ADD.AppDir/*.idata /tmp/idata	#Copia os .idata
+   if [ -e "$RECEITA_PASTA/$OVEN/$OVEN.AppDir/*.idata" ]; then	#Checa se existem arquivos .idata na bandeja
+    cp -Rf $RECEITA_PASTA/$OVEN/$OVEN.AppDir/*.idata /tmp/idata	#Copia os .idata
     echo `ls /tmp/idata`: $ADD >> $RECEITA_PASTA/idata.aio	#Lista o conteudo na pasta de transferencia para a lista dos dados integrados
-   else cp -Rf $RECEITA_PASTA/$OVEN/*.desktop /tmp/idata
+   else cp -Rf $RECEITA_PASTA/$OVEN/$OVEN.AppDir/*.desktop /tmp/idata
    fi
-   if [ -e "$RECEITA_PASTA/$OVEN/$ADD.AppDir/icons.aio" ]; then
-    mkdir /tmp/idata/icons;    mv -Rf $RECEITA_PASTA/$OVEN/$ADD.AppDir/icons.aio /tmp/idata
+   if [ -e "$RECEITA_PASTA/$OVEN/$OVEN.AppDir/icons.aio" ]; then
+    mkdir /tmp/idata/icons;    mv -Rf $RECEITA_PASTA/$OVEN/$OVEN.AppDir/icons.aio /tmp/idata
     while IFS= read -r line
     do
 	wget -q --show-progress $line -P /tmp/idata/icons/	#BAIXA OS ICONES LISTADOS
