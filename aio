@@ -112,7 +112,7 @@ DELBINS(){
 	  if [[ "$ITEM" == "$ADD" ]]; then	#Cria uma lista dos parametros anteriormente adicionados
 		echo `cat $line | awk '{print $2}'` >> /tmp/idata.aio 	
 	  fi
-	done < "$RECEITA_PASTA/idata.aio"
+	done < "$JAR/idata.aio"
 	
 	while IFS= read -r line
 	do
@@ -175,7 +175,7 @@ GETRECEITA(){
  if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then rm -Rf $RECEITA_PASTA/$ADD.yml; fi
  echo "$RAIZ/$JARRA/$ADD.yml"
  wget -q --show-progress $RAIZ/$JARRA/$ADD.yml -P $RECEITA_PASTA/
- if [ "$whoami"=="root" ]; then chmod 777 $RECEITA_PASTA/$ADD.yml
+ if [ "$whoami"=="root" ]; then chmod 777 $RECEITA_PASTA/$ADD.yml; fi
  if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then OVEN=`cat $RECEITA_PASTA/$ADD.yml | grep "app:" | awk '{print $0}'`;  else echo "Receita não baixada"; fi
 }
 
@@ -233,6 +233,7 @@ done < /tmp/book
 
 TSTINTEGRAR(){
 if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then
+echo "OVEN para o teste $OVEN"
  if [[ `cat $RECEITA_PASTA/$ADD.yml | grep -w "integrate:" | awk '{print $2}'` == "yes" ]]; then
   echo "Receita com integração"
   if [ -e "$RECEITA_PASTA/out" ]; then
@@ -240,7 +241,7 @@ if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then
    
    if [ -e "$RECEITA_PASTA/$OVEN/$OVEN.AppDir/*.idata" ]; then	#Checa se existem arquivos .idata na bandeja
     cp -Rf $RECEITA_PASTA/$OVEN/$OVEN.AppDir/*.idata /tmp/idata	#Copia os .idata
-    echo `ls /tmp/idata`: $ADD >> $RECEITA_PASTA/idata.aio	#Lista o conteudo na pasta de transferencia para a lista dos dados integrados
+    echo `ls /tmp/idata`: $ADD >> $JAR/idata.aio	#Lista o conteudo na pasta de transferencia para a lista dos dados integrados
    else cp -Rf $RECEITA_PASTA/$OVEN/$OVEN.AppDir/*.desktop /tmp/idata
    fi
    if [ -e "$RECEITA_PASTA/$OVEN/$OVEN.AppDir/icons.aio" ]; then
@@ -249,7 +250,7 @@ if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then
     do
 	wget -q --show-progress $line -P /tmp/idata/icons/	#BAIXA OS ICONES LISTADOS
     done < /tmp/idata/icons.aio
-    echo `ls /tmp/idata/icons`: $ADD >> $RECEITA_PASTA/idata.aio	#Lista os icones a ser inseridos no sistema
+    echo `ls /tmp/idata/icons`: $ADD >> $JAR/idata.aio	#Lista os icones a ser inseridos no sistema
    fi
    
    EXEINTEGRAR
