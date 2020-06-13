@@ -10,7 +10,7 @@ JARRA=""
 PRODUTO=""
 CAMINHO=`pwd`
 AUTOINTEGRAR=1
-VERSIONR=202006122130
+VERSIONR=202006121900
 ISLOCAL=0
 troca=""
 echo $CAMINHO
@@ -60,6 +60,9 @@ DOCOOK(){
 if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then
  cd $RECEITA_PASTA
  pkg2appimage "$RECEITA_PASTA/$ADD.yml"	#COZINHA
+ sudo chmod 777 $RECEITA_PASTA/$ADD
+ sudo chmod 777 $RECEITA_PASTA/$ADD/$ADD.AppDir
+ sudo chmod 777 $RECEITA_PASTA/out
  cd $CAMINHO
  if [ -e "$RECEITA_PASTA/out/" ]; then	#Testa pra ver se foi cozinhado
   PRODUTO=`ls $RECEITA_PASTA/out/`	#Pega o nome do app criado
@@ -71,18 +74,26 @@ fi
 }
 MOVEAPP(){
   cp -Rf $RECEITA_PASTA/out/*.AppImage $APPS	#Move o app para a pasta de apps
-  ln -s $APPS/$PRODUTO $APPS/$ADD.AppImage
+  sudo chmod 777 $PRODUTO
   if [ -L "/usr/bin/$ADD" ]; then
-   sudo rm -Rf $APPS/$ADD.AppImage
+   rm -Rf $APPS/$ADD.AppImage
    ln -s $APPS/$PRODUTO $APPS/$ADD.AppImage
+   sudo chmod 777 $APPS/$ADD.AppImage
+   echo "Ligação simples criada ou atualizada."
   else 
    if [ -e "/usr/bin/$ADD" ]; then
     ln -s $APPS/$PRODUTO $APPS/$ADD.AppImage
+    echo "Os binários estão sendo atualizados"
     sudo mv /usr/bin/$ADD /usr/bin/$ADD.old
     sudo ln -s $APPS/$ADD.AppImage /usr/bin/$ADD
+    sudo chmod 777 /usr/bin/$ADD
+    "Binários atualizados"
     else
+    echo "Tornando disponível para o sistema. Digite sua senha 🡣"
     ln -s $APPS/$PRODUTO $APPS/$ADD.AppImage
     sudo ln -s $APPS/$ADD.AppImage /usr/bin/$ADD
+    sudo chmod 777 /usr/bin/$ADD
+    echo "ligação atualizada"
    fi
   fi
 }
@@ -364,6 +375,7 @@ if [[ "$1" == "add" || "$1" == "install" || "$1" == "-i" ]]; then
  TESTLOCAL
  NATIVEFIER
  DOCOOK
+ MOVEAPP
  TSTINTEGRAR
  DELOVEN
  
