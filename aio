@@ -10,7 +10,7 @@ JARRA=""
 PRODUTO=""
 CAMINHO=`pwd`
 AUTOINTEGRAR=1
-VERSIONR=202006122355
+VERSIONR=202006131545
 ISLOCAL=0
 troca=""
 echo $CAMINHO
@@ -241,16 +241,20 @@ echo "OVEN para o teste $OVEN"
    
    if [ -e "$RECEITA_PASTA/$OVEN/$OVEN.AppDir/*.idata" ]; then	#Checa se existem arquivos .idata na bandeja
     cp -Rf $RECEITA_PASTA/$OVEN/$OVEN.AppDir/*.idata /tmp/idata	#Copia os .idata
-    echo `ls /tmp/idata`: $ADD >> $JAR/idata.aio	#Lista o conteudo na pasta de transferencia para a lista dos dados integrados
+    rm -Rf /tmp/idatalist.aio; ls /tmp/idata >> /tmp/idatalist.aio
+    while IFS= read -r line; do
+     echo $line | awk '{print $1": "$ADD}' >>  $JAR/idata.aio	#Lista o conteudo na pasta de transferencia para a lista dos dados integrados
+    done < /tmp/idatalist.aio
    else cp -Rf $RECEITA_PASTA/$OVEN/$OVEN.AppDir/*.desktop /tmp/idata
    fi
+   ####################
    if [ -e "$RECEITA_PASTA/$OVEN/$OVEN.AppDir/icons.aio" ]; then
     mkdir /tmp/idata/icons;    mv -Rf $RECEITA_PASTA/$OVEN/$OVEN.AppDir/icons.aio /tmp/idata
-    while IFS= read -r line
-    do
-	wget -q --show-progress $line -P /tmp/idata/icons/	#BAIXA OS ICONES LISTADOS
+    while IFS= read -r line; do wget -q --show-progress $line -P /tmp/idata/icons/	#BAIXA OS ICONES LISTADOS
     done < /tmp/idata/icons.aio
-    echo `ls /tmp/idata/icons`: $ADD >> $JAR/idata.aio	#Lista os icones a ser inseridos no sistema
+    rm -Rf /tmp/iconslist.aio; ls /tmp/idata/icons/ >> /tmp/iconslist.aio
+    while IFS= read -r line; do echo $line | awk '{print $1": "$ADD}' >>  $JAR/idata.aio 	#Lista os icones a ser inseridos no sistema
+    done < /tmp/iconslist.aio
    fi
    
    EXEINTEGRAR
