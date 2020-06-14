@@ -18,10 +18,16 @@
 			div.encarte{display:block;width:80%;height:30%;margin: 0 10%;background:#222;
 				box-shadow: 0 0 2.5em 0.5em rgba(204,204,204,0.5);overflow:auto;margin-top:4em;}
 			div.encarte img{width:100%;height:auto;}
-			div.weekvideos{display:inline-block;width:80%;margin: 0 10%;background:white;padding:2em 0;}
+			div.weekvideos{display:inline-block;width:80%;margin: 0 10%;background:white;padding:2em 0;text-align:center}
 			div.pagina{display:inline-block;width:80%;height:100%;margin:0 10%;background:white}
-			a.thumb{display:inline-block;width:246px;height:138px;margin:0 .3em; box-shadow:#222 0 0 .3em}
-			div.weekvideos a:link{color:white}
+			a.thumb{display:inline-block;position:relative;width:246px;height:138px;margin:0 .3em; box-shadow:#222 0 0 .3em}
+			div.weekvideos a:link{color:#1988ff}
+			div.weekvideos a span{position:absolute;bottom:-3em;display:inline-block;width: 100%;left: 0;}
+			div.destakcontainer{display: inline-block;width: 98%;margin: 0 1%;border-bottom: 1px solid #ccc;padding-bottom: 2em;}
+			div.destak{display:block;float:left;width:50%;height:130px;background: #efefef;}
+			a.news{display:inline-block;float:left;width:49.5%;height:130px;border-left:1px solid white;background:#1988ff}
+			a.news:link{color:#888}
+			a.news span{display: inline-block;width: 90%;margin: 0 5%;color:white;}
 		</style>
 	</head>
 	<body>
@@ -39,7 +45,13 @@
 				<div class='pagina'>
 					
 					<h2 style="padding:0 1.2em">Em destaque</h2>
+					<div class="destakcontainer">
+						<div class='destak'></div>
+						<a class="news" href=""><span><h2>Novidades</h2><h4 style="font-weight:300">Todos os ultimos lançamentos para AppImage</h4></span></a>
+					</div>
 					
+					<div>
+					</div>
 					
 				</div>
 				
