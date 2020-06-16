@@ -1,9 +1,12 @@
 <html>
 	<head>
+		<meta charset="utf-8">
+		<title>Store</title>
+		<link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap" rel="stylesheet"> 
 		<style>
 			body{margin:0;width:100%;height:100%;font-family: NotoSans,Arial,"Arial Unicode MS",sans-serif;}
-			div.top{display:block;position:absolute;top:0;width:100%;height:2em;background:rgb(55, 52, 51,.9);
-				box-shadow: 0 0 2.5em 0.5em rgba(204,204,204,0.5);padding:1em 0;}
+			div.top{display:block;position:absolute;top:0;width:100%;height:2.3em;background:rgb(55, 52, 51,.9);
+				box-shadow: 0 0 2.5em 0.5em rgba(204,204,204,0.5);padding:.7em 0;}
 			.content{display:block;width:100%;height:100%}
 			div.top div{display:inline-block;float:left}
 			div.top .logo{width:30%;height:100%}
@@ -16,18 +19,29 @@
 			div.content .sidebar{display:block;float:left;width:4%;height:100%;background:rebeccapurple;}
 			div.content .store{display:block;float:left;width:96%;height:100%;overflow-y:auto;color:#555;background:#eceae7}
 			div.encarte{display:block;width:80%;height:30%;margin: 0 10%;background:#222;
-				box-shadow: 0 0 2.5em 0.5em rgba(204,204,204,0.5);overflow:auto;margin-top:4em;}
-			div.encarte img{width:100%;height:auto;}
+				box-shadow: 0 0 2.5em 0.5em rgba(204,204,204,0.5);overflow:auto;margin-top:4em;
+				background:url("Imagens/bkk/Abstract Low Poly Background Vector Illustration.jpg") no-repeat;
+				background-size:100% auto}
 			div.weekvideos{display:inline-block;width:80%;margin: 0 10%;background:white;padding:2em 0;text-align:center}
 			div.pagina{display:inline-block;width:80%;height:100%;margin:0 10%;background:white}
 			a.thumb{display:inline-block;position:relative;width:246px;height:138px;margin:0 .3em; box-shadow:#222 0 0 .3em}
 			div.weekvideos a:link{color:#1988ff}
 			div.weekvideos a span{position:absolute;bottom:-3em;display:inline-block;width: 100%;left: 0;}
 			div.destakcontainer{display: inline-block;width: 98%;margin: 0 1%;border-bottom: 1px solid #ccc;padding-bottom: 2em;}
-			div.destak{display:block;float:left;width:50%;height:130px;background: #efefef;}
+			div.destak{display:block;float:left;width:50%;height:130px;background: #efefef;position:relative;}
+			div.regua{display:inline-block;width:105%;height:100%;position:absolute;top:-.7em}
 			a.news{display:inline-block;float:left;width:49.5%;height:130px;border-left:1px solid white;background:#1988ff}
 			a.news:link{color:#888}
 			a.news span{display: inline-block;width: 90%;margin: 0 5%;color:white;}
+			button.app{display:block;width:128px;height:128px;border-radius:1em 1em 0 0;border:0;}
+			div.el_inst{display:inline-block;float:left;width:128px;height:128px;position:relative;margin-right:.7em;background:red;box-shadow:#000 0 0 .3em;border-radius:38% 10% 0 0}
+			div.el_inst a{display:inline-block;width:90%;margin:0 5%;color:#EEE;font-family:'Titillium Web', sans-serif;position:absolute;bottom:.3em;text-shadow:#000 0 0 .6em;font-weight: bolder;}
+			div.el_inst span{display:block;width:128;height:2em;position:absolute;bottom:-2em;}
+			button.add, button.del{width:100%;height:32px;font-size:1em;padding:0;background:#5588FF;border:0;color:white;border-radius:0 0 1em 1em;}
+			button.del{display:none}
+			.categories{display:block;width:90%;margin:0 5%;background:#666;color:white}
+			div.categories div{}
+			div.categories div button{background:transparent;width:25%;color:white;height:3.2em;line-text-align: 16px;}
 		</style>
 	</head>
 	<body>
@@ -35,7 +49,7 @@
 			<div class="sidebar"><a></a></div>
 			<div class="store">
 				
-				<div class='encarte'><img src="file:///home/usuario/pullout.png"></div>
+				<div class='encarte'></div>
 				<div class='weekvideos'>
 					<a class="thumb" href="https://youtu.be/7PQOaezjkcY" style='background: url("https://i.ytimg.com/vi/7PQOaezjkcY/hqdefault.jpg") no-repeat;background-size:100% 100%'><span>WPS Office - Alternativa ao MS Office</span></a>
 					<a class="thumb" href="https://youtu.be/KNN38kyX4Z8" style='background: url("https://i.ytimg.com/vi/KNN38kyX4Z8/hqdefault.jpg") no-repeat;background-size:100% 100%'><span>Pra você que está de saco cheio do Windows</span></a>
@@ -46,13 +60,41 @@
 					
 					<h2 style="padding:0 1.2em">Em destaque</h2>
 					<div class="destakcontainer">
-						<div class='destak'></div>
+						<div class='destak'>
+							<div class='regua'>
+							<div class="el_inst" style="background:url('Imagens/bkk/Abstract glow vector  background.jpg') no-repeat center;background-size:auto 100%">
+								<a class='nameapp'>Navegador Firefox</a>
+								<button class='app' style='background:url("https://upload.wikimedia.org/wikipedia/commons/a/a0/Firefox_logo%2C_2019.svg") no-repeat center 1.3em;background-size:50% auto'></button>
+								<span><button class='add'>⮸</button><button class='del'></button></span>
+							</div>
+							<div class="el_inst" style="background:url('Imagens/bkk/Abstract Green Blue Low Poly Background Vector Illustration.jpg') no-repeat center;background-size:auto 100%">
+								<a class='nameapp'>Google Chrome</a>
+								<button class='app' style='background:url("https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Chrome_icon_%28September_2014%29.svg") no-repeat center 1.3em;background-size:50% auto'></button>
+								<span><button class='add'>⮸</button><button class='del'></button></span>
+							</div>
+							<div class="el_inst" style="background:url('Imagens/bkk/autumn_bckgr_04.jpg') no-repeat center;background-size:auto 100%">
+								<a class='nameapp'>WPS Office</a>
+								<button class='app' style='background:url("https://storage.googleapis.com/appconfig-media/appconfig-content/uploads/2016/11/google-play.png") no-repeat center 1.3em;background-size:50% auto'></button>
+								<span><button class='add'>⮸</button><button class='del'></button></span>
+							</div>
+							<div class="el_inst" style="background:url('Imagens/bkk/Abstract Blue Glow Vector Background.jpg') no-repeat center;background-size:auto 100%">
+								<a class='nameapp'>Audacity</a>
+								<button class='app' style='background:url("https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Audacity_Logo_nofilter.svg/220px-Audacity_Logo_nofilter.svg.png") no-repeat center 1.3em;#background:url("http://files.softicons.com/download/system-icons/web0.2ama-icons-by-chrfb/png/96x96/Audacity.png") no-repeat center 1.3em;background-size:50% auto'></button>
+								<span><button class='add'>⮸</button><button class='del'></button></span>
+							</div>
+							</div>
+						</div>
 						<a class="news" href=""><span><h2>Novidades</h2><h4 style="font-weight:300">Todos os ultimos lançamentos para AppImage</h4></span></a>
 					</div>
 					
 					<div>
 					</div>
-					
+					<h2 style="padding:0 1.2em">Categorias</h2>
+					<div class="categories">
+						<div><button>Internet</button><button>Office</button><button>Jogos</button><button>Produtividade</button></div>
+						<div><button>Audio\Video</button><button>Comunicação\Noticias</button><button>Gráficos/fotografia</button><button>Sistema</button></div>
+						<div><button>Desenvolvimento</button><button>Educação\Ciência</button><button>Utilitários</button><button>Personalização</button></div>
+					</div>
 				</div>
 				
 				
