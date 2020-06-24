@@ -1,16 +1,16 @@
 #!/bin/bash
 ADD=$2
 JAR=/etc/aio	#Pasta das definições
-RECEITA_PASTA=/apps/receitas	#Pasta das receitas
+RECEITA_PASTA=/home/apps/receitas	#Pasta das receitas
 BASIS=$RECEITA_PASTA/basis	#Pasta das bases para receitas
 RAIZ="https://raw.githubusercontent.com"
-APPS=/apps	#Pasta dos apps
+APPS=/home/apps	#Pasta dos apps
 OVEN=""
 JARRA=""
 PRODUTO=""
 CAMINHO=`pwd`
 AUTOINTEGRAR=1
-VERSIONR=202006131545
+VERSIONR=202006241600
 ISLOCAL=0
 troca=""
 echo $CAMINHO
