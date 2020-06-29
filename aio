@@ -5,6 +5,7 @@ RECEITA_PASTA=/home/apps/receitas	#Pasta das receitas
 BASIS=$RECEITA_PASTA/basis	#Pasta das bases para receitas
 RAIZ="https://raw.githubusercontent.com"
 APPS=/home/apps	#Pasta dos apps
+COMBURENT="pkg2appimage"
 OVEN=""
 JARRA=""
 PRODUTO=""
@@ -178,7 +179,16 @@ GETRECEITA(){
  if [ "$whoami"=="root" ]; then chmod 777 $RECEITA_PASTA/$ADD.yml; fi
  if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then OVEN=`cat $RECEITA_PASTA/$ADD.yml | grep "app:" | awk '{print $0}'`;  else echo "Receita não baixada"; fi
 }
-
+GETCOMBURENT(){
+ GETNETBOOK
+ JARRA=`cat /tmp/book | grep -w "$COMBURENT" | awk '{print $3}'`
+ if [ -e "$JAR/$COMBURENT" ]; then troca=troca;
+ else sudo wget -q --show-progress $RAIZ/$JARRA/$COMBURENT -P /etc/aio/; sudo chmod +x $JAR/$COMBURENT; sudo ln -s $JAR/$COMBURENT /usr/bin/$COMBURENT
+ sed -i 's|wget|wget -q --show-progress|g' $JAR/$COMBURENT
+ sed -i 's|wget -q --show-progress -q|wget -q --show-progress|g' $JAR/$COMBURENT
+fi
+if [ -e "$JAR/$COMBURENT" ]; then troca=troca; else sudo ln -s $JAR/$COMBURENT /usr/bin/$COMBURENT; fi
+}
 GETNETBOOK(){
 	if [[ -e "$JAR/jar.aio" ]]; then
 	  troca=troca
@@ -379,10 +389,6 @@ fi
 if [ -e "$JAR/jar.aio" ]; then troca=troca; else JARCONTENT; fi
  if [ -e "$JAR/aio" ]; then troca=troca;	if  [ -e "/usr/bin/aio" ]; then troca=troca; else ln -s $JAR/aio /usr/bin/aio; fi
  else mv $CAMINHO/aio $JAR; ln -s $JAR/aio /usr/bin/aio; 
-fi
-if [ -e "/usr/bin/pkg2appimage" ]; then troca=troca;
- else sudo wget -q --show-progress https://raw.githubusercontent.com/AppImage/AppImages/master/pkg2appimage -P /etc/aio/; sudo chmod +x /etc/aio/pkg2appimage; sudo ln -s /etc/aio/pkg2appimage /usr/bin/pkg2appimage
-  sed -i 's|wget|wget -q --show-progress|g' /etc/aio/pkg2appimage
 fi
 if [ -e "$JAR/system.aio" ]; then troca=troca; else echo "" > $JAR/system.aio; sudo chmod 777 $JAR/system.aio; fi
 
