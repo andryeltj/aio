@@ -384,6 +384,7 @@ if [ -e "/usr/bin/pkg2appimage" ]; then troca=troca;
  else sudo wget -q --show-progress https://raw.githubusercontent.com/AppImage/AppImages/master/pkg2appimage -P /etc/aio/; sudo chmod +x /etc/aio/pkg2appimage; sudo ln -s /etc/aio/pkg2appimage /usr/bin/pkg2appimage
   sed -i 's|wget|wget -q --show-progress|g' /etc/aio/pkg2appimage
 fi
+if [ -e "$JAR/system.aio" ]; then troca=troca; else echo "" > $JAR/system.aio; sudo chmod 777 $JAR/system.aio; fi
 
 #### COMANDOS E INTEGRAÇÔES
 if [[ "$1" == "add" || "$1" == "install" || "$1" == "-i" ]]; then
