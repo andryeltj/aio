@@ -186,8 +186,11 @@ GETCOMBURENT(){
  else sudo wget -q --show-progress $RAIZ/$JARRA/$COMBURENT -P /etc/aio/; sudo chmod +x $JAR/$COMBURENT; sudo ln -s $JAR/$COMBURENT /usr/bin/$COMBURENT
  sed -i 's|wget|wget -q --show-progress|g' $JAR/$COMBURENT
  sed -i 's|wget -q --show-progress -q|wget -q --show-progress|g' $JAR/$COMBURENT
-fi
-if [ -e "$JAR/$COMBURENT" ]; then troca=troca; else sudo ln -s $JAR/$COMBURENT /usr/bin/$COMBURENT; fi
+  if [ -e "$JAR/$COMBURENT" ]; then troca=troca; echo "Comburente adicionado ao sistema"; else echo "Falha ao adicionar comburente"; fi 
+ fi
+ if [ -e "/usr/bin/$COMBURENT" ]; then troca=troca; else sudo ln -s $JAR/$COMBURENT /usr/bin/$COMBURENT;
+  if [ -e "/usr/bin/$COMBURENT" ]; then troca=troca; echo "Comburente integrado ao sistema"; else echo "Falha ao integrar comburente"; fi 
+ fi
 }
 GETNETBOOK(){
 	if [[ -e "$JAR/jar.aio" ]]; then
@@ -390,6 +393,7 @@ if [ -e "$JAR/jar.aio" ]; then troca=troca; else JARCONTENT; fi
  if [ -e "$JAR/aio" ]; then troca=troca;	if  [ -e "/usr/bin/aio" ]; then troca=troca; else ln -s $JAR/aio /usr/bin/aio; fi
  else mv $CAMINHO/aio $JAR; ln -s $JAR/aio /usr/bin/aio; 
 fi
+GETCOMBURENT
 if [ -e "$JAR/system.aio" ]; then troca=troca; else echo "" > $JAR/system.aio; sudo chmod 777 $JAR/system.aio; fi
 
 #### COMANDOS E INTEGRAÇÔES
