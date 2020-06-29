@@ -381,7 +381,7 @@ if [ -e "$JAR/jar.aio" ]; then troca=troca; else JARCONTENT; fi
  else mv $CAMINHO/aio $JAR; ln -s $JAR/aio /usr/bin/aio; 
 fi
 if [ -e "/usr/bin/pkg2appimage" ]; then troca=troca;
- else sudo wget -q --show-progress https://raw.githubusercontent.com/AppImage/AppImages/master/pkg2appimage -P /usr/bin/
+ else sudo wget -q --show-progress https://raw.githubusercontent.com/AppImage/AppImages/master/pkg2appimage -P /etc/aio/; sudo chmod +x /etc/aio/pkg2appimage; sudo ln -s /etc/aio/pkg2appimage /usr/bin/pkg2appimage 
 fi
 
 #### COMANDOS E INTEGRAÇÔES
