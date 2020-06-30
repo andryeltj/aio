@@ -11,7 +11,7 @@ JARRA=""
 PRODUTO=""
 CAMINHO=`pwd`
 AUTOINTEGRAR=1
-VERSIONR=202006300358
+VERSIONR=202006301438
 ISLOCAL=0
 troca=""
 echo $CAMINHO
@@ -75,9 +75,17 @@ else
  echo "Não existe receita para cozinhar"
 fi
 }
-MOVUPDATELINK(){ ln -s $APPS/$PRODUTO $APPS/$ADD.AppImage; if [ "$whoami"=="root" ]; then chmod 777 $APPS/$ADD.AppImage; fi }
-MOVXEKLINK(){ if [ -e '$APPS/$ADD.AppImage' ]; then rm $APPS/$ADDAppImage; MOVUPDATELINK; else MOVUPDATELINK; fi }
-MOVLINKTOBIN(){ sudo ln -s $APPS/$ADD.AppImage /usr/bin/$ADD; sudo chmod 777 /usr/bin/$ADD }
+
+MOVUPDATELINK(){
+	ln -s $APPS/$PRODUTO $APPS/$ADD.AppImage; if [ "$whoami"=="root" ]; then chmod 777 $APPS/$ADD.AppImage; fi
+}
+MOVXEKLINK(){
+	if [ -e '$APPS/$ADD.AppImage' ]; then rm $APPS/$ADDAppImage; MOVUPDATELINK; else MOVUPDATELINK; fi
+}
+MOVLINKTOBIN(){
+	sudo ln -s $APPS/$ADD.AppImage /usr/bin/$ADD; sudo chmod 777 /usr/bin/$ADD
+}
+
 MOVEAPP(){
 if [[ "$AUTOINTEGRAR"=="0" ]]; then
    if [ -e '$RECEITA_PASTA/out/*.AppImage' ]; then cp -Rf $RECEITA_PASTA/out/*.AppImage $APPS;	#Move o app para a pasta de apps
@@ -95,7 +103,7 @@ if [[ "$AUTOINTEGRAR"=="0" ]]; then
     echo "$ADD: $ADD" >> $JAR/system.aio
     sudo chmod 777 $JAR/system.aio
     echo "Binários atualizados"; fi
-    else
+   else
     echo "Tornando disponível para o sistema. Digite sua senha 🡣"
     MOVXEKLINK
     MOVLINKTOBIN
@@ -106,6 +114,7 @@ else
   if [ -e '$RECEITA_PASTA/out/*.AppImage' ]; then cp -Rf $RECEITA_PASTA/out/*.AppImage $APPS; fi
 fi
 }
+
 DELBINS(){
 	rm -RF /usr/bin/$ADD	#Remove o binário principal
 	while IFS= read -r line
@@ -181,19 +190,22 @@ GETRECEITA(){
  if [ "$whoami"=="root" ]; then chmod 777 $RECEITA_PASTA/$ADD.yml; fi
  if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then OVEN=`cat $RECEITA_PASTA/$ADD.yml | grep "app:" | awk '{print $0}'`;  else echo "Receita não baixada"; fi
 }
+
 GETCOMBURENT(){
- GETNETBOOK
- JARRA=`cat /tmp/book | grep -w "$COMBURENT" | awk '{print $3}'`
  if [ -e "$JAR/$COMBURENT" ]; then troca=troca;
- else sudo wget -q --show-progress $RAIZ/$JARRA/$COMBURENT -P /etc/aio/; sudo chmod +x $JAR/$COMBURENT; sudo ln -s $JAR/$COMBURENT /usr/bin/$COMBURENT
- sed -i 's|wget|wget -q --show-progress|g' $JAR/$COMBURENT
- sed -i 's|wget -q --show-progress -q|wget -q --show-progress|g' $JAR/$COMBURENT
-  if [ -e "$JAR/$COMBURENT" ]; then troca=troca; echo "Comburente adicionado ao sistema"; else echo "Falha ao adicionar comburente"; fi 
- fi
- if [ -e "/usr/bin/$COMBURENT" ]; then troca=troca; else sudo ln -s $JAR/$COMBURENT /usr/bin/$COMBURENT;
+ else 
+  GETNETBOOK
+  JARRA=`cat /tmp/book | grep -w "$COMBURENT" | awk '{print $3}'`
+  wget -q --show-progress $RAIZ/$JARRA/$COMBURENT -P /etc/aio/; chmod +x $JAR/$COMBURENT;
+  if [ -e "/usr/bin/$COMBURENT" ]; then troca=troca; else sudo ln -s $JAR/$COMBURENT /usr/bin/$COMBURENT; fi
+# sed -i 's|wget|wget -q --show-progress|g' $JAR/$COMBURENT
+# sed -i 's|wget -q --show-progress -q|wget -q --show-progress|g' $JAR/$COMBURENT
+# sed -i 's|wget -q --show-progress -q --show-progress|wget -q --show-progress|g' $JAR/$COMBURENT
+  if [ -e "$JAR/$COMBURENT" ]; then troca=troca; echo "Comburente adiquirido"; else echo "Falha ao adiquirir comburente"; fi 
   if [ -e "/usr/bin/$COMBURENT" ]; then troca=troca; echo "Comburente integrado ao sistema"; else echo "Falha ao integrar comburente"; fi 
  fi
 }
+
 GETNETBOOK(){
 	if [[ -e "$JAR/jar.aio" ]]; then
 	  troca=troca
@@ -358,18 +370,14 @@ MSGUE001(){
 
 ### Lancadores
 if [ -e "$APPS" ]; then troca=troca; else sudo mkdir $APPS; sudo chmod -R 777 $APPS; if [ -e "$APPS" ]; then  echo " [📥✔] Pasta de Apps criada"; fi fi
-if [[ -e "$RECEITA_PASTA" ]]; then troca=troca; else mkdir $RECEITA_PASTA; sudo chmod -R 777 $RECEITA_PASTA; if [ -e "$RECEITA_PASTA" ]; then echo " [📜✔] Criou a pasta aonde vão as receitas"; fi	fi #Cria a pasta aonde vão ficar as bases
-if [[ -e "$BASIS" ]]; then troca=troca; else mkdir $BASIS; sudo chmod -R 777 $BASIS; if [ -e "$BASIS" ]; then echo " [📜✔] Criou a pasta para as bases das receitas"; fi fi 	#Cria a pasta aonde vão ficar as bases
-if [ -e "$JAR" ]; then troca=troca; 
-else sudo mkdir $JAR; sudo chmod -R 777 $JAR;	#Cria a pasta aonde vão ficar as definições
+if [[ -e "$RECEITA_PASTA" ]]; then troca=troca; else mkdir $RECEITA_PASTA; sudo chmod -R 777 $RECEITA_PASTA; if [ -e "$RECEITA_PASTA" ]; then echo " [📜✔] Pasta das receitas criada"; fi	fi #Cria a pasta aonde vão ficar as bases
+if [[ -e "$BASIS" ]]; then troca=troca; else mkdir $BASIS; sudo chmod -R 777 $BASIS; if [ -e "$BASIS" ]; then echo " [📜✔] Pasta das bases criada"; fi fi 	#Cria a pasta aonde vão ficar as bases
+if [ -e "$JAR" ]; then troca=troca; else sudo mkdir $JAR; sudo chmod -R 777 $JAR;	#Cria a pasta aonde vão ficar as definições
  if [ -e "$JAR" ]; then mv $CAMINHO/aio $JAR; rm -Rf /usr/bin/aio; ln -s $JAR/aio /usr/bin/aio; echo " [🖴 ✔] Jarra criada"; fi
  if [ -e "/usr/bin/aio" ]; then ln -s $JAR/aio /usr/bin/aio; fi 
 fi
-#if [ "grep 'x-scheme-handler/aio=aio.desktop;' /usr/share/applications/mimeinfo.cache" ]; then troca=troca; else 
-#sudo echo "x-scheme-handler/aio=aio.desktop;" >> /usr/share/applications/mimeinfo.cache; fi
 if [ -e "/usr/share/applications/aio.desktop" ]; then troca=troca; else 
-sudo cat > /usr/share/applications/aio.desktop << /EOF
-[Desktop Entry]
+echo "[Desktop Entry]
 Type=Application
 Name=AIO
 Exec=aio %u
@@ -377,13 +385,11 @@ Icon=utilities-terminal
 Terminal=true
 MimeType=x-scheme-handler/aio;
 Categories=System;
-NoDisplay=true
-/EOF
-sudo update-desktop-database
+NoDisplay=true" >> $JAR/aio.desktop
+sudo cp -f $JAR/aio.desktop /usr/share/applications
 fi
 if [ -e "$JAR/jar.aio" ]; then troca=troca; else JARCONTENT; fi
-if [ -e "$JAR/aio" ]; then troca=troca; if [ -e "/usr/bin/aio" ]; then troca=troca; else ln -s $JAR/aio /usr/bin/aio; fi
-else mv $CAMINHO/aio $JAR; ln -s $JAR/aio /usr/bin/aio; fi
+if [ -e "$JAR/aio" ]; then troca=troca; if [ -e "/usr/bin/aio" ]; then troca=troca; else ln -s $JAR/aio /usr/bin/aio; fi else mv $CAMINHO/aio $JAR; ln -s $JAR/aio /usr/bin/aio; fi
 GETCOMBURENT
 if [ -e "$JAR/system.aio" ]; then troca=troca; else echo "" > $JAR/system.aio; sudo chmod 777 $JAR/system.aio; fi
 
@@ -438,7 +444,6 @@ elif [[ "$1" == "atu" || "$1" == "atualizar" || "$1" == "-a" ]]; then
  
 elif [[ "$1" == "--help" || "$2" == "--help" || "$3" == "--help" || "$4" == "--help" || "$1" == "help" || "$2" == "help" || "$3" == "help" || "$4" == "help" ]]; then
  HELP
- 
- 
 else
+troca=troca
 fi
