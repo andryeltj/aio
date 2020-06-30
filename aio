@@ -394,7 +394,7 @@ else sudo mkdir $JAR; sudo chmod -R 777 $JAR;	#Cria a pasta aonde vão ficar as 
 fi
 if [ "grep 'x-scheme-handler/aio=aio.desktop;' /usr/share/applications/mimeinfo.cache" ]; then else sudo echo "x-scheme-handler/aio=aio.desktop;" >> /usr/share/applications/mimeinfo.cache; fi
 if [ -e "/usr/share/applications/aio.desktop" ]; then else 
-cat > /usr/share/applications/aio.desktop << /EOF
+sudo cat > /usr/share/applications/aio.desktop << /EOF
 [Desktop Entry]
 Type=Application
 Name=AIO
