@@ -7,13 +7,16 @@ RAIZ="https://raw.githubusercontent.com"
 APPS=/home/apps	#Pasta dos apps
 COMBURENT="pkg2appimage"
 BINS=/usr/bin
-ELINKS=$ELINKS
+LOCAL=/home/`whoami`/.local
+LOCALBINS=$LOCAL/bin
+LOCALICONS=$LOCAL/share/icons/hicolor/256x256/apps
+ELINKS=$LOCAL/share/applications
 OVEN=""
 JARRA=""
 PRODUTO=""
 CAMINHO=`pwd`
-AUTOINTEGRAR=1
-VERSIONR=202006301438
+AUTOINTEGRAR=0
+VERSIONR=202007021426
 ISLOCAL=0
 troca=""
 echo $CAMINHO
@@ -28,7 +31,7 @@ fi
 
 CHECKINTEGRATE(){
 if [[ "$1" == "--nointegrate" || "$2" == "--nointegrate" || "$3" == "--nointegrate" || "$4" == "--nointegrate" || "$5" == "--nointegrate" ]]; then
-  AUTOINTEGRAR=0
+  AUTOINTEGRAR=1
 fi
 }
 
@@ -60,73 +63,30 @@ fi
 }
 
 DOCOOK(){
+PRATO=$RECEITA_PASTA/out/
+MISTURA=$RECEITA_PASTA/$OVEN
+FORNO=$MISTURA/$ADD.AppDir
 if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then
  cd $RECEITA_PASTA
  echo "##*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*##"
  pkg2appimage "$RECEITA_PASTA/$ADD.yml"	#COZINHA
  echo "##*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*##"
- echo "$RECEITA_PASTA/$ADD
- "
- if [ -e "$RECEITA_PASTA/$OVEN" ]; then 
-    if [ "$whoami"=="root" ]; then chmod 777 $RECEITA_PASTA/$ADD;  ##Contenção para caso seja gerado com sudo
-     chmod 777 $RECEITA_PASTA/$ADD/$ADD.AppDir
-     chmod 777 $RECEITA_PASTA/out;
-    fi
-else echo "Aconteceu algum erro na geração do arquivo"; fi
-cd $CAMINHO
- if [ -e "$RECEITA_PASTA/out/" ]; then	#Testa pra ver se foi cozinhado
+ echo "$MISTURA
+ " 
+ if [ -e "$MISTURA" ]; then 
+    if [ "$whoami"=="root" ]; then chmod 777 $MISTURA; chmod 777 $FORNO; chmod 777 $PRATO; fi ##Contenção para caso seja gerado com sudo    
+ else echo "Aconteceu algum erro na geração do arquivo"; fi
+ cd $CAMINHO
+ if [ -e "$PRATO" ]; then	#Testa pra ver se foi cozinhado
   PRODUTO=`ls $RECEITA_PASTA/out/`	#Pega o nome do app criado
   APPNMLIST=cat $JAR/aio.list | grep -w '$ADD: $PRODUTO'; echo $APPNMLIST
-  if [ "$APPNMLIST"=="$ADD: $PRODUTO" ]; then
+  if [ "$APPNMLIST" == "$ADD: $PRODUTO" ]; then
    sed -i '/'$ADD'/d' $JAR/aio.list; echo "$ADD: $PRODUTO" >> $JAR/aio.list;
-  else echo "$ADD: $PRODUTO" >> $JAR/aio.list; fi	#Coloca o nome do app novo na lista 
+  else echo "$ADD: $PRODUTO" >> $JAR/aio.list;	#Coloca o nome do app novo na lista 
+  fi
  else
   echo "Não existe receita para cozinhar"
  fi
-fi
-}
-
-MOVUPDATELINK(){
-	echo "linkando produto"
-	if [ -e '$APPS/$PRODUTO' ]; then ln -s $APPS/$PRODUTO $APPS/$ADD.AppImage; if [ "$whoami"=="root" ]; then chmod 777 $APPS/$ADD.AppImage; fi else echo "Produto não movido da pasta OUT"; fi
-}
-MOVXEKLINK(){
-	echo "atualizando link"
-	if [ -e '$APPS/$ADD.AppImage' ]; then rm $APPS/$ADD.AppImage; MOVUPDATELINK; else MOVUPDATELINK; fi
-}
-MOVLINKTOBIN(){
-	echo "ingressão do link ao sistema"
-	if [ -L "$BINS/$ADD" ]; then
-	sudo ln -s $APPS/$ADD.AppImage $BINS/$ADD; sudo chmod 777 $BINS/$ADD; fi
-}
-
-MOVEAPP(){
-if [ "$AUTOINTEGRAR"=="0" ]; then
-   echo "Produto: $PRODUTO"
-   if [ -e "$RECEITA_PASTA/out/$PRODUTO" ]; then cp -Rf $RECEITA_PASTA/out/$PRODUTO $APPS;	#Move o app para a pasta de apps
-    sudo chmod 777 $APPS/$PRODUTO; else echo "produto não existe, ou não encontrado"; fi
-   MOVXEKLINK
-   MOVLINKTOBIN
-   ######### CHECAR PRA VER ISSO AQUI ABAIXO
-else 
-   if [ -e "$BINS/$ADD" ]; then
-    if [ -e '$APPS/$PRODUTO' ]; then
-    MOVXEKLINK 
-    echo "Os binários estão sendo atualizados"
-    sudo mv $BINS/$ADD $BINS/$ADD.old
-    MOVLINKTOBIN
-    echo "$ADD: $ADD" >> $JAR/system.aio
-    sudo chmod 777 $JAR/system.aio
-    echo "Binários atualizados"; fi
-   else
-    echo "Tornando disponível para o sistema. Digite sua senha 🡣"
-    MOVXEKLINK
-    MOVLINKTOBIN
-    echo "ligação atualizada"
-   fi
-  fi
-else
-  if [ -e '$RECEITA_PASTA/out/$PRODUTO' ]; then cp -Rf $RECEITA_PASTA/out/$PRODUTO $APPS; fi
 fi
 }
 
@@ -161,31 +121,31 @@ DEL(){
 
 DELOVEN(){
  echo "FORNO: $OVEN"
- echo "'$RECEITA_PASTA/$OVEN'"
- if [ -e "$RECEITA_PASTA/$OVEN" ]; then rm -Rf $RECEITA_PASTA/$OVEN; echo "removendo forno"; else  echo "o forno não existe"; fi
- if [ -e "$RECEITA_PASTA/out/" ]; then rm -Rf $RECEITA_PASTA/out; echo "removendo bandeja"; else  echo "a bandeja não existe"; fi
- if [ -e "/tmp/idata" ]; then rm -Rf /tmp/idata; fi
- if [ -e "/tmp/idata.aio" ]; then rm -Rf /tmp/idata.aio; fi
+ echo "$MISTURA"
+ if [ -e "$FORNO" ]; then rm -Rf $MISTURA; echo "removendo Ingredintes"; else  echo "Pasta com Ingredientes não existe"; fi
+ if [ -e "$PRATO" ]; then rm -Rf $PRATO; echo "removendo a prateleira"; else  echo "a preteleira não existe"; fi
 }
 
 EXEINTEGRAR(){
-if [[ "$AUTOINTEGRAR"=="1" ]]; then
-    mv /tmp/idata/*.idata /tmp/idata/*.desktop    #Renomeia os .idata para .desktop
-    sudo bash -c "cp -Rf /tmp/idata/*.desktop $ELINKS"    #Move com sudo para a pasta de aplicações do sistema
-    sudo bash -c "cp -Rf /tmp/idata/*.svg /usr/share/icons/hicolor/256x256/apps/"	#Copia os icones baixados para a pasta do sistema
-    sudo bash -c "cp -Rf /tmp/idata/*.png /usr/share/icons/hicolor/256x256/apps/"
-#   rm -RF /tmp/idata	#Exclui a pasta de tranferencia
-    echo "App integrado com sucesso"
-  fi
+ATALHOS=`ls $FORNO/usr/share/applications/`
+while IFS= read -r line
+do
+  IDATARM=`cat $line | awk {print $0}`
+  cp -f $FORNO/usr/share/applications/$line $ELINKS/$line	  #Move os atalhos
+  sed 's|Exec=|Exec=$LOCALBINS/|g' $ELINKS/$line
+done < $ATALHOS
+echo "Atalhos integrados"
+UPDATEICONS
 }
 
-EXENOINTEGRADO(){
-	sudo cp -Rf $OVEN/$OVEN.AppDir/*.desktop $ELINKS/
-	LOCALAPPICON="$RECEITA_PASTA/$OVEN/$OVEN.AppDir"
-	echo $LOCALAPPICON
-	if [ -e "$LOCALAPPICON/*.svg" ]; then sudo cp -Rf $LOCALAPPICON/*.svg /usr/share/icons/hicolor/256x256/apps/
-	else sudo cp -Rf $LOCALAPPICON/*.png /usr/share/icons/hicolor/256x256/apps/; fi
-	echo "App adicionado ao sistema"
+UPDATEICONS(){
+ if [[ -e "$FORNO/*.svg" || -e "$FORNO/*.png" ]]; then
+  if [ -e "$FORNO/*.svg" ]; then 
+   ICONCAT=`ls $FORNO/*.svg`; cp -Rf $FORNO/$ICONCAT $RECEITA_PASTA/Icons; ln -s $RECEITA_PASTA/Icons/$ICONCAT $LOCALICONS/$ICONCAT
+   else ICONCAT=`ls $FORNO/*.png`;  cp -Rf $FORNO/$ICONCAT $RECEITA_PASTA/Icons; ln -s $RECEITA_PASTA/Icons/$ICONCAT $LOCALICONS/$ICONCAT; fi
+ else
+  echo "Não existem ícones no forno"
+ fi
 }
 
 GETAIO(){
@@ -202,23 +162,17 @@ GETRECEITA(){
  if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then rm -Rf $RECEITA_PASTA/$ADD.yml; fi
  echo "$RAIZ/$JARRA/$ADD.yml"
  wget -q --show-progress $RAIZ/$JARRA/$ADD.yml -P $RECEITA_PASTA/
- if [ "$whoami"=="root" ]; then chmod 777 $RECEITA_PASTA/$ADD.yml; fi
+ if [ "`whoami`"=="root" ]; then chmod 777 $RECEITA_PASTA/$ADD.yml; fi
  if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then OVEN=`cat $RECEITA_PASTA/$ADD.yml | grep "app:" | awk '{print $2}'`; echo "OVEN:$OVEN" else echo "Receita não baixada"; fi
 }
 
 GETCOMBURENT(){
- if [ -e "$JAR/$COMBURENT" ]; then troca=troca;
- else 
   GETNETBOOK
   JARRA=`cat /tmp/book | grep -w "$COMBURENT" | awk '{print $3}'`
   wget -q --show-progress $RAIZ/$JARRA/$COMBURENT -P /etc/aio/; chmod +x $JAR/$COMBURENT;
   if [ -e "$BINS/$COMBURENT" ]; then troca=troca; else sudo ln -s $JAR/$COMBURENT $BINS/$COMBURENT; fi
-# sed -i 's|wget|wget -q --show-progress|g' $JAR/$COMBURENT
-# sed -i 's|wget -q --show-progress -q|wget -q --show-progress|g' $JAR/$COMBURENT
-# sed -i 's|wget -q --show-progress -q --show-progress|wget -q --show-progress|g' $JAR/$COMBURENT
   if [ -e "$JAR/$COMBURENT" ]; then troca=troca; echo "Comburente adiquirido"; else echo "Falha ao adiquirir comburente"; fi 
   if [ -e "$BINS/$COMBURENT" ]; then troca=troca; echo "Comburente integrado ao sistema"; else echo "Falha ao integrar comburente"; fi 
- fi
 }
 
 GETNETBOOK(){
@@ -234,12 +188,12 @@ GETNETBOOK(){
 	do
 		rm -Rf /tmp/book
 		wget -q --show-progress -q $line/book -P /tmp/	#BAIXA O NOVO LIVRO
-		if [ "$whoami"=="root" ]; then chmod 777 /tmp/book; fi
+		if [ "`whoami`" == "root" ]; then chmod 777 /tmp/book; fi
 	done < $JAR/jar.aio
 }
 
 GETSUGESTS(){ 
-if [[ -e "$RECEITA_PASTA/$ADD.yml" ]]; then
+if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then
  SUGESTS=`cat $RECEITA_PASTA/$ADD.yml | grep -w "sugests:"`	#Cria a lista de provaveis nomes para o app atravez da receita
  sed -i '/'$ADD'/d' $JAR/system.aio
  for n in $SUGESTS; do
@@ -260,56 +214,49 @@ LISTJAR(){
  echo "
  #######################################################
  #######################################################
- 	<Nome>		<Jarra(Repositório)>"
+ 	<Nome>					<Jarra(Repositório)>"
  rm -Rf /tmp/book2
 while IFS= read -r line
 do
-   echo $line | awk '{print "  "$1"		"$3}' >> /tmp/book2
+   echo $line | awk '{print "  "$1"					"$3}' #>> /tmp/book2
 done < /tmp/book
- if [ "$whoami"=="root" ]; then chmod 777 /tmp/book2; fi
- sed -i '/aio:/d' /tmp/book2
- cat /tmp/book2
+
+# if [ "$whoami"=="root" ]; then chmod 777 /tmp/book2; fi
+# sed -i '/aio:/d' /tmp/book2
+# cat /tmp/book2
  echo " #######################################################
  #######################################################"
 }
 
-TSTINTEGRAR(){
-if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then
-echo "OVEN para o teste $OVEN"
- if [[ `cat $RECEITA_PASTA/$ADD.yml | grep -w "integrate:" | awk '{print $2}'` == "yes" ]]; then
-  echo "Receita com integração"
-  if [ -e "$RECEITA_PASTA/out" ]; then
-   mkdir /tmp/idata	#Cria a pasta de transferencia
-   
-   if [ -e "$RECEITA_PASTA/$OVEN/$OVEN.AppDir/*.idata" ]; then	#Checa se existem arquivos .idata na bandeja
-    cp -Rf $RECEITA_PASTA/$OVEN/$OVEN.AppDir/*.idata /tmp/idata	#Copia os .idata
-    rm -Rf /tmp/idatalist.aio; ls /tmp/idata >> /tmp/idatalist.aio
-    while IFS= read -r line; do
-     echo $line | awk '{print $1": "$ADD}' >>  $JAR/idata.aio	#Lista o conteudo na pasta de transferencia para a lista dos dados integrados
-    done < /tmp/idatalist.aio
-   else cp -Rf $RECEITA_PASTA/$OVEN/$OVEN.AppDir/*.desktop /tmp/idata
-   fi
-   ####################
-   if [ -e "$RECEITA_PASTA/$OVEN/$OVEN.AppDir/icons.aio" ]; then
-    mkdir /tmp/idata/icons;    mv -Rf $RECEITA_PASTA/$OVEN/$OVEN.AppDir/icons.aio /tmp/idata
-    while IFS= read -r line; do wget -q --show-progress $line -P /tmp/idata/icons/	#BAIXA OS ICONES LISTADOS
-    done < /tmp/idata/icons.aio
-    rm -Rf /tmp/iconslist.aio; ls /tmp/idata/icons/ >> /tmp/iconslist.aio
-    while IFS= read -r line; do echo $line | awk '{print $1": "$ADD}' >>  $JAR/idata.aio 	#Lista os icones a ser inseridos no sistema
-    done < /tmp/iconslist.aio
-   fi
-   
-   EXEINTEGRAR
-  else
-   echo "Ocorreu algum erro ao cozinhar"
-  fi
- else
-  echo "Esta receita não gera integração"
-  EXENOINTEGRADO
- fi
-else
- echo "TSTINTEGRAR: Esta receita não existe"
-fi
+MOVEAPP(){
+### Parte dessa função só deve ser chamada se o Produto já existir mas aquele usuario ainda não o tem > somente lincar
+echo "Produto: $PRODUTO"
+if [ -e "$RECEITA_PASTA/out/$PRODUTO" ]; then cp -Rf $RECEITA_PASTA/out/$PRODUTO $APPS;	#Move o app para a pasta de apps
+ sudo chmod 777 $APPS/$PRODUTO; else echo "produto não existe, ou não encontrado"; fi
+MOVXEKLINK
+if [ "$AUTOINTEGRAR"=="1" ]; then MOVLINKTOBIN;fi
+echo "$ADD: $ADD" >> $JAR/system.aio
+if [ "`whoami`" == "root" ]; then sudo chmod 777 $JAR/system.aio; fi
+if [[ -e "$APPS/$ADD.AppImage" && -e '$APPS/$PRODUTO' ]]; then echo "ligação atualizada"; fi
+}
+
+MOVUPDATELINK(){
+	echo "linkando produto"
+	if [ -e '$APPS/$PRODUTO' ]; then ln -s $APPS/$PRODUTO $APPS/$ADD.AppImage; ln -s $APPS/$ADD.AppImage $LOCALBINS; if [ "`whoami`"=="root" ]; then chmod 777 $APPS/$ADD.AppImage; fi else echo "Produto não movido da pasta OUT"; fi
+}
+MOVXEKLINK(){
+	echo "atualizando link"
+	if [ -e '$APPS/$ADD.AppImage' ]; then rm $APPS/$ADD.AppImage; MOVUPDATELINK; else MOVUPDATELINK; fi
+}
+MOVLINKTOBIN(){
+	echo "ingressão do link ao sistema"
+	if [ "`whoami`" == "root" ]; then troca=troca; else echo "Tornando disponível para o sistema. Digite sua senha 🡣"; fi
+	if [ -e "$BINS/$ADD" ]; then
+	 if [ -L "$BINS/$ADD" ]; then troca=troca; else
+	  sudo mv $BINS/$ADD $BINS/$ADD.old; sudo ln -s $APPS/$ADD.AppImage $BINS/$ADD; sudo chmod 777 $BINS/$ADD; fi
+	else
+	 sudo ln -s $APPS/$ADD.AppImage $BINS/$ADD; sudo chmod 777 $BINS/$ADD;
+	fi
 }
 
 NATIVEFIER(){
@@ -391,7 +338,7 @@ if [ -e "$JAR" ]; then troca=troca; else sudo mkdir $JAR; sudo chmod -R 777 $JAR
  if [ -e "$JAR" ]; then mv $CAMINHO/aio $JAR; rm -Rf $BINS/aio; ln -s $JAR/aio $BINS/aio; echo " [🖴 ✔] Jarra criada"; fi
  if [ -e "$BINS/aio" ]; then ln -s $JAR/aio $BINS/aio; fi 
 fi
-if [ -e "$ELINKS/aio.desktop" ]; then troca=troca; else 
+if [ -e "/usr/share/applications/aio.desktop" ]; then troca=troca; else 
 echo "[Desktop Entry]
 Type=Application
 Name=AIO
@@ -401,23 +348,32 @@ Terminal=true
 MimeType=x-scheme-handler/aio;
 Categories=System;
 NoDisplay=true" >> $JAR/aio.desktop
-sudo cp -f $JAR/aio.desktop $ELINKS
+sudo cp -f $JAR/aio.desktop /usr/share/applications
 fi
 if [ -e "$JAR/jar.aio" ]; then troca=troca; else JARCONTENT; fi
 if [ -e "$JAR/aio" ]; then troca=troca; if [ -e "$BINS/aio" ]; then troca=troca; else ln -s $JAR/aio $BINS/aio; fi else mv $CAMINHO/aio $JAR; ln -s $JAR/aio $BINS/aio; fi
-GETCOMBURENT
+if [ -e "$JAR/$COMBURENT" ]; then troca=troca; else GETCOMBURENT; fi
 if [ -e "$JAR/system.aio" ]; then troca=troca; else echo "" > $JAR/system.aio; sudo chmod 777 $JAR/system.aio; fi
+if [ "`whoami`" == "root" ]; then troca=troca; else
+ if [ -e "$LOCAL" ]; then troca=troca; else mkdir $LOCAL; fi
+ if [ -e "$LOCALBINS" ]; then troca=troca; else mkdir $LOCALBINS; fi
+ if [ -e "$LOCALICONS" ]; then troca=troca; else mkdir $LOCALICONS; fi
+ if [ -e "$ELINKS" ]; then troca=troca; else mkdir $ELINKS; fi
+fi
+
 
 #### COMANDOS E INTEGRAÇÔES
 if [[ "$1" == "add" || "$1" == "install" || "$1" == "-i" ]]; then
- CHECKINTEGRATE
- TESTLOCAL
- NATIVEFIER
- DOCOOK
- MOVEAPP
- TSTINTEGRAR
- if [[ "$3" == "--mb" || "$4" == "--mb" ]]; then echo "A Bases serão mantidas"; else DELOVEN; fi
- 
+ if [[ "`whoami`" == "root" ]]; then echo "Por favor tente instalar sem ser o Administrador"; else
+  echo "`whoami`"
+  CHECKINTEGRATE
+  TESTLOCAL
+  NATIVEFIER
+  DOCOOK
+  MOVEAPP
+  EXEINTEGRAR
+  if [[ "$3" == "--mb" || "$4" == "--mb" ]]; then echo "A Bases serão mantidas"; else DELOVEN; fi
+ fi
  
 elif [[ "$1" == "del" || "$1" == "remove" || "$1" == "-d" ]]; then
  CKLOCALNAMES
