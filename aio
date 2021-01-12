@@ -331,15 +331,18 @@ MSGUE001(){
 }
 
 INSTALLAIO(){
-	sudo mkdir $JAR; sudo chmod -R 777 $JAR;
+	sudo mkdir $JAR; sudo chmod -R 777 $JAR; sudo apt install build-essential libcurl4 curl;
+	GETINTEGRATE=https://github.com/TheAssassin/AppImageLauncher/releases/download/v2.2.0/appimagelauncher_2.2.0-travis995.0f91801.bionic_amd64.deb
+	wget -q --show-progress -c $GETINTEGRATE -O AppIL.deb && dpkg -i AppIL.deb 
+	if [ -e "$JAR" ]; then mv $CAMINHO/aio $JAR; rm -Rf $BINS/aio; ln -s $JAR/aio $BINS/aio; echo " [🖴 ✔] Jarra criada"; else echo "A pasta em JARRA não foi criada"; fi
 }
 
 ### Lancadores
 if [ -e "$APPS" ]; then troca=troca; else sudo mkdir $APPS; sudo chmod -R 777 $APPS; if [ -e "$APPS" ]; then  echo " [📥✔] Pasta de Apps criada"; fi fi
 if [[ -e "$RECEITA_PASTA" ]]; then troca=troca; else mkdir $RECEITA_PASTA; sudo chmod -R 777 $RECEITA_PASTA; if [ -e "$RECEITA_PASTA" ]; then echo " [📜✔] Pasta das receitas criada"; fi	fi #Cria a pasta aonde vão ficar as bases
 if [[ -e "$BASIS" ]]; then troca=troca; else mkdir $BASIS; sudo chmod -R 777 $BASIS; if [ -e "$BASIS" ]; then echo " [📜✔] Pasta das bases criada"; fi fi 	#Cria a pasta aonde vão ficar as bases
-if [ -e "$JAR" ]; then troca=troca; else $INSTALLAIO;	#Cria a pasta aonde vão ficar as definições
- if [ -e "$JAR" ]; then mv $CAMINHO/aio $JAR; rm -Rf $BINS/aio; ln -s $JAR/aio $BINS/aio; echo " [🖴 ✔] Jarra criada"; fi
+if [ -e "$JAR" ]; then troca=troca; else INSTALLAIO;	#Cria a pasta aonde vão ficar as definições
+ 
  if [ -e "$BINS/aio" ]; then ln -s $JAR/aio $BINS/aio; fi 
 fi
 if [ -e "/usr/share/applications/aio.desktop" ]; then troca=troca; else 
