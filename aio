@@ -16,7 +16,7 @@ JARRA=""
 PRODUTO=""
 CAMINHO=`pwd`
 AUTOINTEGRAR=0
-VERSIONR=202007021426
+VERSIONR=202101131513
 ISLOCAL=0
 troca=""
 echo $CAMINHO
@@ -56,7 +56,7 @@ AIOR=`cat /tmp/book | grep -w "aio:" | awk '{print $2}'`
 echo "AIO: $AIOR"
 if [ "$VERSIONR" -lt "$AIOR" ]; then
     troca=troca
-    echo "Existe uma nova atualização de base. Digite a sua senha para realizar"
+    echo "Existe uma nova atualização de base."
     MSGU003
 	GETAIO
 fi
@@ -126,34 +126,34 @@ DELOVEN(){
  if [ -e "$PRATO" ]; then rm -Rf $PRATO; echo "removendo a prateleira"; else  echo "a preteleira não existe"; fi
 }
 
-EXEINTEGRAR(){
-ATALHOS=`ls $FORNO/usr/share/applications/`
-while IFS= read -r line
-do
-  IDATARM=`cat $line | awk {print $0}`
-  cp -f $FORNO/usr/share/applications/$line $ELINKS/$line	  #Move os atalhos
-  sed 's|Exec=|Exec=$LOCALBINS/|g' $ELINKS/$line
-done < $ATALHOS
-echo "Atalhos integrados"
-UPDATEICONS
-}
+#EXEINTEGRAR(){
+#ATALHOS=`ls $FORNO/usr/share/applications/`
+#while IFS= read -r line
+#do
+#  IDATARM=`cat $line | awk {print $0}`
+#  cp -f $FORNO/usr/share/applications/$line $ELINKS/$line	  #Move os atalhos
+#  sed 's|Exec=|Exec=$LOCALBINS/|g' $ELINKS/$line
+#done < $ATALHOS
+#echo "Atalhos integrados"
+#UPDATEICONS
+#}
 
-UPDATEICONS(){
- if [[ -e "$FORNO/*.svg" || -e "$FORNO/*.png" ]]; then
-  if [ -e "$FORNO/*.svg" ]; then 
-   ICONCAT=`ls $FORNO/*.svg`; cp -Rf $FORNO/$ICONCAT $RECEITA_PASTA/Icons; ln -s $RECEITA_PASTA/Icons/$ICONCAT $LOCALICONS/$ICONCAT
-   else ICONCAT=`ls $FORNO/*.png`;  cp -Rf $FORNO/$ICONCAT $RECEITA_PASTA/Icons; ln -s $RECEITA_PASTA/Icons/$ICONCAT $LOCALICONS/$ICONCAT; fi
- else
-  echo "Não existem ícones no forno"
- fi
-}
+#UPDATEICONS(){
+# if [[ -e "$FORNO/*.svg" || -e "$FORNO/*.png" ]]; then
+#  if [ -e "$FORNO/*.svg" ]; then 
+#   ICONCAT=`ls $FORNO/*.svg`; cp -Rf $FORNO/$ICONCAT $RECEITA_PASTA/Icons; ln -s $RECEITA_PASTA/Icons/$ICONCAT $LOCALICONS/$ICONCAT
+#   else ICONCAT=`ls $FORNO/*.png`;  cp -Rf $FORNO/$ICONCAT $RECEITA_PASTA/Icons; ln -s $RECEITA_PASTA/Icons/$ICONCAT $LOCALICONS/$ICONCAT; fi
+# else
+#  echo "Não existem ícones no forno"
+# fi
+#}
 
 GETAIO(){
 	rm -Rf $JAR/aio
 	wget -q --show-progress $RAIZ/andryeltj/aio/master/aio -P $JAR
 	chmod +x $JAR/aio
 	AIOR=`cat $JAR/aio | grep -w "VERSIONR=" | awk '{print $2}'`
-	echo "🗘 AIO: $AIOR"
+	echo "🗘 AIO: $AIOR < Atualizado para esta versão"
 }
 
 GETRECEITA(){
@@ -232,32 +232,32 @@ MOVEAPP(){
 ### Parte dessa função só deve ser chamada se o Produto já existir mas aquele usuario ainda não o tem > somente lincar
 echo "Produto: $PRODUTO"
 if [ -e "$RECEITA_PASTA/out/$PRODUTO" ]; then cp -Rf $RECEITA_PASTA/out/$PRODUTO $APPS;	#Move o app para a pasta de apps
- sudo chmod 777 $APPS/$PRODUTO; else echo "produto não existe, ou não encontrado"; fi
-MOVXEKLINK
-if [ "$AUTOINTEGRAR"=="1" ]; then MOVLINKTOBIN;fi
+ sudo chmod 777 $APPS/$PRODUTO; echo "Produto encontrado, movendo para a Mesa"; else echo "produto não existe, ou não encontrado"; fi
+#MOVXEKLINK
+
 echo "$ADD: $ADD" >> $JAR/system.aio
-if [ "`whoami`" == "root" ]; then sudo chmod 777 $JAR/system.aio; fi
-if [[ -e "$APPS/$ADD.AppImage" && -e '$APPS/$PRODUTO' ]]; then echo "ligação atualizada"; fi
+#if [ "`whoami`" == "root" ]; then sudo chmod 777 $JAR/system.aio; fi
+#if [[ -e "$APPS/$ADD.AppImage" && -e '$APPS/$PRODUTO' ]]; then echo "ligação atualizada"; fi
 }
 
-MOVUPDATELINK(){
-	echo "linkando produto"
-	if [ -e '$APPS/$PRODUTO' ]; then ln -s $APPS/$PRODUTO $APPS/$ADD.AppImage; ln -s $APPS/$ADD.AppImage $LOCALBINS; if [ "`whoami`"=="root" ]; then chmod 777 $APPS/$ADD.AppImage; fi else echo "Produto não movido da pasta OUT"; fi
-}
-MOVXEKLINK(){
-	echo "atualizando link"
-	if [ -e '$APPS/$ADD.AppImage' ]; then rm $APPS/$ADD.AppImage; MOVUPDATELINK; else MOVUPDATELINK; fi
-}
-MOVLINKTOBIN(){
-	echo "ingressão do link ao sistema"
-	if [ "`whoami`" == "root" ]; then troca=troca; else echo "Tornando disponível para o sistema. Digite sua senha 🡣"; fi
-	if [ -e "$BINS/$ADD" ]; then
-	 if [ -L "$BINS/$ADD" ]; then troca=troca; else
-	  sudo mv $BINS/$ADD $BINS/$ADD.old; sudo ln -s $APPS/$ADD.AppImage $BINS/$ADD; sudo chmod 777 $BINS/$ADD; fi
-	else
-	 sudo ln -s $APPS/$ADD.AppImage $BINS/$ADD; sudo chmod 777 $BINS/$ADD;
-	fi
-}
+#MOVUPDATELINK(){
+#	echo "linkando produto"
+#	if [ -e '$APPS/$PRODUTO' ]; then ln -s $APPS/$PRODUTO $APPS/$ADD.AppImage; ln -s $APPS/$ADD.AppImage $LOCALBINS; if [ "`whoami`"=="root" ]; then chmod 777 $APPS/$ADD.AppImage; fi else echo "Produto não movido da pasta OUT"; fi
+#}
+#MOVXEKLINK(){
+#	echo "atualizando link"
+#	if [ -e '$APPS/$ADD.AppImage' ]; then rm $APPS/$ADD.AppImage; MOVUPDATELINK; else MOVUPDATELINK; fi
+#}
+#MOVLINKTOBIN(){
+#	echo "ingressão do link ao sistema"
+#	if [ "`whoami`" == "root" ]; then troca=troca; else echo "Tornando disponível para o sistema. Digite sua senha 🡣"; fi
+#	if [ -e "$BINS/$ADD" ]; then
+#	 if [ -L "$BINS/$ADD" ]; then troca=troca; else
+#	  sudo mv $BINS/$ADD $BINS/$ADD.old; sudo ln -s $APPS/$ADD.AppImage $BINS/$ADD; sudo chmod 777 $BINS/$ADD; fi
+#	else
+#	 sudo ln -s $APPS/$ADD.AppImage $BINS/$ADD; sudo chmod 777 $BINS/$ADD;
+#	fi
+#}
 
 NATIVEFIER(){
 	#A função deve ser iniciada antes de DOCOOK para baixar no disco a base que vai para a receita.	
@@ -378,7 +378,7 @@ if [[ "$1" == "add" || "$1" == "install" || "$1" == "-i" ]]; then
   NATIVEFIER
   DOCOOK
   MOVEAPP
-  EXEINTEGRAR
+#  EXEINTEGRAR
   if [[ "$3" == "--mb" || "$4" == "--mb" ]]; then echo "A Bases serão mantidas"; else DELOVEN; fi
  fi
  
