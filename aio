@@ -79,7 +79,7 @@ if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then
  cd $CAMINHO
  if [ -e "$PRATO" ]; then	#Testa pra ver se foi cozinhado
   PRODUTO=`ls $RECEITA_PASTA/out/`	#Pega o nome do app criado
-  APPNMLIST=cat $JAR/aio.list | grep -w '$ADD: $PRODUTO'; echo $APPNMLIST
+  APPNMLIST=`cat $JAR/aio.list | grep -w '$ADD: $PRODUTO'`; echo $APPNMLIST
   if [ "$APPNMLIST" == "$ADD: $PRODUTO" ]; then
    sed -i '/'$ADD'/d' $JAR/aio.list; echo "$ADD: $PRODUTO" >> $JAR/aio.list;
   else echo "$ADD: $PRODUTO" >> $JAR/aio.list;	#Coloca o nome do app novo na lista 
