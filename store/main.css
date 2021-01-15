@@ -10,3 +10,5 @@ div.mainbar span.searchbar{height:90%;width:30%;height:1em;padding:.45em;backgro
 textarea{display:block;margin:0;border:0;background:transparent;width:100%}
 div.appinfo{display:block;position:relative;width:100%;height:20%;}
 a.applogo{display:block;position:absolute;top:2em;left:5em;width:4em;height:4em}
+.apinfo i{display:inline-block;float:right;width:80%}
+.apinfo em{display:block;float:left;margin-left:12em;width:80%}
