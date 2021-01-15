@@ -16,7 +16,7 @@ JARRA=""
 PRODUTO=""
 CAMINHO=`pwd`
 AUTOINTEGRAR=0
-VERSIONR=202101142035
+VERSIONR=202101150002
 ISLOCAL=0
 troca=""
 echo $CAMINHO
@@ -422,6 +422,15 @@ elif [[ "$1" == "atu" || "$1" == "atualizar" || "$1" == "-a" ]]; then
  
 elif [[ "$1" == "--help" || "$2" == "--help" || "$3" == "--help" || "$4" == "--help" || "$1" == "help" || "$2" == "help" || "$3" == "help" || "$4" == "help" ]]; then
  HELP
+elif [[ "$1" == "store" ]]; then
+ MainCSS='<link rel="stylesheet" type="text/css" href="'
+ Css01=$MainCSS'$RAIZ/andryeltj/aio/master/store/main.css">'
+ JsMain='<script type="text/javascript" src="$RAIZ/andryeltj/aio/master/store/jquery.js"></script>'
+ HTMLINFO="<head><title>Store</title><meta chaset=UTF-8> $Css01 $JsMain </head>"
+ CORPO=`cat /tmp/book2`
+ aio list
+ echo "$HTMLINFO<body><center><h2><a>S</a></h2><h1>Voce abriu a Loja, Bem vindo!</h1></center><br>$CORPO</body>" > /tmp/store.html
+ xdg-open file:///tmp/store.html
 else
 troca=troca
 fi
