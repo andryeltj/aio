@@ -16,7 +16,7 @@ JARRA=""
 PRODUTO=""
 CAMINHO=`pwd`
 AUTOINTEGRAR=0
-VERSIONR=202101142035
+VERSIONR=202101151120
 ISLOCAL=0
 troca=""
 echo $CAMINHO
@@ -232,7 +232,7 @@ MOVEAPP(){
 ### Parte dessa função só deve ser chamada se o Produto já existir mas aquele usuario ainda não o tem > somente lincar
 echo "Produto: $PRODUTO"
 if [ -e "$RECEITA_PASTA/out/$PRODUTO" ]; then cp -Rf $RECEITA_PASTA/out/$PRODUTO $APPS;	#Move o app para a pasta de apps
- sudo chmod 777 $APPS/$PRODUTO; echo "Produto encontrado, movendo para a Mesa"; else echo "produto não existe, ou não encontrado"; fi
+ chmod 777 $APPS/$PRODUTO; echo "Produto encontrado, movendo para a Mesa"; else echo "produto não existe, ou não encontrado"; fi
 #MOVXEKLINK
 
 echo "$ADD: $ADD" >> $JAR/system.aio
@@ -429,7 +429,7 @@ elif [[ "$1" == "store" ]]; then
  HTMLINFO="<head><title>Store</title><meta chaset=UTF-8> $Css01 $JsMain </head>"
  CORPO=`cat /tmp/book2`
  aio list
- echo "$HTMLINFO<body><center><h2><a>S</a></h2><h1>Voce abriu a Loja, Bem vindo!</h1></center><br>$CORPO</body>" > /tmp/store.html
+ echo "$HTMLINFO<body><center><h1>Voce abriu a Loja, Bem vindo!</h1></center><br><div>$CORPO</div><div class='mainbar'><a>AIO</a><span></span><a>A</a><div></body>" > /tmp/store.html
  xdg-open file:///tmp/store.html
 else
 troca=troca
