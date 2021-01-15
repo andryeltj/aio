@@ -429,7 +429,10 @@ elif [[ "$1" == "store" ]]; then
  Css01="<style>"$cssLk01"</style>"
  JsMain='<script type="text/javascript" src="'$RAIZ'/andryeltj/aio/master/store/jquery.js"></script>'
  HTMLINFO="<head><title>Store</title><meta chaset=UTF-8> $Css01 $JsMain </head>"
- CORPO=`cat /tmp/book2`
+ CList=`cat /tmp/book2`
+ CBook=`cat /etc/aio/aio.list`
+ HtmlHAreas="<div class='list'>"$CList"</div><div class='book'>"$CBook"</div>"
+ CORPO=$HtmlHAreas
  aio list
  MainBAR="<div class='mainbar'><a class='aiologo'>AIO</a><span class='searchbar'></span><a>A</a><div>"
  echo "$HTMLINFO<body><center><h1>Voce abriu a Loja, Bem vindo!</h1></center><br><div>$CORPO</div>$MainBAR</body>" > /tmp/store.html
