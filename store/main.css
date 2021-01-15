@@ -1,4 +1,5 @@
 body {display:block;position:relative;width:100%;height:100%;margin:0;background:#24292e;color:white}
 div.mainbar{display:block;position:absolute;bottom:0;width:100%;background:rgba(55,55,55,.87)}
-div.mainbar a.aiologo{display:block;padding:0 .1em;background:rgba(0,0,0,.3);height:100%;}
-div.mainbar span.searchbar{display:block;height:90%;width:7em;background:rgba(255,255,255,.6)}
+div.mainbar a, div.mainbar span{display:block;float:left}
+div.mainbar a.aiologo{padding:0 .1em;background:rgba(0,0,0,.3);height:100%;}
+div.mainbar span.searchbar{height:90%;width:30%;height1.2em;background:rgba(255,255,255,.6)}
