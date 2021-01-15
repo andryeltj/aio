@@ -268,11 +268,11 @@ MOUNTPAGE(){
  HTMLINFO="<head><title>Store</title><meta chaset=UTF-8> $Css01 $JsMain </head>"
  CList=`cat /tmp/book2`
  CBook=`cat /etc/aio/aio.list`
- HtmlHAreas="<div class='list'>"$CList"</div><div class='book'>"$CBook"</div>"
+ HtmlHAreas="<textarea class='list'>"$CList"</textarea><textarea class='book'>"$CBook"</textarea>"
  CORPO=$HtmlHAreas
  aio list
- MainBAR="<div class='mainbar'><a class='aiologo'>AIO</a><span class='searchbar'></span><div style='float:right'><a>A</a><a href='aio:store-up'>R</a><div>"
- echo "$HTMLINFO<body><center><h1>Voce abriu a Loja, Bem vindo!</h1></center><br><div>$CORPO</div>$MainBAR</body>" > /tmp/store.html
+ MainBAR="<div class='mainbar'><a class='aiologo'>AIO</a><span class='searchbar'></span><div style='float:right'><a>A</a><a href='aio:store-up' onclick='javascript:window.location.reload(true);'>R</a></div>"
+ echo "$HTMLINFO<body><center><h1 style='margin:0'>Voce abriu a Loja, Bem vindo!</h1></center><br><div>$CORPO</div>$MainBAR</body>" > /tmp/store.html
 	}
 
 NATIVEFIER(){
@@ -309,12 +309,14 @@ HELP(){
 #
 #As opções corretas são:
 #
-#add ou install - instala o app
-#del ou remove - remove a instalação de um app
-#upd ou update - Atualiza up app específico
-# -i	É o mesmo que 'add'
-# -d	É o mesmo que 'del'
-# -u	É o mesmo que 'upd'
+# add ou install	instala o app
+# del ou remove		remove a instalação de um app
+# upd ou update		Atualiza up app específico
+#	store			Abre a loja
+#	store -r		Recarrega a Loja
+#	-i			É o mesmo que 'add'
+#	-d			É o mesmo que 'del'
+#	-u			É o mesmo que 'upd'
 #
 #
 #"
