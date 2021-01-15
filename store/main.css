@@ -8,3 +8,4 @@ div.mainbar a:hover{background:rgba(255,255,255,.3)}
 div.mainbar a.aiologo{background:rgba(0,0,0,.3);height:100%;}
 div.mainbar span.searchbar{height:90%;width:30%;height:1em;padding:.45em;background:rgba(255,255,255,.6);color:black}
 textarea{display:block;margin:0;border:0;background:transparent;width:100%}
+div.appinfo{display:block;position:relative;width:100%;height:20%;}
