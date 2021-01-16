@@ -11,6 +11,5 @@ textarea{display:block;margin:0;border:0;background:transparent;width:100%}
 div.appinfo{display:block;position:relative;width:100%;height:20%;}
 a.applogo{display:block;position:absolute;top:2em;left:5em;width:4em;height:4em}
 .appinfo i{display:inline-block;float:right;width:80%}
-.appinfo {display:block;float:left;margin-left:12em;width:80%}
 div.appname{display:block;width:65%;padding:.6em 7em .6em 0; font-size:2.3em}
-div.passing{display:block;width:65%}
+div.passing{display:block;width:65%;float:right;margin-left:12em;}
