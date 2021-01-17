@@ -52,7 +52,7 @@ ADD=`cat $JAR/system.aio | grep -w "$2$3$4$5:" | awk '{print $2}'`
 }
 
 CHECKAIOVERSION(){
-AIOR=`cat /tmp/book | grep -w "aio:" | awk '{print $3}'`
+AIOR=`cat /tmp/book | grep -w "aio:" | awk '{print $2}'`
 echo "AIO: $AIOR"
 if [ "$VERSIONR" -lt "$AIOR" ]; then
     troca=troca
@@ -215,7 +215,7 @@ LISTJAR(){
  echo "
  #######################################################
  #######################################################
- 	<Nome>					<Jarra(Repositório)>"
+	<Nome>				<Categorias>"
  rm -Rf /tmp/book2
 while IFS= read -r line
 do
