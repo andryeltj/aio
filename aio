@@ -52,13 +52,13 @@ ADD=`cat $JAR/system.aio | grep -w "$2$3$4$5:" | awk '{print $2}'`
 }
 
 CHECKAIOVERSION(){
-AIOR=`cat /tmp/book | grep -w "aio:" | awk '{print $2}'`
+AIOR=`cat /tmp/book | grep -w "aio:" | awk '{print $3}'`
 echo "AIO: $AIOR"
 if [ "$VERSIONR" -lt "$AIOR" ]; then
     troca=troca
-    echo "Existe uma nova atualização de base."
+    echo "Existe uma nova atualização do AIO."
     MSGU003
-	GETAIO
+    GETAIO
 fi
 }
 
@@ -74,8 +74,9 @@ if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then
  echo "$MISTURA
  " 
  if [ -e "$MISTURA" ]; then 
-    if [ "$whoami"=="root" ]; then chmod 777 $MISTURA; chmod 777 $FORNO; chmod 777 $PRATO; fi ##Contenção para caso seja gerado com sudo    
- else echo "Aconteceu algum erro na geração do arquivo"; fi
+    troca=troca
+ #   if [ "$whoami"=="root" ]; then chmod 777 $MISTURA; chmod 777 $FORNO; chmod 777 $PRATO; fi ##Contenção para caso seja gerado com sudo    
+ else echo "Não foi adicionada a tijela ao forno"; fi
  cd $CAMINHO
  if [ -e "$PRATO" ]; then	#Testa pra ver se foi cozinhado
   PRODUTO=`ls $RECEITA_PASTA/out/`	#Pega o nome do app criado
@@ -85,7 +86,7 @@ if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then
   else echo "$ADD: $PRODUTO" >> $JAR/aio.list;	#Coloca o nome do app novo na lista 
   fi
  else
-  echo "Não existe receita para cozinhar"
+  echo "A tigela não saiu do forno"
  fi
 fi
 }
@@ -340,7 +341,7 @@ MSGU002(){
 	notify-send -i gtk-yes -u normal "Atualizar" "Instalação de $1 $2 $3 $4 completa"
 	}
 MSGU003(){
-	notify-send -i gtk-refresh "Existe uma nova atualização de base. Digite a sua senha para realizar"
+	notify-send -i gtk-refresh "AIO Atualizado"
 	}
 MSGU004(){
 	notify-send -i gtk-yes "A instalação está sendo realizada com uma receita local"
@@ -391,7 +392,7 @@ fi
 #### COMANDOS E INTEGRAÇÔES
 if [[ "$1" == "add" || "$1" == "install" || "$1" == "-i" ]]; then
  if [[ "`whoami`" == "root" ]]; then echo "Por favor tente instalar sem ser o Administrador"; else
-  echo "`whoami`"
+#  echo "`whoami`"
   CHECKINTEGRATE
   TESTLOCAL
   NATIVEFIER
