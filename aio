@@ -19,7 +19,7 @@ AUTOINTEGRAR=0
 VERSIONR=202101162242
 ISLOCAL=0
 troca=""
-echo $CAMINHO
+
 echo $1 $2 $3 $4 $5
 ### Funções
 CALLLOCAL(){
@@ -48,7 +48,25 @@ fi
 if [ "$5"=="local" || "$5"=="nointegrate" || "$5"=="--local" || "$5"=="--nointegrate"]; then
 	$5=""
 fi
-ADD=`cat $JAR/system.aio | grep -w "$2$3$4$5:" | awk '{print $2}'`
+ADD=`cat $JAR/system.aio | grep -w "$2$3$4$5:" | awk '{print $3}'`
+}
+
+ADDLIBRARY(){
+ LISTITEM=`cat $JAR/aio.list | grep -w "$ADD:" | awk '{print $1}'`
+ if [ "$LISTITEM" == "$ADD:" ]; then
+    DELLIBRARY; echo "Atualizando "$LISTITEM" lista."
+ else
+	echo "$ADD: $PRODUTO" >> $JAR/aio.list; echo "Item "$LISTITEM" adicionado a lista."
+ fi
+}
+
+DELLIBRARY(){
+ LISTITEM=`cat $JAR/aio.list | grep -w "$ADD:" | awk '{print $1}'`
+ if [ "$LISTITEM" == "$ADD:" ]; then
+	sed -i '/'$ADD:'/d' $JAR/aio.list; echo "Item removido da lista"	#Remove da lista o nome do app existente
+ else
+    echo "O Item não foi encontrado na lista."
+ fi
 }
 
 CHECKAIOVERSION(){
@@ -82,8 +100,8 @@ if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then
   PRODUTO=`ls $RECEITA_PASTA/out/`	#Pega o nome do app criado
   APPNMLIST=`cat $JAR/aio.list | grep -w '$ADD: $PRODUTO'`; echo $APPNMLIST
   if [ "$APPNMLIST" == "$ADD: $PRODUTO" ]; then
-   sed -i '/'$ADD'/d' $JAR/aio.list; echo "$ADD: $PRODUTO" >> $JAR/aio.list;
-  else echo "$ADD: $PRODUTO" >> $JAR/aio.list;	#Coloca o nome do app novo na lista 
+   DELLIBRARY; ADDLIBRARY
+  else ADDLIBRARY	#Coloca o nome do app novo na lista 
   fi
  else
   echo "A tigela não saiu do forno"
@@ -111,43 +129,19 @@ DELBINS(){
 }
 
 DEL(){
+	echo "A remover: "$ADD
 	EXISTAPP=`cat $JAR/aio.list | grep -w "$ADD:" | awk '{print $2}'`	#Detecta o nome do app antigo
-	sed -i '/'$ADD'/d' $JAR/aio.list	#Remove da lista o nome do app existente
-	rm -Rf $APPS/$EXISTAPP	#Remove a ligação
-	if [[ -L "$BINS/$ADD" ]]; then
-	  sudo bash -c "$DELBINS"
-	fi
-	rm -Rf $APPS/$EXISTAPP	#Remove o app existente
+	if [ -e '$APPS/$EXISTAPP' ]; then rm -Rf $APPS/$EXISTAPP; echo "App "$EXISTAPP" Removido"; else echo "O app "$EXISTAPP" não foi encontrado para remoção"; fi	#Remove o app; se existir
+	DELLIBRARY
 }
 
 DELOVEN(){
  echo "FORNO: $OVEN"
- echo "$MISTURA"
- if [ -e "$FORNO" ]; then rm -Rf $MISTURA; echo "removendo Ingredintes"; else  echo "Pasta com Ingredientes não existe"; fi
- if [ -e "$PRATO" ]; then rm -Rf $PRATO; echo "removendo a prateleira"; else  echo "a preteleira não existe"; fi
+# echo "$MISTURA"
+  if [ -e "$PRATO" ]; then rm -Rf $PRATO; echo "removendo o Prato";
+   if [ -e "$FORNO" ]; then rm -Rf $MISTURA; echo "removendo Ingredintes"; else  echo "Pasta com Ingredientes não existe"; fi
+  else  echo "o Prato não existe"; fi
 }
-
-#EXEINTEGRAR(){
-#ATALHOS=`ls $FORNO/usr/share/applications/`
-#while IFS= read -r line
-#do
-#  IDATARM=`cat $line | awk {print $0}`
-#  cp -f $FORNO/usr/share/applications/$line $ELINKS/$line	  #Move os atalhos
-#  sed 's|Exec=|Exec=$LOCALBINS/|g' $ELINKS/$line
-#done < $ATALHOS
-#echo "Atalhos integrados"
-#UPDATEICONS
-#}
-
-#UPDATEICONS(){
-# if [[ -e "$FORNO/*.svg" || -e "$FORNO/*.png" ]]; then
-#  if [ -e "$FORNO/*.svg" ]; then 
-#   ICONCAT=`ls $FORNO/*.svg`; cp -Rf $FORNO/$ICONCAT $RECEITA_PASTA/Icons; ln -s $RECEITA_PASTA/Icons/$ICONCAT $LOCALICONS/$ICONCAT
-#   else ICONCAT=`ls $FORNO/*.png`;  cp -Rf $FORNO/$ICONCAT $RECEITA_PASTA/Icons; ln -s $RECEITA_PASTA/Icons/$ICONCAT $LOCALICONS/$ICONCAT; fi
-# else
-#  echo "Não existem ícones no forno"
-# fi
-#}
 
 GETAIO(){
 	rm -Rf $JAR/aio
@@ -222,7 +216,6 @@ do
    echo $line | awk '{print "  "$1"					"$3}' >> /tmp/book2
 done < /tmp/book
 
-# if [ "$whoami"=="root" ]; then chmod 777 /tmp/book2; fi
 sed -i '/aio:/d' /tmp/book2
 cat /tmp/book2
  echo " #######################################################
@@ -232,33 +225,12 @@ cat /tmp/book2
 MOVEAPP(){
 ### Parte dessa função só deve ser chamada se o Produto já existir mas aquele usuario ainda não o tem > somente lincar
 echo "Produto: $PRODUTO"
-if [ -e "$RECEITA_PASTA/out/$PRODUTO" ]; then cp -Rf $RECEITA_PASTA/out/$PRODUTO $APPS;	#Move o app para a pasta de apps
- chmod 777 $APPS/$PRODUTO; echo "Produto encontrado, movendo para a Mesa"; else echo "produto não existe, ou não encontrado"; fi
-#MOVXEKLINK
-
+if [ -e "$RECEITA_PASTA/out" ]; then
+ if [ -e "$RECEITA_PASTA/out/$PRODUTO" ]; then cp -Rf $RECEITA_PASTA/out/$PRODUTO $APPS;	#Move o app para a pasta de apps
+  chmod 777 $APPS/$PRODUTO; echo "Produto encontrado, movendo para a Mesa"; else echo "produto não existe, ou não encontrado"; fi
+else echo "O Prato não foi criado"; fi
 echo "$ADD: $ADD" >> $JAR/system.aio
-#if [ "`whoami`" == "root" ]; then sudo chmod 777 $JAR/system.aio; fi
-#if [[ -e "$APPS/$ADD.AppImage" && -e '$APPS/$PRODUTO' ]]; then echo "ligação atualizada"; fi
 }
-
-#MOVUPDATELINK(){
-#	echo "linkando produto"
-#	if [ -e '$APPS/$PRODUTO' ]; then ln -s $APPS/$PRODUTO $APPS/$ADD.AppImage; ln -s $APPS/$ADD.AppImage $LOCALBINS; if [ "`whoami`"=="root" ]; then chmod 777 $APPS/$ADD.AppImage; fi else echo "Produto não movido da pasta OUT"; fi
-#}
-#MOVXEKLINK(){
-#	echo "atualizando link"
-#	if [ -e '$APPS/$ADD.AppImage' ]; then rm $APPS/$ADD.AppImage; MOVUPDATELINK; else MOVUPDATELINK; fi
-#}
-#MOVLINKTOBIN(){
-#	echo "ingressão do link ao sistema"
-#	if [ "`whoami`" == "root" ]; then troca=troca; else echo "Tornando disponível para o sistema. Digite sua senha 🡣"; fi
-#	if [ -e "$BINS/$ADD" ]; then
-#	 if [ -L "$BINS/$ADD" ]; then troca=troca; else
-#	  sudo mv $BINS/$ADD $BINS/$ADD.old; sudo ln -s $APPS/$ADD.AppImage $BINS/$ADD; sudo chmod 777 $BINS/$ADD; fi
-#	else
-#	 sudo ln -s $APPS/$ADD.AppImage $BINS/$ADD; sudo chmod 777 $BINS/$ADD;
-#	fi
-#}
 
 MOUNTPAGE(){
 	# MainCSS='<link rel="stylesheet" type="text/css" href="'
@@ -394,7 +366,7 @@ fi
 if [[ "$1" == "add" || "$1" == "install" || "$1" == "-i" ]]; then
  if [[ "`whoami`" == "root" ]]; then echo "Por favor tente instalar sem ser o Administrador"; else
 #  echo "`whoami`"
-  CHECKINTEGRATE
+#  CHECKINTEGRATE
   TESTLOCAL
   NATIVEFIER
   DOCOOK
@@ -404,7 +376,6 @@ if [[ "$1" == "add" || "$1" == "install" || "$1" == "-i" ]]; then
  fi
  
 elif [[ "$1" == "del" || "$1" == "remove" || "$1" == "-d" ]]; then
- CKLOCALNAMES
  DEL
  
  
