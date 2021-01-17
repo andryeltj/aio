@@ -263,6 +263,7 @@ echo "$ADD: $ADD" >> $JAR/system.aio
 MOUNTPAGE(){
 	# MainCSS='<link rel="stylesheet" type="text/css" href="'
 # Css01=$MainCSS$RAIZ'/andryeltj/aio/master/store/main.css">'
+ rm -Rf /tmp/store.html
  CssLk01=`curl $RAIZ/andryeltj/aio/master/store/main.css`
  Css01="<style>"$CssLk01"</style>"
  JsMain='<script type="text/javascript" src="'$RAIZ'/andryeltj/aio/master/store/jquery.js"></script>'
@@ -270,7 +271,7 @@ MOUNTPAGE(){
  CList=`cat /tmp/book`
  CBook=`cat /etc/aio/aio.list`
  HtmlHAreas="<textarea class='list'>"$CList"</textarea><textarea class='book'>"$CBook"</textarea>"
- AppInfo="<div class='appinfo'><div class='appname'>Nome do App</div><i>Informação rápida do Aplicativo</i><div class='passing'>°°°°°°°°</div><a class='applogo'>Icon</a></div>"
+ AppInfo="<div class='appinfo'><div class='appname'>Nome do App</div><i>Informação rápida do Aplicativo</i><div class='passing'>⚙️°°°°°°°°</div><a class='applogo'>Icon</a></div>"
  CORPO=$HtmlHAreas$AppInfo"<article></article>"
  aio list
  MainBAR="<div class='mainbar'><a class='aiologo'>AIO</a><span class='searchbar' contenteditable='true'></span><div style='float:right'><a>A</a><a href='aio:store-up' onclick='javascript:window.location.reload(true);'>R</a></div>"
@@ -451,6 +452,7 @@ elif [[ "$1" == "store" ]]; then
  fi
 elif [[ "$1" == "aio:store-up" ]]; then
  MOUNTPAGE
+ notify-send -i gtk-dialog-question -u normal "Página Montada"
 else
 troca=troca
 fi
