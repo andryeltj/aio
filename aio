@@ -154,22 +154,22 @@ GETAIO(){
 	wget -q --show-progress $RAIZ/andryeltj/aio/master/aio -P $JAR
 	chmod +x $JAR/aio
 	AIOR=`cat $JAR/aio | grep -w "VERSIONR=" | awk '{print $2}'`
-	echo "🗘 AIO: $AIOR < Atualizado para esta versão"
+	echo "🗘 AIO: "$AIOR" < Atualizado para esta versão"
 }
 
 GETRECEITA(){
  ADD=`cat /tmp/book | grep -w "$ADD:" | awk '{print $2}'`
- JARRA=`cat /tmp/book | grep -w "$ADD" | awk '{print $3}'`
+ JARRA=`cat /tmp/book | grep -w "$ADD" | awk '{print $4}'`
  if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then rm -Rf $RECEITA_PASTA/$ADD.yml; fi
  echo "$RAIZ/$JARRA/$ADD.yml"
  wget -q --show-progress $RAIZ/$JARRA/$ADD.yml -P $RECEITA_PASTA/
- if [ "`whoami`"=="root" ]; then chmod 777 $RECEITA_PASTA/$ADD.yml; fi
+# if [ "`whoami`"=="root" ]; then chmod 777 $RECEITA_PASTA/$ADD.yml; fi
  if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then OVEN=`cat $RECEITA_PASTA/$ADD.yml | grep "app:" | awk '{print $2}'`; echo "OVEN:$OVEN" else echo "Receita não baixada"; fi
 }
 
 GETCOMBURENT(){
   GETNETBOOK
-  JARRA=`cat /tmp/book | grep -w "$COMBURENT" | awk '{print $3}'`
+  JARRA=`cat /tmp/book | grep -w "$COMBURENT" | awk '{print $4}'`
   wget -q --show-progress $RAIZ/$JARRA/$COMBURENT -P /etc/aio/; chmod +x $JAR/$COMBURENT;
   if [ -e "$BINS/$COMBURENT" ]; then troca=troca; else sudo ln -s $JAR/$COMBURENT $BINS/$COMBURENT; fi
   if [ -e "$JAR/$COMBURENT" ]; then troca=troca; echo "Comburente adiquirido"; else echo "Falha ao adiquirir comburente"; fi 
@@ -189,13 +189,13 @@ GETNETBOOK(){
 	do
 		rm -Rf /tmp/book
 		wget -q --show-progress -c $line/book -P /tmp/	#BAIXA O NOVO LIVRO
-		if [ "`whoami`" == "root" ]; then chmod 777 /tmp/book; fi
+#		if [ "`whoami`" == "root" ]; then chmod 777 /tmp/book; fi
 	done < $JAR/jar.aio
 }
 
 GETSUGESTS(){ 
 if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then
- SUGESTS=`cat $RECEITA_PASTA/$ADD.yml | grep -w "sugests:"`	#Cria a lista de provaveis nomes para o app atravez da receita
+ SUGESTS=`cat $RECEITA_PASTA/$ADD.yml | grep -w "sugestname:"`	#Cria a lista de provaveis nomes para o app atravez da receita
  sed -i '/'$ADD'/d' $JAR/system.aio
  for n in $SUGESTS; do
   echo $n: $ADD >> $JAR/system.aio
