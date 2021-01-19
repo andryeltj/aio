@@ -16,7 +16,7 @@ JARRA=""
 PRODUTO=""
 CAMINHO=`pwd`
 AUTOINTEGRAR=0
-VERSIONR=202101162242
+VERSIONR=20210119010101
 ISLOCAL=0
 troca=""
 
@@ -131,7 +131,7 @@ DELBINS(){
 DEL(){
 	echo "A remover: "$ADD
 	EXISTAPP=`cat $JAR/aio.list | grep -w "$ADD:" | awk '{print $2}'`	#Detecta o nome do app antigo
-	if [ -e '$APPS/$EXISTAPP' ]; then rm -Rf $APPS/$EXISTAPP; echo "App "$EXISTAPP" Removido"; else echo "O app "$EXISTAPP" não foi encontrado para remoção"; fi	#Remove o app; se existir
+	if [ -f "$APPS/$EXISTAPP" ]; then rm -Rf $APPS/$EXISTAPP; echo "App "$EXISTAPP" Removido"; else echo "O app "$EXISTAPP" não foi encontrado para remoção"; fi	#Remove o app; se existir
 	DELLIBRARY
 }
 
@@ -232,22 +232,40 @@ else echo "O Prato não foi criado"; fi
 echo "$ADD: $ADD" >> $JAR/system.aio
 }
 
+STOREIN="/tmp/aiostore"
+CKWEBSERVER(){
+	if [ -e "/var/www" ]; then
+	 STOREIN="/var/www/html/aiostore"
+	 if [ -e "$STOREIN" ]; then troca=troca; echo "a pasta existe no apache"; else echo "a pasta não existe no apache"; echo $STOREIN; sudo mkdir $STOREIN; sudo chmod -R 777 $STOREIN; fi
+	 LinkSTORE="localhost/aiostore"
+	 MetSTORE="http://"
+	else
+	 STOREIN="/tmp/aiostore"
+	 if [ -e "$STOREIN" ]; then troca=troca; echo "a pasta em tmp"; else echo "a loja vai estar em "$STOREIN; mkdir $STOREIN; fi
+	 LinkSTORE=$STOREIN"//index.html"
+	 MetSTORE="file://"
+	fi
+}
+
 MOUNTPAGE(){
-	# MainCSS='<link rel="stylesheet" type="text/css" href="'
+# MainCSS='<link rel="stylesheet" type="text/css" href="'
 # Css01=$MainCSS$RAIZ'/andryeltj/aio/master/store/main.css">'
  rm -Rf /tmp/store.html
  CssLk01=`curl $RAIZ/andryeltj/aio/master/store/main.css`
  Css01="<style>"$CssLk01"</style>"
- JsMain='<script type="text/javascript" src="'$RAIZ'/andryeltj/aio/master/store/jquery.js"></script>'
- HTMLINFO="<head><title>Store</title><meta chaset=UTF-8><link href='https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap' rel='stylesheet'> $Css01 $JsMain </head>"
+ JsLk01=`curl $RAIZ/andryeltj/aio/master/store/jquery.js`
+ JsMain='<script type="text/javascript">'$JsLk01'</script>'
+ favicon='<link rel="shortcut icon" href="https://icon-library.com/images/stove-icon/stove-icon-6.jpg" />'
+ HTMLINFO="<head><title>Store</title><meta charset=UTF-8>"$favicon"<link href='https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap' rel='stylesheet'> $Css01 $JsMain </head>"
  CList=`cat /tmp/book`
  CBook=`cat /etc/aio/aio.list`
  HtmlHAreas="<textarea class='list'>"$CList"</textarea><textarea class='book'>"$CBook"</textarea>"
  AppInfo="<div class='appinfo'><div class='appname'>Nome do App</div><i>Informação rápida do Aplicativo</i><div class='passing'>⚙️°°°°°°°°</div><a class='applogo'>Icon</a></div>"
  CORPO=$HtmlHAreas$AppInfo"<article></article>"
- aio list
+ GETNETBOOK
+ echo "Abrindo a loja"
  MainBAR="<div class='mainbar'><a class='aiologo'>AIO</a><span class='searchbar' contenteditable='true'></span><div style='float:right'><a>A</a><a href='aio:store-up' onclick='javascript:window.location.reload(true);'>R</a></div>"
- echo "$HTMLINFO<body><center><h1 style='margin:0'>Voce abriu a Loja, Bem vindo!</h1></center><br><div>$CORPO</div>$MainBAR</body>" > /tmp/store.html
+ echo "$HTMLINFO<body><center><h1 style='margin:0'>Voce abriu a Loja, Bem vindo!</h1></center><br><div>$CORPO</div>$MainBAR</body>" > $STOREIN/index.html
 	}
 
 NATIVEFIER(){
@@ -418,10 +436,13 @@ elif [[ "$1" == "store" ]]; then
  if [[ "$3" == "-r" || "$4" == "-r" ]]; then
   MOUNTPAGE
  else
+  CKWEBSERVER
   MOUNTPAGE
-  xdg-open file:///tmp/store.html
+  xdg-open $MetSTORE$LinkSTORE
+  LinkSTORE=""
  fi
 elif [[ "$1" == "aio:store-up" ]]; then
+ CKWEBSERVER
  MOUNTPAGE
  notify-send -i gtk-dialog-question -u normal "Página Montada"
 else
