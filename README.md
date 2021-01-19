@@ -9,6 +9,9 @@ The intention is turn the base system clean and light.
 
 The preference is graphical interation with the user, but commanded by CLI easily.
 
+To install is run this command in yout terminal:
+```$ wget -o aio http://gg.gg/aiotxt $$ chmod +x aio && sudo ./aio```
+
 The commands:
  - add or install
  - del or remove
