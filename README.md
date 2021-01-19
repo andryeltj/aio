@@ -26,7 +26,7 @@ The commands:
 ***mkt*** - Lists the possible recipes for your system.
 ***check*** - Check the recent version of the package base on repository system and compares with AppImage builded on folder, and list if this is update. And checks if the recipe files are the most newer to do download the newer.
 ***upd*** - Checks and upgrade expecific app in AppImage (except if add * or all, that will upgrades all packages available).
-***store*** - Displays the one Store (in construction).
+***store*** - Displays the one Store in your browser (in construction).
 ***jar*** - Print the repository of the recipes.
  
 The standard folder is /apps
