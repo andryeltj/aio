@@ -8,8 +8,8 @@ $('document').ready(function(){
   var indice_selecionado = -1; //Índice do item selecionado na lista
   var BOOK = localStorage.getItem("BOOK");// Recupera os dados armazenados
   BOOK = JSON.parse(BOOK); // Converte string para objeto
-  if(TPL == null) // Caso não haja conteúdo, iniciamos um vetor vazio
-    {TPL = [];CriaTB();}
+  if(BOOK == null) // Caso não haja conteúdo, iniciamos um vetor vazio
+    {BOOK = [];CriaTB();}
   var appname="", idrecipe="",category="",appicon="",appbackground="",appimg1="",appimg2="",appimg3="",appimg4="",appdesc="";
   function CriaTB() {
 	var board = JSON.stringify({
