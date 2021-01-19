@@ -254,9 +254,11 @@ MOUNTPAGE(){
  CssLk01=`curl $RAIZ/andryeltj/aio/master/store/main.css`
  Css01="<style>"$CssLk01"</style>"
  JsLk01=`curl $RAIZ/andryeltj/aio/master/store/jquery.js`
- JsMain='<script type="text/javascript">'$JsLk01'</script>'
+ JsLk02=`curl $RAIZ/andryeltj/aio/master/store/main.js`
+ JsBASIS='<script type="text/javascript">'$JsLk01'</script>'
+ JsMAIN='<script type="text/javascript">'$JsLk02'</script>'
  favicon='<link rel="shortcut icon" href="https://icon-library.com/images/stove-icon/stove-icon-6.jpg" />'
- HTMLINFO="<head><title>Store</title><meta charset=UTF-8>"$favicon"<link href='https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap' rel='stylesheet'> $Css01 $JsMain </head>"
+ HTMLINFO="<head><title>Store</title><meta charset=UTF-8>"$favicon"<link href='https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap' rel='stylesheet'> $Css01 $JsBASIS $JsMain </head>"
  CList=`cat /tmp/book`
  CBook=`cat /etc/aio/aio.list`
  HtmlHAreas="<textarea class='list'>"$CList"</textarea><textarea class='book'>"$CBook"</textarea>"
