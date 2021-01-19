@@ -258,11 +258,11 @@ MOUNTPAGE(){
  JsBASIS='<script type="text/javascript">'$JsLk01'</script>'
  JsMAIN='<script type="text/javascript">'$JsLk02'</script>'
  favicon='<link rel="shortcut icon" href="https://icon-library.com/images/stove-icon/stove-icon-6.jpg" />'
- HTMLINFO="<head><title>Store</title><meta charset=UTF-8>"$favicon"<link href='https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap' rel='stylesheet'> $Css01 $JsBASIS $JsMain </head>"
+ HTMLINFO="<head><title>Store</title><meta charset=UTF-8>"$favicon"<link href='https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap' rel='stylesheet'> $Css01 $JsBASIS $JsMAIN </head>"
  CList=`cat /tmp/book`
  CBook=`cat /etc/aio/aio.list`
  HtmlHAreas="<textarea class='list'>"$CList"</textarea><textarea class='book'>"$CBook"</textarea>"
- AppInfo="<div class='appinfo'><div class='appname'>Nome do App</div><i>Informação rápida do Aplicativo</i><div class='passing'>⚙️°°°°°°°°</div><a class='applogo'>Icon</a></div>"
+ AppInfo="<div class='appinfo'><div class='appname'>Nome do App</div><i>Informação rápida do Aplicativo</i><div class='passing'>⚙️°°°°°°°°</div><a class='applogo'></a></div>"
  CORPO=$HtmlHAreas$AppInfo"<article></article>"
  GETNETBOOK
  echo "Abrindo a loja"
