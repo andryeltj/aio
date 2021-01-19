@@ -5,6 +5,11 @@ $('document').ready(function(){
       location.reload();
      },3000)
   });
+  var indice_selecionado = -1; //Índice do item selecionado na lista
+  var BOOK = localStorage.getItem("BOOK");// Recupera os dados armazenados
+  BOOK = JSON.parse(BOOK); // Converte string para objeto
+  if(TPL == null) // Caso não haja conteúdo, iniciamos um vetor vazio
+    {TPL = [];CriaTB();}
   var appname="", idrecipe="",category="",appicon="",appbackground="",appimg1="",appimg2="",appimg3="",appimg4="",appdesc="";
   function CriaTB() {
 	var board = JSON.stringify({
@@ -12,6 +17,5 @@ $('document').ready(function(){
 	BOOK.push(board);
 	localStorage.setItem("BOOK", JSON.stringify(BOOK));
 	}
-  CriaTB();
   console.log('Loja Carregada');
 });
