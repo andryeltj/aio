@@ -22,6 +22,10 @@ The commands:
  - store
  - jar
  
+ Example.:
+ ```$ aio add zoom```
+ It will mount one Zoom AppImage and turn this disponible for your use.
+ 
 ***list*** - List the installed apps.
 ***mkt*** - Lists the possible recipes for your system.
 ***check*** - Check the recent version of the package base on repository system and compares with AppImage builded on folder, and list if this is update. And checks if the recipe files are the most newer to do download the newer.
