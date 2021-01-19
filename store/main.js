@@ -9,7 +9,7 @@ $('document').ready(function(){
   function CriaTB() {
 	var board = JSON.stringify({
 		nameapp:appname,namerecipe:idrecipe,category:category,icon:appicon,background:appbackground,img1:appimg1,img2:appimg2,img3:appimg3,img4:appimg4,desc:appdesc});
-	TPL.push(board);
+	BOOK.push(board);
 	localStorage.setItem("BOOK", JSON.stringify(BOOK));
 	}
   CriaTB();
