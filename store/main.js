@@ -28,10 +28,10 @@ $('document').ready(function(){
 	}
   CriaTB();
   $("div.list li").each(function(){
-	  alert($(this).children("a:nth-child(1)").text(););
+	  alert($(this).children("a:nth-child(1)").text());
 //	  $(this).children("a").each(function(){
 //		alert($(this).text())
-	  });
+//	  });
     });
   console.log('Loja Carregada');
 });
