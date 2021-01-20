@@ -3,7 +3,7 @@ $('document').ready(function(){
   $('.updatestore').click(function(){
      setTimeout(function(){
       location.reload();
-     },3000)
+     },5000)
   });
 #  $($("textarea.list").html).sort(asc_sort).appendTo('textarea.list');
   var indice_selecionado = -1; //Índice do item selecionado na lista
