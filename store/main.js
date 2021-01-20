@@ -27,10 +27,10 @@ $('document').ready(function(){
 	localStorage.setItem("MENU", JSON.stringify(MENU));
 	}
   CriaTB();
-  $("div.list li").each(function(){
+//  $("div.list li").each(function(){
 	  $("div.list li a").each(function(){
 		alert($(this).text())
 	  });
-    });
+//    });
   console.log('Loja Carregada');
 });
