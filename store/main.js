@@ -28,7 +28,7 @@ $('document').ready(function(){
 	}
   CriaTB();
   $("div.list li").each(function(){
-	  $(this" a").each(function(){
+	  $(this>"a").each(function(){
 		alert($(this).text())
 	  }
     });
