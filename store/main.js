@@ -28,21 +28,24 @@ $('document').ready(function(){
 	MENU.push(board);
 	localStorage.setItem("MENU", JSON.stringify(MENU));
 	}
+//Pega na lista de instalados checa com a quantidade disponivel no book e verifica se existe no CRUD, e adiciona ao mesmo. 
   var qtdDisp=parseInt("0");
+  function checkInDB(){
+	  var indice=qtdDisp;
+	  var ind = JSON.parse(MENU[indice]);
+	  if(ind.recipename==recipename){console.log("Instalado: "+recipename)}
+	    else{console.log("Adicionando: "+recipename+", "+nameappmenu)};
+  }
   function countDisp(){
     $("div.book li").each(function(){
 	  qtdDisp=qtdDisp+("1");
 	  checkInDB()
     });
   }
-  function checkInDB(){
-	  var indice=qtdDisp;
-	  var ind = JSON.parse(MENU[indice]);
-	  if(ind.recipename==recipename){console.log("Instalado: "+recipename)}else{console.log("Adicionando:"+recipename+", "+nameappmenu)};
-  }
   $("div.list li").each(function(){
 	  recipename=$(this).children("a:nth-child(1)").text();
 	  nameappmenu=$(this).children("a:nth-child(2)").text();
+	  console.log(recipename+", "+nameappmenu);
 	  countDisp();
     });
   console.log('Loja Carregada');
