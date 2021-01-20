@@ -30,7 +30,7 @@ $('document').ready(function(){
   $("div.list li").each(function(){
 	  $("div.list li a").each(function(){
 		alert($(this).text())
-	  }
+	  });
     });
   console.log('Loja Carregada');
 });
