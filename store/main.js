@@ -28,8 +28,9 @@ $('document').ready(function(){
 	}
   CriaTB();
   $("div.list li").each(function(){
-	  $(this).children("a").each(function(){
-		alert($(this).text())
+	  alert($(this).children("a:nth-child(1)").text(););
+//	  $(this).children("a").each(function(){
+//		alert($(this).text())
 	  });
     });
   console.log('Loja Carregada');
