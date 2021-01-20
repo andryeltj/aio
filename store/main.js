@@ -10,6 +10,10 @@ $('document').ready(function(){
   BOOK = JSON.parse(BOOK); // Converte string para objeto
   if(BOOK == null) // Caso não haja conteúdo, iniciamos um vetor vazio
     {BOOK = [];CriaTB();}
+  var MENU = localStorage.getItem("MENU");// Recupera os dados armazenados
+  MENU = JSON.parse(MENU); // Converte string para objeto
+  if(MENU == null) // Caso não haja conteúdo, iniciamos um vetor vazio
+    {MENU = [];CriaTB();}
   var appname="", idrecipe="",category="",appicon="",appbackground="",appimg1="",appimg2="",appimg3="",appimg4="",appdesc="";
   function CriaTB() {
 	var board = JSON.stringify({
@@ -17,5 +21,6 @@ $('document').ready(function(){
 	BOOK.push(board);
 	localStorage.setItem("BOOK", JSON.stringify(BOOK));
 	}
+  CriaTB();
   console.log('Loja Carregada');
 });
