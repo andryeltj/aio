@@ -13,5 +13,5 @@ div.appinfo{background-image:url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQA
 a.applogo{display:block;position:absolute;top:25%;left:5em;width:5em;height:5em}
 a.applogo{background-image:url('https://raw.githubusercontent.com/andryeltj/aio/master/store/aio-store.svg');background-size:100% auto}
 .appinfo i{display:inline-block;float:right;width:80%}
-div.appname{display:block;width:65%;padding:.6em 20% .6em 0; font-size:2.3em;float:right}
+div.appname{display:block;width:65%;padding:.6% 20% .6% 0; font-size:2.3em;float:right}
 div.passing{display:block;width:80%;float:right}
