@@ -15,6 +15,7 @@ $('document').ready(function(){
   MENU = JSON.parse(MENU); // Converte string para objeto
   if(MENU == null) // Caso não haja conteúdo, iniciamos um vetor vazio
     {MENU = [];CriaMENU();}
+  CriaBOOK();CriaMENU();
   var appname="", idrecipe="",category="",appicon="",appbackground="",appimg1="",appimg2="",appimg3="",appimg4="",appdesc="",recipenm="",appnm="";
   function CriaBOOK() {
 	var board = JSON.stringify({
