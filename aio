@@ -247,11 +247,17 @@ CKWEBSERVER(){
 	fi
 }
 MOUNTLISTS(){
-	CList=""
+	CBook=""
 	while IFS= read -r line
     do
        Par01=`echo $line | awk '{print $1}' | sed 's|\:||g'`
-       CList=$CList`echo "<li><a>"$Par01"</a>"``echo $line | awk '{print "<a>"$2"</a></li>"}'`
+       CBook=$CList`echo "<li><a>"$Par01"</a>"``echo $line | awk '{print "<a>"$2"</a>"}'``echo $line | awk '{print "<a>"$3"</a>"}'``echo $line | awk '{print "<a>"$4"</a>"}'``echo $line | awk '{print "<a>"$5"</a>"}'``echo $line | awk '{print "<a>"$6"</a>"}'``echo $line | awk '{print "<a>"$7"</a>"}'``echo $line | awk '{print "<a>"$8"</a>"}'``echo $line | awk '{print "<a>"$9"</a>"}'``echo $line | awk '{print "<a>"$10"</a></li>"}'`
+    done < /tmp/book
+	CList=""
+	while IFS= read -r line
+    do
+       Par02=`echo $line | awk '{print $1}' | sed 's|\:||g'`
+       CList=$CList`echo "<li><a>"$Par02"</a>"``echo $line | awk '{print "<a>"$2"</a></li>"}'`
     done < /etc/aio/aio.list
 }
 MOUNTPAGE(){
@@ -270,10 +276,10 @@ MOUNTPAGE(){
 </script>'
  favicon='<link rel="shortcut icon" href="https://icon-library.com/images/stove-icon/stove-icon-6.jpg" />'
  HTMLINFO="<head><title>Store</title><meta charset=UTF-8>"$favicon"<link href='https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap' rel='stylesheet'> $Css01 $JsBASIS $JsBase64 $JsMAIN </head>"
- CBook=`cat /tmp/book`
+# CBook=`cat /tmp/book`
  MOUNTLISTS
 # CList=`cat /etc/aio/aio.list`
- HtmlHAreas="<textarea class='book'>"$CBook"</textarea><div class='list'>"$CList"</div>"
+ HtmlHAreas="<div class='book'>"$CBook"</div><div class='list'>"$CList"</div>"
  AppInfo="<div class='appinfo'><div class='appname'>Nome do App</div><i>Informação rápida do Aplicativo</i><div class='passing'>⚙️°°°°°°°°</div><a class='applogo'></a></div>"
  CORPO=$HtmlHAreas$AppInfo"<article></article>"
  GETNETBOOK
