@@ -15,7 +15,7 @@ $('document').ready(function(){
   MENU = JSON.parse(MENU); // Converte string para objeto
   if(MENU == null) // Caso não haja conteúdo, iniciamos um vetor vazio
     {MENU = [];CriaMENU();}
-  var appname="", idrecipe="",category="",appicon="",appbackground="",appimg1="",appimg2="",appimg3="",appimg4="",appdesc="",recipename="",nameappmenu="";
+  var appname="", idrecipe="",category="",appicon="",appbackground="",appimg1="",appimg2="",appimg3="",appimg4="",appdesc="",recipenm="",appnm="";
   function CriaBOOK() {
 	var board = JSON.stringify({
 	nameapp:appname,namerecipe:idrecipe,category:category,icon:appicon,background:appbackground,img1:appimg1,img2:appimg2,img3:appimg3,img4:appimg4,desc:appdesc});
@@ -24,7 +24,7 @@ $('document').ready(function(){
   	}
   function CriaMENU() {
 	var board = JSON.stringify({
-	recipename:recipename,nameappmenu:nameappmenu});
+	recipe:recipenm,app:appnm});
 	MENU.push(board);
 	localStorage.setItem("MENU", JSON.stringify(MENU));
 	}
@@ -33,19 +33,19 @@ $('document').ready(function(){
   function checkInDB(){
 	  var indice=qtdDisp;
 	  var ind = JSON.parse(MENU[indice]);
-	  if(ind.recipename==recipename){console.log("Instalado: "+recipename)}
-	    else{console.log("Adicionando: "+recipename+", "+nameappmenu)};
+	  if(ind.recipe==recipenm){console.log("Instalado: "+recipenm);}
+	    else{console.log("Adicionando: "+recipenm+", "+appnm);};
   }
   function countDisp(){
     $("div.book li").each(function(){
 	  qtdDisp=qtdDisp+("1");
-	  checkInDB()
+	  checkInDB();
     });
   }
   $("div.list li").each(function(){
-	  recipename=$(this).children("a:nth-child(1)").text();
-	  nameappmenu=$(this).children("a:nth-child(2)").text();
-	  console.log(recipename+", "+nameappmenu);
+	  recipenm=$(this).children("a:nth-child(1)").text();
+	  appnm=$(this).children("a:nth-child(2)").text();
+	  console.log(recipenm+", "+appnm);
 	  countDisp();
     });
   console.log('Loja Carregada');
