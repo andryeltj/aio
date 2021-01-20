@@ -5,7 +5,7 @@ $('document').ready(function(){
       location.reload();
      },5000)
   });
-#  $($("textarea.list").html).sort(asc_sort).appendTo('textarea.list');
+//  $($("textarea.list").html).sort(asc_sort).appendTo('textarea.list');
   var indice_selecionado = -1; //Índice do item selecionado na lista
   var BOOK = localStorage.getItem("BOOK");// Recupera os dados armazenados
   BOOK = JSON.parse(BOOK); // Converte string para objeto
