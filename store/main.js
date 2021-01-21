@@ -16,10 +16,10 @@ $('document').ready(function(){
   if(MENU == null) // Caso não haja conteúdo, iniciamos um vetor vazio
     {MENU = [];CriaMENU();}
   CriaBOOK();CriaMENU();
-  var appname="", idrecipe="",category="",appicon="",appbackground="",appimg1="",appimg2="",appimg3="",appimg4="",appdesc="",recipenm="",appnm="";
+  var appname="", idrecipe="",category="",appicon="",recipejar="",appbg="",appimg1="",appimg2="",appimg3="",appimg4="",appdesc="",recipenm="",appnm="";
   function CriaBOOK() {
 	var board = JSON.stringify({
-	nameapp:appname,namerecipe:idrecipe,category:category,icon:appicon,background:appbackground,img1:appimg1,img2:appimg2,img3:appimg3,img4:appimg4,desc:appdesc});
+	nameapp:appname,namerecipe:idrecipe,category:category,jar:recipejar,icon:appicon,background:appbg,img1:appimg1,img2:appimg2,img3:appimg3,img4:appimg4,desc:appdesc});
 	BOOK.push(board);
 	localStorage.setItem("BOOK", JSON.stringify(BOOK));
   	}
@@ -30,6 +30,30 @@ $('document').ready(function(){
 	localStorage.setItem("MENU", JSON.stringify(MENU));
 	}
 //Pega na lista de instalados checa com a quantidade disponivel no book e verifica se existe no CRUD, e adiciona ao mesmo. 
+  
+  function LerBook(){
+	  BOOK = [];
+    $("div.book li").each(function(){
+	  appname=$(this).children("a:nth-child(1)").text();
+	  idrecipe=$(this).children("a:nth-child(2)").text();
+	  category=$(this).children("a:nth-child(3)").text();
+	  recipejar=$(this).children("a:nth-child(4)").text();
+	  appicon=$(this).children("a:nth-child(5)").text();
+	  appbg=$(this).children("a:nth-child(6)").text();
+	  appimg1=$(this).children("a:nth-child(7)").text();
+	  appimg2=$(this).children("a:nth-child(8)").text();
+	  appimg3=$(this).children("a:nth-child(9)").text();
+	  appimg4=$(this).children("a:nth-child(10)").text();
+	  appdesc=$(this).children("a:nth-child(11)").text();
+	  var jarra = JSON.stringify({
+	    nameapp:appname,namerecipe:idrecipe,category:category,jar:recipejar,
+	    icon:appicon,background:appbg,img1:appimg1,img2:appimg2,img3:appimg3,img4:appimg4,desc:appdesc  
+	  });
+	  BOOK.push(jarra);
+	  localStorage.setItem("BOOK", JSON.stringify(BOOK));
+    });
+	  $(".book").hide();
+  }
   var qtdDisp=parseInt("0");
   function checkInDB(){
 	  var indice=qtdDisp;
@@ -43,11 +67,13 @@ $('document').ready(function(){
 	  checkInDB();
     });
   }
-  $("div.list li").each(function(){
+  function LerLIST(){
+    $("div.list li").each(function(){
 	  recipenm=$(this).children("a:nth-child(1)").text();
 	  appnm=$(this).children("a:nth-child(2)").text();
 	  console.log(recipenm+", "+appnm);
 //	  countDisp();
     });
+  }
   console.log('Loja Carregada');
 });
