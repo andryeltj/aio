@@ -81,7 +81,7 @@ $('document').ready(function(){
   function countDisp(){
     $("div.book li").each(function(){
 	  qtdDisp=qtdDisp+("1");
-	  checkInDB();
+//	  checkInDB();
     });
   }
   function LerLIST(){
@@ -89,7 +89,7 @@ $('document').ready(function(){
 	  recipenm=$(this).children("a:nth-child(1)").text();
 	  appnm=$(this).children("a:nth-child(2)").text();
 	  console.log(recipenm+", "+appnm);
-//	  countDisp();
+	  countDisp();
     });
   }
 //Launchers
