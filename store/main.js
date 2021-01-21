@@ -30,7 +30,7 @@ $('document').ready(function(){
 	localStorage.setItem("MENU", JSON.stringify(MENU));
 	}
 //Indentificando os items em Book.
-  function(){
+  function ClassyBook(){
 	$('div.book li a:nth-child(1)').addClass('appname');
 	$('div.book li a:nth-child(2)').addClass('idrecipe');
 	$('div.book li a:nth-child(3)').addClass('category');
@@ -43,6 +43,7 @@ $('document').ready(function(){
 	$('div.book li a:nth-child(10)').addClass('appimg4');
 	$('div.book li a:nth-child(11)').addClass('appdesc');
   }
+ClassyBook;
 //Pega na lista de instalados checa com a quantidade disponivel no book e verifica se existe no CRUD, e adiciona ao mesmo. 
   function StoreBook(){
 	  var item = JSON.stringify({
