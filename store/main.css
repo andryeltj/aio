@@ -17,4 +17,4 @@ div.appname{display:block;width:65%;margin-top:1%;padding:.6% 18% .6% 0; font-si
 div.passing{display:block;width:80%;float:right}
 div.book,div.list{width:100%;max-height:6em;overflow:auto}
 div.book li{display:inline-block;width:100%}
-div.book li a,div.list li a{display:inline-block;float:left;margin-right:.1em}
+div.book li a,div.list li a{display:inline-block;float:left;margin-right:.1em;width:9.09%}
