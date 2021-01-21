@@ -9,13 +9,13 @@ $('document').ready(function(){
   var indice_selecionado = -1; //Índice do item selecionado na lista
   var BOOK = localStorage.getItem("BOOK");// Recupera os dados armazenados
   BOOK = JSON.parse(BOOK); // Converte string para objeto
-  if(BOOK == null) // Caso não haja conteúdo, iniciamos um vetor vazio
-    {BOOK = [];CriaBOOK();}
-  var MENU = localStorage.getItem("MENU");// Recupera os dados armazenados
-  MENU = JSON.parse(MENU); // Converte string para objeto
-  if(MENU == null) // Caso não haja conteúdo, iniciamos um vetor vazio
-    {MENU = [];CriaMENU();}
-  CriaBOOK();CriaMENU();
+  //if(BOOK == null) // Caso não haja conteúdo, iniciamos um vetor vazio
+//    {BOOK = [];CriaBOOK();}
+  //var MENU = localStorage.getItem("MENU");// Recupera os dados armazenados
+  //MENU = JSON.parse(MENU); // Converte string para objeto
+  //if(MENU == null) // Caso não haja conteúdo, iniciamos um vetor vazio
+  //  {MENU = [];CriaMENU();}
+//  CriaBOOK();CriaMENU();
   var appname="", idrecipe="",category="",appicon="",recipejar="",appbg="",appimg1="",appimg2="",appimg3="",appimg4="",appdesc="",recipenm="",appnm="";
   function CriaBOOK() {
 	var board = JSON.stringify({
@@ -30,7 +30,15 @@ $('document').ready(function(){
 	localStorage.setItem("MENU", JSON.stringify(MENU));
 	}
 //Pega na lista de instalados checa com a quantidade disponivel no book e verifica se existe no CRUD, e adiciona ao mesmo. 
-  
+  function StoreBook(){
+	  var item = JSON.stringify({
+	    'nameapp':appname,'namerecipe':idrecipe,'category':category,'jar':recipejar,
+	    'icon':appicon,'background':appbg,'img1':appimg1,'img2':appimg2,'img3':appimg3,'img4':appimg4,'desc':appdesc  
+	  });
+	  var appname="", idrecipe="",category="",appicon="",recipejar="",appbg="",appimg1="",appimg2="",appimg3="",appimg4="",appdesc="",recipenm="",appnm="";
+	  BOOK.push(item);
+	  localStorage.setItem("BOOK", JSON.stringify(BOOK));
+  }
   function LerBook(){
 	  BOOK = [];
     $("div.book li").each(function(){
@@ -45,12 +53,7 @@ $('document').ready(function(){
 	  appimg3=$(this).children("a:nth-child(9)").text();
 	  appimg4=$(this).children("a:nth-child(10)").text();
 	  appdesc=$(this).children("a:nth-child(11)").text();
-	  var jarra = JSON.stringify({
-	    nameapp:appname,namerecipe:idrecipe,category:category,jar:recipejar,
-	    icon:appicon,background:appbg,img1:appimg1,img2:appimg2,img3:appimg3,img4:appimg4,desc:appdesc  
-	  });
-	  BOOK.push(jarra);
-	  localStorage.setItem("BOOK", JSON.stringify(BOOK));
+	  StoreBook;
     });
 	  $(".book").hide();
   }
