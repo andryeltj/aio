@@ -43,7 +43,6 @@ $('document').ready(function(){
 	$('div.book li a:nth-child(10)').addClass('appimg4');
 	$('div.book li a:nth-child(11)').addClass('appdesc');
   }
-ClassyBook;
 //Pega na lista de instalados checa com a quantidade disponivel no book e verifica se existe no CRUD, e adiciona ao mesmo. 
   function StoreBook(){
 	  var item = JSON.stringify({
@@ -93,5 +92,8 @@ ClassyBook;
 //	  countDisp();
     });
   }
+//Launchers
+	LerBook();
+	ClassyBook();
   console.log('Loja Carregada');
 });
