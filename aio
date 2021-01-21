@@ -85,7 +85,7 @@ PRATO=$RECEITA_PASTA/out/
 MISTURA=$RECEITA_PASTA/$OVEN
 FORNO=$MISTURA/$ADD.AppDir
 if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then
- cd $RECEITA_PASTA
+ cd $RECEITA_PASTA; MSGA001;
  echo "##*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*##"
  pkg2appimage "$RECEITA_PASTA/$ADD.yml"	#COZINHA
  echo "##*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*##"
@@ -131,7 +131,7 @@ DELBINS(){
 DEL(){
 	echo "A remover: "$ADD
 	EXISTAPP=`cat $JAR/aio.list | grep -w "$ADD:" | awk '{print $2}'`	#Detecta o nome do app antigo
-	if [ -f "$APPS/$EXISTAPP" ]; then rm -Rf $APPS/$EXISTAPP; echo "App "$EXISTAPP" Removido"; else echo "O app "$EXISTAPP" não foi encontrado para remoção"; fi	#Remove o app; se existir
+	if [ -f "$APPS/$EXISTAPP" ]; then rm -Rf $APPS/$EXISTAPP; echo "App "$EXISTAPP" Removido"; MSGD001; else echo "O app "$EXISTAPP" não foi encontrado para remoção"; fi	#Remove o app; se existir
 	DELLIBRARY
 }
 
@@ -227,7 +227,7 @@ MOVEAPP(){
 echo "Produto: $PRODUTO"
 if [ -e "$RECEITA_PASTA/out" ]; then
  if [ -e "$RECEITA_PASTA/out/$PRODUTO" ]; then cp -Rf $RECEITA_PASTA/out/$PRODUTO $APPS;	#Move o app para a pasta de apps
-  chmod 777 $APPS/$PRODUTO; echo "Produto encontrado, movendo para a Mesa"; else echo "produto não existe, ou não encontrado"; fi
+  chmod 777 $APPS/$PRODUTO; echo "Produto encontrado, movendo para a Mesa"; MSGA002; else echo "produto não existe, ou não encontrado"; fi
 else echo "O Prato não foi criado"; fi
 echo "$ADD: $ADD" >> $JAR/system.aio
 }
@@ -248,10 +248,12 @@ CKWEBSERVER(){
 }
 MOUNTLISTS(){
 	CBook=""
+	sed -i '/pkg2appimage:/d' /tmp/book
+	sed -i '/aio:/d' /tmp/book
 	while IFS= read -r line
     do
        Par01=`echo $line | awk '{print $1}' | sed 's|\:||g'`
-       CBook=$CList`echo "<li><a>"$Par01"</a>"``echo $line | awk '{print "<a>"$2"</a>"}'``echo $line | awk '{print "<a>"$3"</a>"}'``echo $line | awk '{print "<a>"$4"</a>"}'``echo $line | awk '{print "<a>"$5"</a>"}'``echo $line | awk '{print "<a>"$6"</a>"}'``echo $line | awk '{print "<a>"$7"</a>"}'``echo $line | awk '{print "<a>"$8"</a>"}'``echo $line | awk '{print "<a>"$9"</a>"}'``echo $line | awk '{print "<a>"$10"</a></li>"}'`
+       CBook=$CBook`echo "<li><a>"$Par01"</a>"``echo $line | awk '{print "<a>"$2"</a>"}'``echo $line | awk '{print "<a>"$3"</a>"}'``echo $line | awk '{print "<a>"$4"</a>"}'``echo $line | awk '{print "<a>"$5"</a>"}'``echo $line | awk '{print "<a>"$6"</a>"}'``echo $line | awk '{print "<a>"$7"</a>"}'``echo $line | awk '{print "<a>"$8"</a>"}'``echo $line | awk '{print "<a>"$9"</a>"}'``echo $line | awk '{print "<a>"$10"</a></li>"}'`
     done < /tmp/book
 	CList=""
 	while IFS= read -r line
@@ -280,12 +282,12 @@ MOUNTPAGE(){
  MOUNTLISTS
 # CList=`cat /etc/aio/aio.list`
  HtmlHAreas="<div class='book'>"$CBook"</div><div class='list'>"$CList"</div>"
- AppInfo="<div class='appinfo'><div class='appname'>Nome do App</div><i>Informação rápida do Aplicativo</i><div class='passing'>⚙️°°°°°°°°</div><a class='applogo'></a></div>"
+ AppInfo="<div class='appinfo'><div class='appname'>Nome do App</div><i>Informação rápida do Aplicativo</i><div class='passing'>⚙️°°°°°°°°</div><a class='applogo'></a><a class='ckrecipe' alt='Exibe a receita do app instalado'>📑</a></div>"
  CORPO=$HtmlHAreas$AppInfo"<article></article>"
  GETNETBOOK
  echo "Abrindo a loja"
- MainBAR="<div class='mainbar'><a class='aiologo'>AIO</a><span class='searchbar' contenteditable='true'></span><div style='float:right'><a>A</a><a href='aio:store-up' class='updatestore'>R</a></div>"
- echo "$HTMLINFO<body><center><h1 style='margin:0'>Voce abriu a Loja, Bem vindo!</h1></center><br><div>$CORPO</div>$MainBAR</body>" > $STOREIN/index.html
+ MainBAR="<div class='mainbar'><a class='aiologo'>AIO</a><span class='searchbar' contenteditable='true'></span><div style='float:right'><a>A</a><a href='aio:store-up' class='updatestore'>🔄</a></div>"
+ echo "$HTMLINFO<body><center><h1 style='margin:0'>Voce abriu a Loja, Bem vindo!</h1></center><div>$CORPO</div>$MainBAR</body>" > $STOREIN/index.html
 	}
 
 NATIVEFIER(){
@@ -337,13 +339,16 @@ HELP(){
 
 ############# MENSAGENS DO SISTEMA
 MSGA001(){
-	echo " "
+	echo "Instalando: "$ADD"."; notify-send -i "Instalando: "$ADD"."
+	}
+MSGA002(){
+	echo $APPNMLIST" foi instalado."; notify-send -i gtk-yes -u normal $APPNMLIST" foi instalado."
 	}
 MSGAE001(){
 	notify-send -i "gtk-dialog-warning" "Não encontrado" "O App não foi encontrado nas fontes"
 	}
 MSGD001(){
-	echo " "
+	notify-send -i gtk-dialog-question -u normal $ADD" Removido." 
 	}
 MSGU001(){
 	notify-send -i gtk-refresh "Atualizando o app: $1 $2 $3 $4"
