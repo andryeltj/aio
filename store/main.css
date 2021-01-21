@@ -19,7 +19,7 @@ div.book,div.list{width:100%;max-height:6em;overflow:auto}
 div.book li{display:inline-block;width:100%}
 div.book li a{width:9.09%}
 div.book li a:hover{overflow:auto}
-div.book li a,div.list li a{display:inline-block;float:left;margin-right:.1em;overflow:hidden;text-align:center;}
+div.book li a,div.list li a{display:inline-block;float:left;overflow:hidden;text-align:center;box-shadow:0 0 1px aliceblue inset}
 div.list li:hover{background:rgba(180,180,180,.3)}
 div.list li a:nth-child(1){width:12em;text-align:center}
 div.list li a:nth-child(2){float:right;padding-right:2em}
