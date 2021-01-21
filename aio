@@ -16,7 +16,7 @@ JARRA=""
 PRODUTO=""
 CAMINHO=`pwd`
 AUTOINTEGRAR=0
-VERSIONR=20210119011614
+VERSIONR=202101211956
 ISLOCAL=0
 troca=""
 
@@ -253,7 +253,7 @@ MOUNTLISTS(){
 	while IFS= read -r line
     do
        Par01=`echo $line | awk '{print $1}' | sed 's|\:||g'`
-       CBook=$CBook`echo "<li><a>"$Par01"</a>"``echo $line | awk '{print "<a>"$2"</a>"}'``echo $line | awk '{print "<a>"$3"</a>"}'``echo $line | awk '{print "<a>"$4"</a>"}'``echo $line | awk '{print "<a>"$5"</a>"}'``echo $line | awk '{print "<a>"$6"</a>"}'``echo $line | awk '{print "<a>"$7"</a>"}'``echo $line | awk '{print "<a>"$8"</a>"}'``echo $line | awk '{print "<a>"$9"</a>"}'``echo $line | awk '{print "<a>"$10"</a></li>"}'`
+       CBook=$CBook`echo "<li><a>"$Par01"</a>"``echo $line | awk '{print "<a>"$2"</a>"}'``echo $line | awk '{print "<a>"$3"</a>"}'``echo $line | awk '{print "<a>"$4"</a>"}'``echo $line | awk '{print "<a>"$5"</a>"}'``echo $line | awk '{print "<a>"$6"</a>"}'``echo $line | awk '{print "<a>"$7"</a>"}'``echo $line | awk '{print "<a>"$8"</a>"}'``echo $line | awk '{print "<a>"$9"</a>"}'``echo $line | awk '{print "<a>"$10"</a>"}'``echo $line | awk '{print "<a>"$11"</a></li>"}'`
     done < /tmp/book
 	CList=""
 	while IFS= read -r line
@@ -339,7 +339,7 @@ HELP(){
 
 ############# MENSAGENS DO SISTEMA
 MSGA001(){
-	echo "Instalando: "$ADD"."; notify-send -i "Instalando: "$ADD"."
+	notify-send -i "Instalando: "$ADD"."
 	}
 MSGA002(){
 	echo $APPNMLIST" foi instalado."; notify-send -i gtk-yes -u normal $APPNMLIST" foi instalado."
