@@ -29,6 +29,20 @@ $('document').ready(function(){
 	MENU.push(board);
 	localStorage.setItem("MENU", JSON.stringify(MENU));
 	}
+//Indentificando os items em Book.
+  function(){
+	$('div.book li a:nth-child(1)').addClass('appname');
+	$('div.book li a:nth-child(2)').addClass('idrecipe');
+	$('div.book li a:nth-child(3)').addClass('category');
+	$('div.book li a:nth-child(4)').addClass('recipejar');
+	$('div.book li a:nth-child(5)').addClass('appicon');
+	$('div.book li a:nth-child(6)').addClass('appbg');
+	$('div.book li a:nth-child(7)').addClass('appimg1');
+	$('div.book li a:nth-child(8)').addClass('appimg2');
+	$('div.book li a:nth-child(9)').addClass('appimg3');
+	$('div.book li a:nth-child(10)').addClass('appimg4');
+	$('div.book li a:nth-child(11)').addClass('appdesc');
+  }
 //Pega na lista de instalados checa com a quantidade disponivel no book e verifica se existe no CRUD, e adiciona ao mesmo. 
   function StoreBook(){
 	  var item = JSON.stringify({
