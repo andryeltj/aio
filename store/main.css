@@ -19,4 +19,4 @@ div.book,div.list{width:100%;max-height:6em;overflow:auto}
 div.book li{display:inline-block;width:100%}
 div.book li a{width:9.09%}
 div.book li a:hover{overflow:auto}
-div.book li a,div.list li a{display:inline-block;float:left;margin-right:.1em;overflow:hidden}
+div.book li a,div.list li a{display:inline-block;float:left;margin-right:.1em;overflow:hidden:text-align:center;}
