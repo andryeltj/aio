@@ -20,3 +20,4 @@ div.book li{display:inline-block;width:100%}
 div.book li a{width:9.09%}
 div.book li a:hover{overflow:auto}
 div.book li a,div.list li a{display:inline-block;float:left;margin-right:.1em;overflow:hidden:text-align:center;}
+div.list li:hover{background:rgba(180,180,180,.3)}
