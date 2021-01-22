@@ -89,6 +89,7 @@ $('document').ready(function(){
 	  recipenm=$(this).children("a:nth-child(1)").text();
 	  appnm=$(this).children("a:nth-child(2)").text();
 	  console.log(recipenm+", "+appnm);
+	  CriaMENU();
 //	  countDisp();
     });
   }
