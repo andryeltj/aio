@@ -36,4 +36,4 @@ The commands:
 The standard folder is /apps
 The recipes folder is /apps/receitas 
 
-Obs.: the file i'ts not ready, this is only the purpose.
+Obs.: the file i'ts not all ready, this options is only the purpose.
