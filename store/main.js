@@ -11,8 +11,8 @@ $('document').ready(function(){
   BOOK = JSON.parse(BOOK); // Converte string para objeto
   //if(BOOK == null) // Caso não haja conteúdo, iniciamos um vetor vazio
 //    {BOOK = [];CriaBOOK();}
-  //var MENU = localStorage.getItem("MENU");// Recupera os dados armazenados
-  //MENU = JSON.parse(MENU); // Converte string para objeto
+  var MENU = localStorage.getItem("MENU");// Recupera os dados armazenados
+  MENU = JSON.parse(MENU); // Converte string para objeto
   //if(MENU == null) // Caso não haja conteúdo, iniciamos um vetor vazio
   //  {MENU = [];CriaMENU();}
 //  CriaBOOK();CriaMENU();
