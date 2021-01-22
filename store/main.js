@@ -44,17 +44,7 @@ $('document').ready(function(){
 	$('div.book li a:nth-child(11)').addClass('appdesc');
   }
 //Pega na lista de instalados checa com a quantidade disponivel no book e verifica se existe no CRUD, e adiciona ao mesmo. 
-  function StoreBook(){
-	  var item = JSON.stringify({
-	    'nameapp':appname,'namerecipe':idrecipe,'category':category,'jar':recipejar,
-	    'icon':appicon,'background':appbg,'img1':appimg1,'img2':appimg2,'img3':appimg3,'img4':appimg4,'desc':appdesc  
-	  });
-	  var appname="", idrecipe="",category="",appicon="",recipejar="",appbg="",appimg1="",appimg2="",appimg3="",appimg4="",appdesc="",recipenm="",appnm="";
-	  BOOK.push(item);
-	  localStorage.setItem("BOOK", JSON.stringify(BOOK));
-  }
-  function LerBook(){
-	  BOOK = [];
+  function LerBOOK(){
     $("div.book li").each(function(){
 	  appname=$(this).children("a:nth-child(1)").text();
 	  idrecipe=$(this).children("a:nth-child(2)").text();
@@ -67,9 +57,8 @@ $('document').ready(function(){
 	  appimg3=$(this).children("a:nth-child(9)").text();
 	  appimg4=$(this).children("a:nth-child(10)").text();
 	  appdesc=$(this).children("a:nth-child(11)").text();
-	  StoreBook;
+	  CriaBOOK();
     });
-	  $(".book").hide();
   }
   var qtdDisp=parseInt("0");
   function checkInDB(){
@@ -93,11 +82,10 @@ $('document').ready(function(){
 //	  countDisp();
     });
   }
-  if(MENU == null){
-	  LerLIST();CriaMENU();
-  }
+  if(BOOK == null){ BOOK = [];LerBOOK();CriaBOOK(); $('div.book').remove()};
+  if(MENU == null){ MENU = [];LerLIST();CriaMENU(); $('div.list').remove()};
 //Launchers
-	LerBook();
+//	LerBook();
 	ClassyBook();
   console.log('Loja Carregada');
 });
