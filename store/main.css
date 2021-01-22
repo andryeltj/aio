@@ -1,6 +1,7 @@
 body {display:block;position:relative;width:100%;height:100%;margin:0;background:#24292e;color:white;
   font-family: NotoSans,Arial,"Arial Unicode MS",sans-serif;font-size:12px;}
 h1{margin:0}
+div.container{display:block;width:100%;height:100%;}
 div.mainbar{display:block;position:absolute;bottom:0;width:100%;background:rgba(55,55,55,.87)}
 .mainbar a, .mainbar span{display:block;float:left}
 div.mainbar a{cursor:pointer;padding:.3em 1em;background:rgba(180,180,180,.3);}
@@ -15,7 +16,7 @@ a.applogo{background-image:url('https://raw.githubusercontent.com/andryeltj/aio/
 .appinfo i{display:inline-block;float:right;width:80%}
 div.appname{display:block;width:65%;margin-top:1%;padding:.6% 18% .6% 0; font-size:2.3em;float:right}
 div.passing{display:block;width:80%;float:right}
-div.book,div.list{width:100%;max-height:6em;overflow:auto}
+div.book,div.list,div.newspaper{display:none;width:100%;height:97%;overflow:auto}
 div.book li{display:inline-block;width:100%}
 div.book li a{width:9.09%;box-shadow:0 0 1px aliceblue inset}
 div.book li a:hover{overflow:auto}
@@ -23,3 +24,16 @@ div.book li a,div.list li a{display:inline-block;float:left;overflow:hidden;text
 div.list li:hover{background:rgba(180,180,180,.3)}
 div.list li a:nth-child(1){width:12em;text-align:center}
 div.list li a:nth-child(2){float:right;padding-right:2em}
+article{display:inline-block;width:94%;height:78%;padding:.6em 3%;overflow-y:auto}
+div.pkg_disp{display:inline-block;float:left;width:128px;height:128px;position:relative;margin-right:.7em;background:red;box-shadow:#000 0 0 .3em;border-radius:38% 10% 0 0;margin-bottom:3.3em;}
+div.pkg_disp a{display:inline-block;width:90%;margin:0 5%;color:#EEE;font-family:'Titillium Web', sans-serif;position:absolute;bottom:1.5em;text-shadow:#000 0 0 .6em;font-weight: bolder;height: 2em;word-wrap: break-word;}
+div.pkg_disp span{display:block;width:128;height:2em;position:absolute;bottom:-2em;}
+button.app{display:block;width:128px;height:128px;border-radius:1em 1em 0 0;border:0;}
+button.add, button.del{width:100%;height:32px;font-size:1em;padding:0;border:0;color:white;border-radius:0 0 1em 1em;}
+button.add{background:forestgreen} button.del{background:chocolate}
+div.menu{display:inline-block;width:84%;float:left}
+div.news{display:inline-block;width:19%;float:left;margin-right:-14%;margin-top:-.7em;background: rgba(180,180,180,.3);}
+button.thumb{display:inline-block;position:relative;width:88%;height:11em;margin:0 .3em 3.5em 5%; box-shadow:#222 0 0 .3em;font-size: 11px;border: none;border-radius: 12px;}
+div.weekvideos{margin-top:1em}
+div.weekvideos button:link{color:#1988ff}
+div.weekvideos button span{position:absolute;bottom:-3em;display:inline-block;width: 100%;left: 0;color:#1988ff}
