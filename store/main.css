@@ -10,14 +10,21 @@ div.mainbar a:hover{background:rgba(255,255,255,.3)}
 div.mainbar a.aiologo{background:rgba(0,0,0,.3);height:100%;}
 div.mainbar span.searchbar{height:90%;width:30%;height:1em;padding:.45em;background:rgba(255,255,255,.6);color:black}
 textarea{display:block;margin:0;border:0;background:transparent;width:100%}
-div.appinfo{display:block;position:relative;width:100%;height:20%;max-height:9em;border-botton:1px solid #444;text-shadow: 0 0 .06em black;color:darkcyan}
-div.appinfo{background-image:url('data:image/jpeg;base64,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');background-size:100% 100%;}
+div.appinfo{display:block;position:relative;width:100%;height:20%;max-height:9em;text-shadow: 0 0 .06em black;color:orangered;padding:2.3% 0;box-shadow:0 0 .6em black}
+div.appinfo{background-image:url('https://img5.goodfon.com/wallpaper/nbig/0/b6/sinii-seryi-metallik-material-design-linii-background.jpg');background-size:100% 100%;}
 a.applogo{display:block;position:absolute;top:25%;left:5em;width:5em;height:5em}
 a.applogo{background-image:url('https://raw.githubusercontent.com/andryeltj/aio/master/store/aio-store.svg');background-size:100% auto}
-.appinfo i{display:inline-block;float:right;width:70%;margin-right:10%}
-div.appinfo button#seta{position:absolute;right:1em;bottom:1em}
-div.appname{display:block;width:65%;margin-top:1%;padding:.6% 18% .6% 0; font-size:2.3em;float:right}
+.appinfo i{display:inline-block;float:right;width:70%;margin-right:10%;color: black;text-shadow: none;font-weight: bolder;background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.37) 31%, rgba(125,185,232,0) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(255,255,255,0.37) 31%,rgba(125,185,232,0) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(255,255,255,0.37) 31%,rgba(125,185,232,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */}
+div.appinfo button.seta{position:absolute;right:1em;bottom:1em;width:9em !important;height:2em;background:transparent;border:none;padding:.5em 2em;border-radius: 0;box-shadow: 0 0 5em white;}
+div.appname{display:block;width:65%;margin-top:1%;padding:.6% 18% .6% 0; font-size:2.3em;float:right;background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.37) 31%, rgba(125,185,232,0) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(255,255,255,0.37) 31%,rgba(125,185,232,0) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(255,255,255,0.37) 31%,rgba(125,185,232,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */}
 div.passing{display:block;width:80%;float:right}
+div.appinfo div.pdthumbs{display:block;position:absolute;top:1em;right:1em;width:23.2em;height:3em;padding:.3em .09em;background:rgba(0,0,0,0.15);box-shadow: 0 0 5em white;border-radius:10px}
+div.appinfo div.pdthumbs img{float: left;width: 2em;margin-top: .5em;}
+div.appinfo div.pdthumbs a{display:block;float:left;width:5em;height:3em;box-shadow:0 0 .1em black;margin-right:.3em;background-size: 100% 100%;}
 div.book,div.list,div.newspaper{display:none;width:100%;height:97%;overflow:auto}
 div.book li{display:inline-block;width:100%}
 div.book li a{width:9.09%;box-shadow:0 0 1px aliceblue inset}
@@ -26,18 +33,29 @@ div.book li a,div.list li a{display:inline-block;float:left;overflow:hidden;text
 div.list li:hover{background:rgba(180,180,180,.3)}
 div.list li a:nth-child(1){width:12em;text-align:center}
 div.list li a:nth-child(2){float:right;padding-right:2em}
-article{display:inline-block;width:94%;height:78%;padding:.6em 3%;overflow-y:auto}
+article{display:inline-block;position:relative;width:94%;height:73%;padding:.6em 3%;overflow-y:auto}
 div.pkg_disp{display:inline-block;float:left;width:128px;height:128px;position:relative;margin-right:.7em;background:red;box-shadow:#000 0 0 .3em;border-radius:38% 10% 0 0;margin-bottom:3.3em;}
 div.pkg_disp a{display:inline-block;width:90%;margin:0 5%;color:#EEE;font-family:'Titillium Web', sans-serif;position:absolute;bottom:1.5em;text-shadow:#000 0 0 .6em;font-weight: bolder;height: 2em;word-wrap: break-word;}
 div.pkg_disp span{display:block;width:128;height:2em;position:absolute;bottom:-2em;}
-button.app{display:block;width:128px;height:128px;border-radius:1em 1em 0 0;border:0;}
+button.app{display:block;width:128px;height:128px;border-radius:38% 10% 0 0;border:0;box-shadow:0 0 1px #111 inset}
 button.add, button.del{width:100%;height:32px;font-size:1em;padding:0;border:0;color:white;border-radius:0 0 1em 1em;}
-button.add{background:forestgreen} button.del{background:chocolate}
-div.menu{display:inline-block;width:84%;float:left}
+button.add,.add{background:forestgreen !important} button.del,.del{background:chocolate !important}
+div.menu{display:inline-block;width:84%;float:left;padding: 0 0 2em 0;}
 div.news{display:inline-block;width:19%;float:left;margin-right:-14%;margin-top:-.7em;background: rgba(180,180,180,.3);}
 button.thumb{display:inline-block;position:relative;width:88%;height:11em;margin:0 .3em 3.5em 5%; box-shadow:#222 0 0 .3em;font-size: 11px;border: none;border-radius: 12px;}
 div.weekvideos{margin-top:1em}
 div.weekvideos button:link{color:#1988ff}
 div.weekvideos button span{position:absolute;bottom:-3em;display:inline-block;width: 100%;left: 0;color:#fe7a15 !important}
+div.articles{border-top: 1px solid rgba(180,180,180,.3);margin-top: .5em;}
+div.articles h3{padding-left: .5em;color: #1988ff;font-size: 1.2em;font-family: Titillium web;margin: .3em;}
+div.articles a{display:inline-block;color:white;font-size:1.2em;width:100%;margin-top:.3em;background:#1988ff;text-align:center;text-decoration:none;padding:.5em 0;font-weight: bold;font-family: Titillium web;}
+div.mural{display:none;position: absolute;top: 0;width: 100%;height: 100%;background: rgba(0,0,0,.7);left: 0;}
+div.mural div.imgview{display:block;width:70%;float:left}
+div.mural div.imgview div.exhib{display:block;width:70%;height:25em;background:rgba(0,0,0,.6);box-shadow:0 0 .1em black;margin-top:3%;background-size:auto 100%;}
+div.mural div.imgview div.rule{display:block;width:100%;height:20%;max-height:12em;padding:.3em .09em;background:rgba(0,0,0,.4);margin-top:3%;text-align:center;}
+div.rule a{display:inline-block;float:left;width:17.5%;height:54.4%;padding-top:6%;box-shadow:0 0 .5em white;margin-right:.3em;background:transparent;background-size: 100% 100%;margin-left:1.5%;}
+div.mural div.fullinfo{display:block;position:relative;width:30%;float:left}
+a.xview{display:block;position:absolute;top:0;right:0;color:white;cursor:pointer;padding:1em;height:1em;width:.5em;font-size: 1.6em;}
+a.xview:hover{background:rgba(255,255,255,.3);color:black}
 a.x:target{background:white;color:red}
 i.infoqtd{float:right}
