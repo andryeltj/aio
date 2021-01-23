@@ -1,9 +1,12 @@
 $('document').ready(function(){
+//	window.open('http://localhost/aiostore','popUpWindow','height=400,width=600,left=10,top=10,scrollbars=yes,menubar=no'); //return false;
   $('textarea').hide();
   $('.updatestore').click(function(){
-     setTimeout(function(){
-      location.reload();
-     },5000)
+//     setTimeout(function(){
+ //     location.reload();
+//     },5000)
+//		setInterval(page_refresh, 3000);
+	   setTimeout("location.reload();",3000);
   });
   var indice_selecionado = -1; //Índice do item selecionado na lista
   var BOOK = localStorage.getItem("BOOK");// Recupera os dados armazenados
@@ -61,10 +64,18 @@ $('document').ready(function(){
 		    {itmBT="<button class='add'>Instalar</button>"};
 	  }
 	  if(funcao=="1"){
-		  if(ckrecipe == recipenm){acct="a";$('div.appinfo button#seta').removeClass("del");$('div.appinfo button#seta').addclass("del");$('div.appinfo button#seta').html("Remover");}
-		  if(acct=="i"){$('div.appinfo button#seta').removeClass("del");$('div.appinfo button#seta').addclass("add");$('div.appinfo button#seta').html("Instalar");}
+		  if(secapp == recipenm){
+			  acct="a";
+			  $('div.appinfo button.seta').removeClass("add");
+			  $('div.appinfo button.seta').addClass("del");
+			  $('div.appinfo button.seta').html("Remover");console.log(recipenm+" Está instalado")}
+		  if(acct=="i"){
+			  $('div.appinfo button.seta').removeClass("del");
+			  $('div.appinfo button.seta').addClass("add");
+			  $('div.appinfo button.seta').html("Instalar");console.log(recipenm+" Não instalado")}
 	  }
     });
+    acct="i";
   }
   if(BOOK == null){ BOOK = [] };
 
@@ -91,7 +102,8 @@ $('document').ready(function(){
         iteml=ElHead+appic+itName+itBotton+"</div>";
         acorpo=acorpo+iteml;ItmClss="";
 	};
-  $("article").html("<div class='menu'>"+acorpo+"</div><div class='news'></div>");acorpo="";
+  var Mural="<div class='mural'><div class='imgview'><center><div class='exhib'></div><div class='rule'><a>📷</a><a>📷</a><a>📷</a><a>📷</a></div></center></div><div class='fullinfo'><p></p><a class='xview'>X</a></div></div>";
+  $("article").html("<div class='menu'>"+acorpo+"</div><div class='news'></div>"+Mural);acorpo="";
   $("i.infoqtd").html(ctItems+" apps disponíveis.");
   $("div.news").html($("div.newspaper").html());$('div.newspaper').remove();
 //Pesquisa
@@ -115,12 +127,28 @@ $('document').ready(function(){
 		    else {appdesc=appname};
 		  $("div.appinfo i").html(appdesc);
 		  $("div.passing").html(category);
+		  $("div.pdthumbs a:nth-child(2),div.rule a:nth-child(1)").css({'background-image':"url('"+appimg1+"')"});
+		  $("div.pdthumbs a:nth-child(3),div.rule a:nth-child(2)").css({'background-image':"url('"+appimg2+"')"});
+		  $("div.pdthumbs a:nth-child(4),div.rule a:nth-child(3)").css({'background-image':"url('"+appimg3+"')"});
+		  $("div.pdthumbs a:nth-child(5),div.rule a:nth-child(4)").css({'background-image':"url('"+appimg4+"')"});
+		  CkInstall();
 		  }
   }
   $("button.app").click(function(){
 	  secapp=$(this).attr('alt');
 	  funcao="1";LerBOOK();
 	  //console.log("Clicou em "+secapp);
+  });
+//Exibir Imagens
+  $(".pdthumbs").click(function(){
+	  $('div.mural').show();
+  });
+  $('div.rule a').hover(function(){
+	  var bgexhib=$(this).css('background-image');
+	  $("div.exhib").css({"background-image":bgexhib});
+  });
+  $('a.xview').click(function(){
+	  $('div.mural').hide();
   });
 //fim
 });
