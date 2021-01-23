@@ -268,17 +268,20 @@ MOUNTLISTS(){
     done < /etc/aio/aio.list
 }
 MOUNTPAGE(){
+ imgloadstore="data:image/gif;base64,R0lGODlhMAAwAPeOAB2S//z+/vb6/A2+/efw92fO9vP4+9vt+vn8/SfC+zjJ/t/t9qrh9+30+d3t+ODy+t7w/brl93DX/qjk/tfp9uLu99zu+zTF+uDu99zt+ery+Lfj9t3w+VHL+a3j+E3J+ITV9drs+Q+n/k2q/ujx+FTQ/sTr/urz+ga0/huU/g6//tPs/hrA/Ojy+eny+UHH+eTx+bbn/tnr+F3O+Oz0+uvz+Z3f+H3W+Nvr9m3S+ODv+aff9t/w/HrU9+Tv983r+d3v/N/v+tvs+O71+t/u+N7t9+bw90TJ+orY937a/hac/irG/kGk/gS2/hzC/tru+CmY/prh/ozd/mLT/q/a/gix/pbO/hSf/gmu/tLu/hKh/gus/lmw/hmX/n7C/hCk/oDY+UbM/sDp+rvg/heZ/g2p/qPU/ma2/jWe/nK8/gK5/tHp9orI/uLw+cfm/sXh+q7V9sPm9nTR/ofN/i6o/rrb9qrh/nLU/oTT+bzg9sLm+la1/o3F9o/Y/hS3/iq9+6ra9rvi9mnL9nfM/iyr/kjK/j7B/r3e+dLn+imw/l/A/jOw+wG8/uDy/v///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/wtYTVAgRGF0YVhNUDw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDIxIDc5LjE1NTc3MiwgMjAxNC8wMS8xMy0xOTo0NDowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTQgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjI3QTBDNzUxNDYxQzExRTU4Q0JEOEI2RTczNTE2OTA4IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjI3QTBDNzUyNDYxQzExRTU4Q0JEOEI2RTczNTE2OTA4Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MjdBMEM3NEY0NjFDMTFFNThDQkQ4QjZFNzM1MTY5MDgiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MjdBMEM3NTA0NjFDMTFFNThDQkQ4QjZFNzM1MTY5MDgiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4B//79/Pv6+fj39vX08/Lx8O/u7ezr6uno5+bl5OPi4eDf3t3c29rZ2NfW1dTT0tHQz87NzMvKycjHxsXEw8LBwL++vby7urm4t7a1tLOysbCvrq2sq6qpqKempaSjoqGgn56dnJuamZiXlpWUk5KRkI+OjYyLiomIh4aFhIOCgYB/fn18e3p5eHd2dXRzcnFwb25tbGtqaWhnZmVkY2JhYF9eXVxbWllYV1ZVVFNSUVBPTk1MS0pJSEdGRURDQkFAPz49PDs6OTg3NjU0MzIxMC8uLSwrKikoJyYlJCMiISAfHh0cGxoZGBcWFRQTEhEQDw4NDAsKCQgHBgUEAwIBAAAh+QQFCACOACwAAAAAMAAwAAAI/wAdCRxIsKDBgwgTKlzIsKHDhxAjSpxI0VEAAwQyajQQoKJDBC4cHIDQqKRJCAccGBHgEaGABSFMypxZ8gAGAy0HBjhhgabPmRYqdPQoAMfPozODsKQoIAPSpyZ5DJkYwAHUq40OLH0YoAhWrBm2Nqzw9auDoQxrkCyLtULDAELYfrWAc2ELuWV1LEQgA+9XIA0U0vBbFoZCIoS/hkBbEMGBxF8DH2ywFjJUHwhJWMaKAeGCzVcpeAYNVfTBNTFAr6DCOoqEEgoYyS6AcIeKMElSy11hhguTKyJQyB4+nPZBMcRVlJBi4qqVEQC6aGlCvLpsMAgJWJftREGS5jSfK6X5Iny79R0IDSQwT1yBe/d+yrPf/iThh/n48w9nUfegDf0AsjeDQg0MEOCBxEWwUA4IIngBAgs9YGCDAHrQ0A0U6ncEhAwJcEGG8w3AwUMcTAiidQxEFIGJJ8qGBGMO/bBeiwMwAONDD8yYYQIKevRADxl28EBOFm3wwoEJbCBWTgJE0AGL233gwZJEChSABgyAUMCWXILAgAY3VinmmGSWaeaZAQEAIfkEBQgAjgAsBAAYACQABQAACFcAFzRyRLCgwYMIC2aRIiHMEkYQIcIBAGXEGSoJMzpaOMVJRIgH9ZS5kgIAACZsxmgkGEOCio+MVhJEgUVLSTRpxgwkmGVCR5gyM6qpQrSKAkcePwYtGBAAIfkEBQgAjgAsBAAYACgABQAACFUAHQkcSLCgQUcmJiSZoqChw4cSJETJIxCARQBQRpyhchBhlBJLGIlk1LGgoDcXK15kwmbMwAkKRoosWbLLxZQ3CRVSIZOmT0cosIgYSnQLip4/fQYEACH5BAUIAI4ALAQAGAAoAAUAAAhaAB0JHEiwoEATE5JMUcCQYUEJEqJkaUSxEYU6I6AMBMCR4wguc6KUWMKoZEmDBpeUkGDHCx+UG5VUMXkSpk2BavA4AmDwyhY1NBndHEpwkQgRjragCEq06cCAACH5BAUIAI4ALAQAGAAoAAUAAAhcABc0GkiwYKMYEySUUMCwYcMwEiRMMGiQgsAxVtKMgAKAjBYsTRiJHEmypEgFU5KYoEgBERMAMAFoCWmyps2RTkokidHIzSECAFJ8vEm0qMglIgAZ+GO0qdEnAQEAIfkEBQgAjgAsBAAYACgABQAACFMAFzQaSHDgBCkSEipUmGTChIIQIzaiIHCgiSQlVDDayLGjR0YSosSQCJHCiRgZP6pcudFJCSkjJbYhoJGlTZYqpkwwUXCBgQQ3g9pcIkFKHxIBAQAh+QQFCACOACwEABgAJwAFAAAIVwAdCcwyIYmEgwcFCpQyIUajhw8VSpwoMU4YRhgzUpTYRISSLgCYjPDSaONEMRpNqkRR5koXKGfMrChpkpHKmxObfFGSgouVmTRxClWJRcQVOoMmKI0SEAAh+QQFCACOACwEABgAKAAFAAAIXADXTBjoaKBBE40SKmzkqKHDhxAjOtrBSKJDFSUmmPEyAg2Aj44+fmQywovFkyeblLmSQqRLkVDOmFmBsibEJlvIvNzJxcqKLFLi2LSJ4ouSli5TKBGBhRGjJwEBACH5BAUIAI4ALAkAGAAjAAUAAAhaAE00GkiwoMGDCA1SYMRIRYkJCVdQ8cKFCYCLGC+iGZHGTcFADEMycjIlSpYVVkZAyciyJYA9dxSoACOyJqMmW8i4dJlCyxaRO2wKZYTii5IULFMoEYFF6JOAACH5BAUIAI4ALAQAGAAoAAUAAAhdABc0GjjQkcGDCBMqXMjQiYQYBAsujLiCihcuTBACAJBCSSJDChQUULhEwoSIKButsDICykIyZaowmkmT4cGSJiiyQbOwyxeZNBnZHBpGjqKNSAF0uSICRVChCwMCADs="
   GETNETBOOK
   GETNEWS
+# MainCSS='<link rel="stylesheet" type="text/css" href="'
+# Css01=$MainCSS$RAIZ'/andryeltj/aio/master/store/main.css">'
  rm -Rf /tmp/store.html
- CssLk01=`curl $RAIZ/andryeltj/aio/master/store/main.css`
- Css01="<style>"$CssLk01"</style>"
-# Css01='<link rel="stylesheet" type="text/css" href="main.css"/>'
+# CssLk01=`curl $RAIZ/andryeltj/aio/master/store/main.css`
+# Css01="<style>"$CssLk01"</style>"
+ Css01='<link rel="stylesheet" type="text/css" href="main.css"/>'
  JsLk01=`curl $RAIZ/andryeltj/aio/master/store/jquery.js`
- JsLk02=`curl $RAIZ/andryeltj/aio/master/store/main.js`
+# JsLk02=`curl $RAIZ/andryeltj/aio/master/store/main.js`
  JsBASIS='<script type="text/javascript">'$JsLk01'</script>'
- JsMAIN='<script type="text/javascript">'$JsLk02'</script>'
-# JsMAIN='<script type="text/javascript" src="main.js"></script>'
+# JsMAIN='<script type="text/javascript">'$JsLk02'</script>'
+ JsMAIN='<script type="text/javascript" src="main.js"></script>'
  JsBase64='<!--- BASE64 --->
 <script type="text/javascript">
 "use strict";jQuery.base64=(function($){var _PADCHAR="=",_ALPHA="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",_VERSION="1.0";function _getbyte64(s,i){var idx=_ALPHA.indexOf(s.charAt(i));if(idx===-1){throw"Cannot decode base64"}return idx}function _decode(s){var pads=0,i,b10,imax=s.length,x=[];s=String(s);if(imax===0){return s}if(imax%4!==0){throw"Cannot decode base64"}if(s.charAt(imax-1)===_PADCHAR){pads=1;if(s.charAt(imax-2)===_PADCHAR){pads=2}imax-=4}for(i=0;i<imax;i+=4){b10=(_getbyte64(s,i)<<18)|(_getbyte64(s,i+1)<<12)|(_getbyte64(s,i+2)<<6)|_getbyte64(s,i+3);x.push(String.fromCharCode(b10>>16,(b10>>8)&255,b10&255))}switch(pads){case 1:b10=(_getbyte64(s,i)<<18)|(_getbyte64(s,i+1)<<12)|(_getbyte64(s,i+2)<<6);x.push(String.fromCharCode(b10>>16,(b10>>8)&255));break;case 2:b10=(_getbyte64(s,i)<<18)|(_getbyte64(s,i+1)<<12);x.push(String.fromCharCode(b10>>16));break}return x.join("")}function _getbyte(s,i){var x=s.charCodeAt(i);if(x>255){throw"INVALID_CHARACTER_ERR: DOM Exception 5"}return x}function _encode(s){if(arguments.length!==1){throw"SyntaxError: exactly one argument required"}s=String(s);var i,b10,x=[],imax=s.length-s.length%3;if(s.length===0){return s}for(i=0;i<imax;i+=3){b10=(_getbyte(s,i)<<16)|(_getbyte(s,i+1)<<8)|_getbyte(s,i+2);x.push(_ALPHA.charAt(b10>>18));x.push(_ALPHA.charAt((b10>>12)&63));x.push(_ALPHA.charAt((b10>>6)&63));x.push(_ALPHA.charAt(b10&63))}switch(s.length-imax){case 1:b10=_getbyte(s,i)<<16;x.push(_ALPHA.charAt(b10>>18)+_ALPHA.charAt((b10>>12)&63)+_PADCHAR+_PADCHAR);break;case 2:b10=(_getbyte(s,i)<<16)|(_getbyte(s,i+1)<<8);x.push(_ALPHA.charAt(b10>>18)+_ALPHA.charAt((b10>>12)&63)+_ALPHA.charAt((b10>>6)&63)+_PADCHAR);break}return x.join("")}return{decode:_decode,encode:_encode,VERSION:_VERSION}}(jQuery));
@@ -289,9 +292,9 @@ MOUNTPAGE(){
  MOUNTLISTS
 # CList=`cat /etc/aio/aio.list`
  HtmlHAreas="<div class='book'>"$CBook"</div><div class='list'>"$CList"</div>"
- AppInfo="<div class='appinfo'><div class='appname'>Bem vindo</div><i>Clique abaixo para exibir as informações do App</i><div class='passing'>⚙️°°°°°°°°</div><a class='applogo'></a><a class='ckrecipe' alt='Exibe a receita do app instalado'>📑</a><button id='seta'></button></div>"
+ AppInfo="<div class='appinfo'><div class='appname'>Bem vindo</div><i>Clique abaixo para exibir as informações do App</i><div class='passing'>⚙️°°°°°°°°</div><div class='pdthumbs'><img src='https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/devices/camera-photo.svg'><a></a><a></a><a></a><a></a></div><a class='applogo'></a><a class='ckrecipe' alt='Exibe a receita do app instalado'>📑</a><button class='seta'></button></div>"
  Newspaper="<div class='newspaper'>"$varNEWS"</div>"
- CORPO=$HtmlHAreas$Newspaper$AppInfo"<article></article>"
+ CORPO=$HtmlHAreas$Newspaper$AppInfo"<article><center style='margin-top:18%'><img src='"$imgloadstore"'/></center></article>"
  echo "Abrindo a loja"
  MainBAR="<div class='mainbar'><a class='aiologo'>AIO</a><span class='searchbar' contenteditable='true'></span><a class='x'>X</a><div style='float:right'><a>A</a><a href='aio:store-up' class='updatestore'>🔄</a></div><i class='infoqtd'></i></div>"
  echo "$HTMLINFO<body><center></center><div class='container'>$CORPO</div>$MainBAR</body>" > $STOREIN/index.html
@@ -307,6 +310,13 @@ NATIVEFIER(){
 	   wget -q --show-progress --no-check-certificate '$BASISLINK' -O $BASIS/NativefierBasis.tar.xz
 	  fi
 	fi
+}
+
+RUNPAGE(){
+  CKWEBSERVER
+  MOUNTPAGE
+  xdg-open $MetSTORE$LinkSTORE
+  LinkSTORE=""
 }
 
 TESTLOCAL(){
@@ -373,9 +383,11 @@ MSGUE001(){
 	notify-send -i gtk-dialog-question -u normal "Como?" "Não consegui encontrar o app para atualizar"
 }
 
+isInstall="0";
 INSTALLAIO(){
+	isInstall="1";
 	sudo mkdir $JAR; sudo chmod -R 777 $JAR; sudo apt install build-essential libcurl4 curl;
-	GETINTEGRATE=https://github.com/TheAssassin/AppImageLauncher/releases/download/v2.2.0/appimagelauncher_2.2.0-travis995.0f91801.bionic_amd64.deb
+	GETINTEGRATE="https://github.com/TheAssassin/AppImageLauncher/releases/download/v2.2.0/appimagelauncher_2.2.0-travis995.0f91801.bionic_amd64.deb"
 	wget -q --show-progress -c $GETINTEGRATE -O AppIL.deb && dpkg -i AppIL.deb 
 	if [ -e "$JAR" ]; then mv $CAMINHO/aio $JAR; rm -Rf $BINS/aio; ln -s $JAR/aio $BINS/aio; echo " [🖴 ✔] Jarra criada"; else echo "A pasta em JARRA não foi criada"; fi
 }
@@ -406,10 +418,8 @@ echo "[Desktop Entry]
 Type=Application
 Name=AIO Store
 Exec=aio store
-Icon=aio-store
-Terminal=true
-MimeType=x-scheme-handler/aio;
-Categories=System;" > $JAR/aio_store.desktop
+Icon=/usr/share/icons/hicolor/256x256/apps/aio-store.svg
+Categories=System;Settings;Network;" > $JAR/aio_store.desktop
 echo "Adicionando o atalho da AIO Store"
 sudo cp -Rf $JAR/aio_store.desktop /usr/share/applications
 fi
@@ -503,15 +513,12 @@ elif [[ "$1" == "store" ]]; then
  if [[ "$3" == "-r" || "$4" == "-r" ]]; then
   MOUNTPAGE
  else
-  CKWEBSERVER
-  MOUNTPAGE
-  xdg-open $MetSTORE$LinkSTORE
-  LinkSTORE=""
+  RUNPAGE
  fi
 elif [[ "$1" == "aio:store-up" ]]; then
  CKWEBSERVER
  MOUNTPAGE
- notify-send -i gtk-dialog-question -u normal "Página Montada"
+ notify-send -i gtk-dialog-question -u normal "Recarregue a página"
 else
-troca=troca
+ if ["$isInstall" =="1"]; then RUNPAGE; fi
 fi
