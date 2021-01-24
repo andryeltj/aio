@@ -294,7 +294,8 @@ MOUNTPAGE(){
  HtmlHAreas="<div class='book'>"$CBook"</div><div class='list'>"$CList"</div>"
  AppInfo="<div class='appinfo'><div class='appname'>Bem vindo</div><i>Clique abaixo para exibir as informações do App</i><div class='passing'>⚙️°°°°°°°°</div><div class='pdthumbs'><img src='https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/devices/camera-photo.svg'><a></a><a></a><a></a><a></a></div><a class='applogo'></a><a class='ckrecipe' alt='Exibe a receita do app instalado'>📑</a><button class='seta'></button></div>"
  Newspaper="<div class='newspaper'>"$varNEWS"</div>"
- CORPO=$HtmlHAreas$Newspaper$AppInfo"<article><center style='margin-top:18%'><img src='"$imgloadstore"'/></center></article>"
+ Mural="<div class='mural'><div class='imgview'><center><div class='exhib'></div><div class='rule'><a>📷</a><a>📷</a><a>📷</a><a>📷</a></div></center></div><div class='fullinfo'><p></p><a class='xview'>X</a></div></div>";
+ CORPO=$HtmlHAreas$Newspaper$AppInfo"<article><center style='margin-top:18%'><img src='"$imgloadstore"'/></center></article>"$Mural
  echo "Abrindo a loja"
  MainBAR="<div class='mainbar'><a class='aiologo'>AIO</a><span class='searchbar' contenteditable='true'></span><a class='x'>X</a><div style='float:right'><a>A</a><a href='aio:store-up' class='updatestore'>🔄</a></div><i class='infoqtd'></i></div>"
  echo "$HTMLINFO<body><center></center><div class='container'>$CORPO</div>$MainBAR</body>" > $STOREIN/index.html
