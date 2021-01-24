@@ -102,8 +102,7 @@ $('document').ready(function(){
         iteml=ElHead+appic+itName+itBotton+"</div>";
         acorpo=acorpo+iteml;ItmClss="";
 	};
-  var Mural="<div class='mural'><div class='imgview'><center><div class='exhib'></div><div class='rule'><a>📷</a><a>📷</a><a>📷</a><a>📷</a></div></center></div><div class='fullinfo'><p></p><a class='xview'>X</a></div></div>";
-  $("article").html("<div class='menu'>"+acorpo+"</div><div class='news'></div>"+Mural);acorpo="";
+  $("article").html("<div class='menu'>"+acorpo+"</div><div class='news'></div>");acorpo="";
   $("i.infoqtd").html(ctItems+" apps disponíveis.");
   $("div.news").html($("div.newspaper").html());$('div.newspaper').remove();
 //Pesquisa
