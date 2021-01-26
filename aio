@@ -10,14 +10,17 @@ BINS=/usr/bin
 LOCAL=/home/`whoami`/.local
 LOCALBINS=$LOCAL/bin
 LOCALICONS=$LOCAL/share/icons/hicolor/256x256/apps
+SYSICONS=/usr/share/icons/hicolor/256x256/apps
 ELINKS=$LOCAL/share/applications
 NEWS="andryeltj/aio/master/store/news.html"
+MENTE="x86_64"
+Integrator="appimagelauncher-lite-2.2.0-travis995-0f91801-x86_64.AppImage"
 OVEN=""
 JARRA=""
 PRODUTO=""
 CAMINHO=`pwd`
 AUTOINTEGRAR=0
-VERSIONR=202101222300
+VERSIONR=202101261900
 ISLOCAL=0
 troca=""
 
@@ -81,10 +84,23 @@ if [ "$VERSIONR" -lt "$AIOR" ]; then
 fi
 }
 
+CKFREELIB(){
+	FreeLibINFO=`cat $RECEITA_PASTA/$ADD.yml | grep -w "freelib:" | awk '{print $2}'`
+	echo "FreeLib: $FreeLibINFO"
+	if [ "$FreeLibINFO" == null ]; then
+	 troca=troca
+	else
+	 mkdir $RECEITA_PASTA/$OVEN
+	 wget -q --show-progress -O $RECEITA_PASTA/$OVEN/excludedeblist $RAIZ/andryeltj/aio/master/excludedeblist-$FreeLibINFO
+	 if [ -e "$RECEITA_PASTA/$OVEN/excludedeblist" ]; then sed 's|$FreeLibINFO|#$FreeLibINFO|g' $RECEITA_PASTA/$OVEN/excludedeblist; else echo "BlackList nao baixada para a receita"; fi
+	fi
+}
+
 DOCOOK(){
 PRATO=$RECEITA_PASTA/out/
 MISTURA=$RECEITA_PASTA/$OVEN
 FORNO=$MISTURA/$ADD.AppDir
+CKFREELIB
 if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then
  cd $RECEITA_PASTA; MSGA001;
  echo "##*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*##"
@@ -159,33 +175,31 @@ GETRECEITA(){
  echo "$RAIZ/$JARRA/$ADD.yml"
  wget -q --show-progress $RAIZ/$JARRA/$ADD.yml -P $RECEITA_PASTA/
 # if [ "`whoami`"=="root" ]; then chmod 777 $RECEITA_PASTA/$ADD.yml; fi
- if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then OVEN=`cat $RECEITA_PASTA/$ADD.yml | grep "app:" | awk '{print $2}'`; echo "OVEN:$OVEN" else echo "Receita não baixada"; fi
+ if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then OVEN=`cat $RECEITA_PASTA/$ADD.yml | grep "app:" | awk '{print $2}'`; echo "OVEN: $OVEN"; else echo "Receita não baixada"; fi
 }
 
 GETCOMBURENT(){
-  GETNETBOOK
-  JARRA=`cat /tmp/book | grep -w "$COMBURENT" | awk '{print $4}'`
-  wget -q --show-progress $RAIZ/$JARRA/$COMBURENT -P /etc/aio/; chmod +x $JAR/$COMBURENT;
-  if [ -e "$BINS/$COMBURENT" ]; then troca=troca; else sudo ln -s $JAR/$COMBURENT $BINS/$COMBURENT; fi
-  if [ -e "$JAR/$COMBURENT" ]; then troca=troca; echo "Comburente adiquirido"; else echo "Falha ao adiquirir comburente"; fi 
-  if [ -e "$BINS/$COMBURENT" ]; then troca=troca; echo "Comburente integrado ao sistema"; else echo "Falha ao integrar comburente"; fi 
+echo "isInstall: $isInstall"
+  if [ $isInstall == "1" ]; then REPOsit=`cat $JAR/jar.aio`; wget -q --show-progress -c $REPOsit/book -P /tmp/; else GETNETBOOK; fi
+  if [ -f "/tmp/book" ]; then
+   JARRA=`cat /tmp/book | grep -w "$COMBURENT:" | awk '{print $4}'`;
+   wget -q --show-progress $RAIZ/$JARRA/$COMBURENT -P /etc/aio/; chmod +x $JAR/$COMBURENT;
+   if [ -f "$JAR/$COMBURENT" ]; then echo "🖴  <====  🌐"; else echo "🖴  X====  🌐"; fi
+  else echo "BOOK nao baixado"; fi
+  if [ $isInstall == "1" ]; then rm -Rf /tmp/book; fi
 }
 
 GETNETBOOK(){
-	if [[ -e "$JAR/jar.aio" ]]; then
-	  troca=troca
-	else
-	  JARCONTENT
-	fi
-	if [[ -e "/tmp/book" ]]; then
-	  rm -Rf /tmp/book	#REMOVE O LIVRO ANTIGO
-	fi
+    if [ "`whoami`" == "root" ]; then
+	echo "Operando como Root, o livro sera baixado depois";
+    else
+	if [ -f "$JAR/jar.aio" ]; then troca=troca; else JARCONTENT; fi
+	if [ -f "/tmp/book" ]; then rm -Rf /tmp/book; fi	#REMOVE O LIVRO ANTIGO
 	while IFS= read -r line
 	do
-		rm -Rf /tmp/book
 		wget -q --show-progress -c $line/book -P /tmp/	#BAIXA O NOVO LIVRO
-#		if [ "`whoami`" == "root" ]; then chmod 777 /tmp/book; fi
 	done < $JAR/jar.aio
+    fi
 }
 
 GETNEWS(){
@@ -247,7 +261,7 @@ CKWEBSERVER(){
 	else
 	 STOREIN="/tmp/aiostore"
 	 if [ -e "$STOREIN" ]; then troca=troca; echo "a pasta em tmp"; else echo "a loja vai estar em "$STOREIN; mkdir $STOREIN; fi
-	 LinkSTORE=$STOREIN"//index.html"
+	 LinkSTORE=$STOREIN"/index.html"
 	 MetSTORE="file://"
 	fi
 }
@@ -276,12 +290,12 @@ MOUNTPAGE(){
  rm -Rf /tmp/store.html
  CssLk01=`curl $RAIZ/andryeltj/aio/master/store/main.css`
  Css01="<style>"$CssLk01"</style>"
- #Css01='<link rel="stylesheet" type="text/css" href="main.css"/>'
+# Css01='<link rel="stylesheet" type="text/css" href="main.css"/>'
  JsLk01=`curl $RAIZ/andryeltj/aio/master/store/jquery.js`
  JsLk02=`curl $RAIZ/andryeltj/aio/master/store/main.js`
  JsBASIS='<script type="text/javascript">'$JsLk01'</script>'
  JsMAIN='<script type="text/javascript">'$JsLk02'</script>'
-#JsMAIN='<script type="text/javascript" src="main.js"></script>'
+# JsMAIN='<script type="text/javascript" src="main.js"></script>'
  JsBase64='<!--- BASE64 --->
 <script type="text/javascript">
 "use strict";jQuery.base64=(function($){var _PADCHAR="=",_ALPHA="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",_VERSION="1.0";function _getbyte64(s,i){var idx=_ALPHA.indexOf(s.charAt(i));if(idx===-1){throw"Cannot decode base64"}return idx}function _decode(s){var pads=0,i,b10,imax=s.length,x=[];s=String(s);if(imax===0){return s}if(imax%4!==0){throw"Cannot decode base64"}if(s.charAt(imax-1)===_PADCHAR){pads=1;if(s.charAt(imax-2)===_PADCHAR){pads=2}imax-=4}for(i=0;i<imax;i+=4){b10=(_getbyte64(s,i)<<18)|(_getbyte64(s,i+1)<<12)|(_getbyte64(s,i+2)<<6)|_getbyte64(s,i+3);x.push(String.fromCharCode(b10>>16,(b10>>8)&255,b10&255))}switch(pads){case 1:b10=(_getbyte64(s,i)<<18)|(_getbyte64(s,i+1)<<12)|(_getbyte64(s,i+2)<<6);x.push(String.fromCharCode(b10>>16,(b10>>8)&255));break;case 2:b10=(_getbyte64(s,i)<<18)|(_getbyte64(s,i+1)<<12);x.push(String.fromCharCode(b10>>16));break}return x.join("")}function _getbyte(s,i){var x=s.charCodeAt(i);if(x>255){throw"INVALID_CHARACTER_ERR: DOM Exception 5"}return x}function _encode(s){if(arguments.length!==1){throw"SyntaxError: exactly one argument required"}s=String(s);var i,b10,x=[],imax=s.length-s.length%3;if(s.length===0){return s}for(i=0;i<imax;i+=3){b10=(_getbyte(s,i)<<16)|(_getbyte(s,i+1)<<8)|_getbyte(s,i+2);x.push(_ALPHA.charAt(b10>>18));x.push(_ALPHA.charAt((b10>>12)&63));x.push(_ALPHA.charAt((b10>>6)&63));x.push(_ALPHA.charAt(b10&63))}switch(s.length-imax){case 1:b10=_getbyte(s,i)<<16;x.push(_ALPHA.charAt(b10>>18)+_ALPHA.charAt((b10>>12)&63)+_PADCHAR+_PADCHAR);break;case 2:b10=(_getbyte(s,i)<<16)|(_getbyte(s,i+1)<<8);x.push(_ALPHA.charAt(b10>>18)+_ALPHA.charAt((b10>>12)&63)+_ALPHA.charAt((b10>>6)&63)+_PADCHAR);break}return x.join("")}return{decode:_decode,encode:_encode,VERSION:_VERSION}}(jQuery));
@@ -384,23 +398,68 @@ MSGUE001(){
 	notify-send -i gtk-dialog-question -u normal "Como?" "Não consegui encontrar o app para atualizar"
 }
 
-isInstall="0";
+isInstall="0"
+InstallDEB(){
+	wget -q --show-progress -c $GETINTEGRATE -O AppIL.deb && dpkg -i AppIL.deb && sudo apt --fix-broken install; rm -Rf AppIL.deb;
+	appimagelauncher %f && killall AppImageLauncherSettings;
+}
 INSTALLAIO(){
-	isInstall="1";
-	sudo mkdir $JAR; sudo chmod -R 777 $JAR; sudo apt install build-essential libcurl4 curl;
-	GETINTEGRATE="https://github.com/TheAssassin/AppImageLauncher/releases/download/v2.2.0/appimagelauncher_2.2.0-travis995.0f91801.bionic_amd64.deb"
-	wget -q --show-progress -c $GETINTEGRATE -O AppIL.deb && dpkg -i AppIL.deb 
-	if [ -e "$JAR" ]; then mv $CAMINHO/aio $JAR; rm -Rf $BINS/aio; ln -s $JAR/aio $BINS/aio; echo " [🖴 ✔] Jarra criada"; else echo "A pasta em JARRA não foi criada"; fi
+	isInstall="1"; echo ".............Instalando............";
+#Cria as pastas	
+	if [ -e "$JAR" ]; then troca=troca; else sudo mkdir $JAR; sudo chmod -R 777 $JAR; fi
+	if [ -e "$APPS" ]; then troca=troca; else sudo mkdir $APPS; sudo chmod -R 777 $APPS; if [ -e "$APPS" ]; then  echo " [📥✔] Pasta de Apps criada"; fi fi
+	if [ -e "$RECEITA_PASTA" ]; then troca=troca; else mkdir $RECEITA_PASTA; sudo chmod -R 777 $RECEITA_PASTA; if [ -e "$RECEITA_PASTA" ]; then echo " [📜✔] Pasta das receitas criada"; fi	fi #Cria a pasta aonde vão ficar as bases
+	if [[ -e "$BASIS" ]]; then troca=troca; else mkdir $BASIS; sudo chmod -R 777 $BASIS; if [ -e "$BASIS" ]; then echo " [📜✔] Pasta das bases criada"; fi fi 	#Cria a pasta aonde vão ficar as bases
+#Pega/Cria os arquivos
+	if [ -e "$JAR" ]; then yes | mv $CAMINHO/aio $JAR; echo "🖴  <====  📜"; else echo "JARRA nao foi criada"; fi
+	if [ -f "$JAR/jar.aio" ]; then troca=troca; else JARCONTENT; fi
+	if [ -f "$JAR/$COMBURENT" ]; then troca=troca; else GETCOMBURENT; fi
+	MAKEWidgets
+        if [ -f "$JAR/system.aio" ]; then troca=troca; else echo "" > $JAR/system.aio; sudo chmod 777 $JAR/system.aio; fi
+#Linka/Copia os binarios
+	if [ -f "$JAR/aio" ]; then if [ -f "$BINS/aio" ]; then rm -Rf $BINS/aio; ln -s $JAR/aio $BINS/aio; else ln -s $JAR/aio $BINS/aio; echo "📜🖴  <_✔_>  ⚙️	-	AIO Linkado"; fi fi
+	if [ -f "$JAR/$COMBURENT" ]; then if [ -f "$BINS/$COMBURENT" ]; then rm -Rf $BINS/$COMBURENT; ln -s $JAR/$COMBURENT $BINS/$COMBURENT; else sudo ln -s $JAR/$COMBURENT $BINS/$COMBURENT; echo "📜  <_✔_>  ⚙️	-	Pkg2AppImage Linkado"; fi else echo "PKG2APPIMAGE nao foi baixado"; fi
+	if [ -f "$JAR/aio-store.svg" ]; then sudo cp -Rf $JAR/aio-store.svg $SYSICONS/; if [ -f "$SYSICONS/aio-store.svg" ]; then echo "Icone da loja integrado"; else echo "Nao foi possivel integar o Icone da Loja ao sistema"; fi fi
+#Instala o suporte
+	echo "###########################"
+	#Arch an Fedora put here command for install the APT.
+	sudo apt update; sudo apt install build-essential libcurl4 curl rpm2cpio -y;
+#Instala o Integrador
+	echo "[AppImageLauncher]
+ask_to_move=true
+destination=/home/apps
+enable_daemon=true
+
+[appimagelauncherd]
+%23%20additional_directories_to_watch=~/otherApplications:/even/more/applications
+%23%20monitor_mounted_filesystems=false" > $CAMINHO/.config/appimagelauncher.cfg
+	notify-send -i gtk-yes -u normal "Abra a AIO Store em:
+Menu > Internet > AIO Store";
+
+##if [ "$MENTE" == "x86_64" || "$MENTE" == "amd64" ]; then
+##	Metodo="0";
+##	if [ "$Metodo" == "0" ]; then
+	  ## sh -c $JAR/$Integrator;
+##	fi
+##	if [ "$Metodo" == "1" ]; then
+##	 sudo apt install libqt5core5a libqt5dbus5 libqt5gui5 libqt5widgets5 -y;
+##	 GETINTEGRATE="https://github.com/TheAssassin/AppImageLauncher/releases/download/v2.2.0/appimagelauncher_2.2.0-travis995.0f91801.bionic_amd64.deb"
+##	 InstallDEB
+##	fi
+##fi
+##if [ "$MENTE" == "arm64" ]; then
+##	 #Check dependencies in this processor ## sudo apt install libqt5core5a libqt5dbus5 libqt5gui5 libqt5widgets5 -y;
+##	 GETINTEGRATE="https://github.com/TheAssassin/AppImageLauncher/releases/download/v2.2.0/appimagelauncher_2.2.0-travis995.0f91801.bionic_arm64.deb"
+##	 InstallDEB
+##fi
+##if [ "$MENTE" == "armhf" ]; then
+##	 #Check dependencies in this processor ## sudo apt install libqt5core5a libqt5dbus5 libqt5gui5 libqt5widgets5 -y;
+##	 GETINTEGRATE="https://github.com/TheAssassin/AppImageLauncher/releases/download/v2.2.0/appimagelauncher_2.2.0-travis995.0f91801.bionic_armhf.deb"
+##	 InstallDEB
+##fi	
 }
 
-### Lancadores
-if [ -e "$APPS" ]; then troca=troca; else sudo mkdir $APPS; sudo chmod -R 777 $APPS; if [ -e "$APPS" ]; then  echo " [📥✔] Pasta de Apps criada"; fi fi
-if [[ -e "$RECEITA_PASTA" ]]; then troca=troca; else mkdir $RECEITA_PASTA; sudo chmod -R 777 $RECEITA_PASTA; if [ -e "$RECEITA_PASTA" ]; then echo " [📜✔] Pasta das receitas criada"; fi	fi #Cria a pasta aonde vão ficar as bases
-if [[ -e "$BASIS" ]]; then troca=troca; else mkdir $BASIS; sudo chmod -R 777 $BASIS; if [ -e "$BASIS" ]; then echo " [📜✔] Pasta das bases criada"; fi fi 	#Cria a pasta aonde vão ficar as bases
-if [ -e "$JAR" ]; then troca=troca; else INSTALLAIO;	#Cria a pasta aonde vão ficar as definições
- 
- if [ -e "$BINS/aio" ]; then ln -s $JAR/aio $BINS/aio; fi 
-fi
+MAKEWidgets(){
 if [ -e "/usr/share/applications/aio.desktop" ]; then troca=troca; else 
 echo "[Desktop Entry]
 Type=Application
@@ -444,12 +503,10 @@ echo '
  </g>
 </svg>' > $JAR/aio-store.svg
 echo "Adicionando icone da Loja"
-sudo cp -Rf $JAR/aio-store.svg /usr/share/icons/hicolor/256x256/apps/
 fi
-if [ -e "$JAR/jar.aio" ]; then troca=troca; else JARCONTENT; fi
-if [ -e "$JAR/aio" ]; then troca=troca; if [ -e "$BINS/aio" ]; then troca=troca; else ln -s $JAR/aio $BINS/aio; fi else mv $CAMINHO/aio $JAR; ln -s $JAR/aio $BINS/aio; fi
-if [ -e "$JAR/$COMBURENT" ]; then troca=troca; else GETCOMBURENT; fi
-if [ -e "$JAR/system.aio" ]; then troca=troca; else echo "" > $JAR/system.aio; sudo chmod 777 $JAR/system.aio; fi
+}
+
+##Criando as pastas no Usuario
 if [ "`whoami`" == "root" ]; then troca=troca; else
  if [ -e "$LOCAL" ]; then troca=troca; else mkdir $LOCAL; fi
  if [ -e "$LOCALBINS" ]; then troca=troca; else mkdir $LOCALBINS; fi
@@ -457,10 +514,9 @@ if [ "`whoami`" == "root" ]; then troca=troca; else
  if [ -e "$ELINKS" ]; then troca=troca; else mkdir $ELINKS; fi
 fi
 
-
 #### COMANDOS E INTEGRAÇÔES
 if [[ "$1" == "add" || "$1" == "install" || "$1" == "-i" ]]; then
- if [[ "`whoami`" == "root" ]]; then echo "Por favor tente instalar sem ser o Administrador"; else
+ if [[ "`whoami`" == "root" ]]; then echo "Por favor tente instalar Apps sem ser o Administrador"; else
 #  echo "`whoami`"
 #  CHECKINTEGRATE
   TESTLOCAL
@@ -520,6 +576,22 @@ elif [[ "$1" == "aio:store-up" ]]; then
  CKWEBSERVER
  MOUNTPAGE
  notify-send -i gtk-dialog-question -u normal "Recarregue a página"
+elif [[ "$1" == "f-i" ]]; then
+ if [ "`whoami`" == "root" ]; then INSTALLAIO; else echo "Vamos instalar... Execute como Root:
+$ sudo ./aio"; fi
 else
- if ["$isInstall" =="1"]; then RUNPAGE; fi
+ if [ "$1" == '' ]; then troca=troca; else if ["$isInstall" == "1"]; then RUNPAGE; fi fi
 fi
+if [ -f "$JAR/$Integrator" ]; then troca=troca; echo 'existe';
+	else
+	 echo "Nao existe";
+	 if [ "`whoami`" == "root" ]; then echo "Agora chame o AIO sem sudo"; else
+	  echo 'Concluindo a instalacao. Pegando integrador...'; notify-send -i "Na primeira vez, e demorado mesmo.... Vai depender da sua internet";
+	  GETINTEGRATE=https://github.com/TheAssassin/AppImageLauncher/releases/download/v2.2.0/$Integrator
+	  wget -q --show-progress -c $GETINTEGRATE -O $JAR/$Integrator;
+	  chmod -R 777 $JAR/$Integrator; chmod +x $JAR/$Integrator;
+	 fi
+	 if [ -e "$JAR/$Integrador" ]; then echo "🖴  <====  🧠"; $JAR/$Integrator install; else echo "🖴  X====  🧠"; fi
+fi
+if [ -e "$JAR" ]; then troca=troca; else if [ "`whoami`" == "root" ]; then echo 'iniciando instalacao'; INSTALLAIO; else echo "Vamos instalar... Execute como Root:
+$ sudo ./aio"; fi fi	#Aciona a instalacao
