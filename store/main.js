@@ -1,7 +1,7 @@
 $('document').ready(function(){
 //	window.open('http://localhost/aiostore','popUpWindow','height=400,width=600,left=10,top=10,scrollbars=yes,menubar=no'); //return false;
   $('textarea').hide();
-  $('.updatestore').click(function(){
+  $('.updatestore, div.appinfo button.seta').click(function(){
 //     setTimeout(function(){
  //     location.reload();
 //     },5000)
@@ -66,12 +66,16 @@ $('document').ready(function(){
 	  if(funcao=="1"){
 		  if(secapp == recipenm){
 			  acct="a";
+			  $('div.appinfo button.seta').removeAttr('href');
 			  $('div.appinfo button.seta').removeClass("add");
 			  $('div.appinfo button.seta').addClass("del");
+			  $('div.appinfo button.seta').attr({'onclick':"location.href='aio:del "+secapp+"'"});
 			  $('div.appinfo button.seta').html("Remover");console.log(recipenm+" Está instalado")}
 		  if(acct=="i"){
+			  $('div.appinfo button.seta').removeAttr('href');
 			  $('div.appinfo button.seta').removeClass("del");
 			  $('div.appinfo button.seta').addClass("add");
+			  $('div.appinfo button.seta').attr({'onclick':"location.href='aio:add "+secapp+"'"});
 			  $('div.appinfo button.seta').html("Instalar");console.log(recipenm+" Não instalado")}
 	  }
     });
