@@ -3,6 +3,7 @@ ADD=$2
 JAR=/etc/aio	#Pasta das definições
 RECEITA_PASTA=/home/apps/receitas	#Pasta das receitas
 BASIS=$RECEITA_PASTA/basis	#Pasta das bases para receitas
+PRATO=$RECEITA_PASTA/out	#Saida do Produto
 RAIZ="https://raw.githubusercontent.com"
 APPS=/home/apps	#Pasta dos apps
 COMBURENT="pkg2appimage"
@@ -20,7 +21,7 @@ JARRA=""
 PRODUTO=""
 CAMINHO=`pwd`
 AUTOINTEGRAR=0
-VERSIONR=202101261900
+VERSIONR=202101271200
 ISLOCAL=0
 troca=""
 
@@ -97,32 +98,13 @@ CKFREELIB(){
 }
 
 DOCOOK(){
-PRATO=$RECEITA_PASTA/out/
-MISTURA=$RECEITA_PASTA/$OVEN
-FORNO=$MISTURA/$ADD.AppDir
 CKFREELIB
 if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then
  cd $RECEITA_PASTA; MSGA001;
  echo "##*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*##"
  pkg2appimage "$RECEITA_PASTA/$ADD.yml"	#COZINHA
  echo "##*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*##"
- echo "$MISTURA
- " 
- if [ -e "$MISTURA" ]; then 
-    troca=troca
- #   if [ "$whoami"=="root" ]; then chmod 777 $MISTURA; chmod 777 $FORNO; chmod 777 $PRATO; fi ##Contenção para caso seja gerado com sudo    
- else echo "Não foi adicionada a tijela ao forno"; fi
- cd $CAMINHO
- if [ -e "$PRATO" ]; then	#Testa pra ver se foi cozinhado
-  PRODUTO=`ls $RECEITA_PASTA/out/`	#Pega o nome do app criado
-  APPNMLIST=`cat $JAR/aio.list | grep -w '$ADD: $PRODUTO'`; echo $APPNMLIST
-  if [ "$APPNMLIST" == "$ADD: $PRODUTO" ]; then
-   DELLIBRARY; ADDLIBRARY
-  else ADDLIBRARY	#Coloca o nome do app novo na lista 
-  fi
- else
-  echo "A tigela não saiu do forno"
- fi
+ LAUNCHLIB
 fi
 }
 
@@ -153,6 +135,8 @@ DEL(){
 }
 
 DELOVEN(){
+ MISTURA=$RECEITA_PASTA/$OVEN
+ FORNO=$MISTURA/$ADD.AppDir
  echo "FORNO: $OVEN"
 # echo "$MISTURA"
   if [ -e "$PRATO" ]; then rm -Rf $PRATO; echo "removendo o Prato";
@@ -171,11 +155,11 @@ GETAIO(){
 GETRECEITA(){
  ADD=`cat /tmp/book | grep -w "$ADD:" | awk '{print $2}'`
  JARRA=`cat /tmp/book | grep -w "$ADD" | awk '{print $4}'`
- if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then rm -Rf $RECEITA_PASTA/$ADD.yml; fi
+ if [ -f "$RECEITA_PASTA/$ADD.yml" ]; then rm -Rf $RECEITA_PASTA/$ADD.yml; fi
  echo "$RAIZ/$JARRA/$ADD.yml"
  wget -q --show-progress $RAIZ/$JARRA/$ADD.yml -P $RECEITA_PASTA/
 # if [ "`whoami`"=="root" ]; then chmod 777 $RECEITA_PASTA/$ADD.yml; fi
- if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then OVEN=`cat $RECEITA_PASTA/$ADD.yml | grep "app:" | awk '{print $2}'`; echo "OVEN: $OVEN"; else echo "Receita não baixada"; fi
+ if [ -f "$RECEITA_PASTA/$ADD.yml" ]; then OVEN=`cat $RECEITA_PASTA/$ADD.yml | grep "app:" | awk '{print $2}'`; echo "OVEN: $OVEN"; else echo "Receita não baixada"; fi
 }
 
 GETCOMBURENT(){
@@ -191,19 +175,32 @@ echo "isInstall: $isInstall"
 
 GETNETBOOK(){
     if [ "`whoami`" == "root" ]; then
-	echo "Operando como Root, o livro sera baixado depois";
+	 echo "Operando como Root, o livro sera baixado depois";
     else
-	if [ -f "$JAR/jar.aio" ]; then troca=troca; else JARCONTENT; fi
-	if [ -f "/tmp/book" ]; then rm -Rf /tmp/book; fi	#REMOVE O LIVRO ANTIGO
-	while IFS= read -r line
-	do
+	 if [ -f "$JAR/jar.aio" ]; then troca=troca; else JARCONTENT; fi
+	 if [ -f "/tmp/book" ]; then rm -Rf /tmp/book; fi	#REMOVE O LIVRO ANTIGO
+	 while IFS= read -r line
+	 do
 		wget -q --show-progress -c $line/book -P /tmp/	#BAIXA O NOVO LIVRO
-	done < $JAR/jar.aio
+	 done < $JAR/jar.aio
     fi
 }
 
 GETNEWS(){
 	varNEWS=`curl $RAIZ/$NEWS`
+}
+
+GETONLY(){
+	GETOnly=`cat $RECEITA_PASTA/$ADD.yml | grep -w "getonly:" | awk '{print $2}'`
+	if [ "$GETOnly" == "" ]; then
+	 DOCOOK
+	else
+	 echo "GETOnly: YES"
+	 OVEN=`cat $RECEITA_PASTA/$ADD.yml | grep "app:" | awk '{print $2}'`;
+	 mkdir $RECEITA_PASTA/$OVEN; mkdir $PRATO;
+	 wget -q --show-progress -P $PRATO/ $GETOnly
+	 LAUNCHLIB
+	fi
 }
 
 GETSUGESTS(){ 
@@ -222,6 +219,23 @@ fi
 
 JARCONTENT(){
   echo "https://raw.githubusercontent.com/andryeltj/receitas/master" > $JAR/jar.aio
+}
+
+LAUNCHLIB(){
+ MISTURA=$RECEITA_PASTA/$OVEN
+ echo "$MISTURA" 
+ if [ -e "$MISTURA" ]; then troca=troca; else echo "Não foi adicionada a tijela ao forno"; fi
+ cd $CAMINHO
+ if [ -e "$PRATO" ]; then	#Testa pra ver se foi cozinhado
+  PRODUTO=`ls $RECEITA_PASTA/out/`	#Pega o nome do app criado
+  APPNMLIST=`cat $JAR/aio.list | grep -w '$ADD: $PRODUTO'`; echo $APPNMLIST
+  if [ "$APPNMLIST" == "$ADD: $PRODUTO" ]; then #Atualiza os dados da lista
+   DELLIBRARY; ADDLIBRARY
+  else ADDLIBRARY	#Coloca o nome do app novo na lista 
+  fi
+ else
+  echo "A tigela não saiu do forno"
+ fi
 }
 
 LISTJAR(){
@@ -288,13 +302,13 @@ MOUNTPAGE(){
 # MainCSS='<link rel="stylesheet" type="text/css" href="'
 # Css01=$MainCSS$RAIZ'/andryeltj/aio/master/store/main.css">'
  rm -Rf /tmp/store.html
- CssLk01=`curl $RAIZ/andryeltj/aio/master/store/main.css`
- Css01="<style>"$CssLk01"</style>"
+ CssLk01=`curl $RAIZ/andryeltj/aio/master/store/main.css`	#DevMode
+ Css01="<style>"$CssLk01"</style>"	#DevMode
 # Css01='<link rel="stylesheet" type="text/css" href="main.css"/>'
  JsLk01=`curl $RAIZ/andryeltj/aio/master/store/jquery.js`
  JsLk02=`curl $RAIZ/andryeltj/aio/master/store/main.js`
  JsBASIS='<script type="text/javascript">'$JsLk01'</script>'
- JsMAIN='<script type="text/javascript">'$JsLk02'</script>'
+ JsMAIN='<script type="text/javascript">'$JsLk02'</script>'	#DevMode
 # JsMAIN='<script type="text/javascript" src="main.js"></script>'
  JsBase64='<!--- BASE64 --->
 <script type="text/javascript">
@@ -510,7 +524,7 @@ fi
 if [ "`whoami`" == "root" ]; then troca=troca; else
  if [ -e "$LOCAL" ]; then troca=troca; else mkdir $LOCAL; fi
  if [ -e "$LOCALBINS" ]; then troca=troca; else mkdir $LOCALBINS; fi
- if [ -e "$LOCALICONS" ]; then troca=troca; else mkdir $LOCALICONS; fi
+ if [ -e "$LOCALICONS" ]; then troca=troca; else mkdir -R $LOCALICONS; fi
  if [ -e "$ELINKS" ]; then troca=troca; else mkdir $ELINKS; fi
 fi
 
@@ -521,7 +535,7 @@ if [[ "$1" == "add" || "$1" == "install" || "$1" == "-i" ]]; then
 #  CHECKINTEGRATE
   TESTLOCAL
   NATIVEFIER
-  DOCOOK
+  GETONLY
   MOVEAPP
 #  EXEINTEGRAR
   if [[ "$3" == "--mb" || "$4" == "--mb" ]]; then echo "A Bases serão mantidas"; else DELOVEN; fi
@@ -552,7 +566,7 @@ elif [[ "$1" == "atu" || "$1" == "atualizar" || "$1" == "-a" ]]; then
    echo "Receita encontrada no disco"
    MSGU001
    NATIVEFIER
-   DOCOOK
+   GETONLY
    TSTINTEGRAR
    DEL
    if [[ "$3" == "--mb" || "$4" == "--mb" ]]; then echo "A Bases serão mantidas"; else DELOVEN; fi
