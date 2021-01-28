@@ -59,9 +59,9 @@ $('document').ready(function(){
 	  recipenm=$(this).children("a:nth-child(1)").text();
 	  appnm=$(this).children("a:nth-child(2)").text();
       if(funcao=="0"){
-		  if (ckrecipe == recipenm){itmBT="<button class='del'>Remover</button>"};
-		  if(itmBT == "" || itmBT == "<button class='add'>Instalar</button>")
-		    {itmBT="<button class='add'>Instalar</button>"};
+		  if (ckrecipe == recipenm){itmBT="<button class='del'>Instalado</button>"};
+		  if(itmBT == "" || itmBT == "<button class='add'>Disponivel</button>")
+		    {itmBT="<button class='add'>Disponivel</button>"};
 	  }
 	  if(funcao=="1"){
 		  if(secapp == recipenm){
@@ -121,9 +121,9 @@ $('document').ready(function(){
 		  $("a.applogo").css({'background-image':"url('"+appicon+"')"});
 		  if(appbg == "."){appbg=stdBK};
 		  $("div.appinfo").css({'background-image':"url('"+appbg+"')"});
-		  if(appdesc == null || appdesc > "" || appdesc == ".")
-		    {appdesc=$.base64.decode(appdesc);}
-		    else {appdesc=appname};
+		  if(appdesc == "" || appdesc == ".")
+		    {appdesc=appname}
+		    else {appdesc=$.base64.decode(appdesc);};
 		  $("div.appinfo i").html(appdesc);
 		  $("div.passing").html(category);
 		  $("div.pdthumbs a:nth-child(2),div.rule a:nth-child(1)").css({'background-image':"url('"+appimg1+"')"});
