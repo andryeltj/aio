@@ -11,7 +11,8 @@ The preference is graphical interation with the user, but commanded by CLI easil
 
 To install, is run this command in your terminal:
 
-```$ wget -o aio http://gg.gg/aiotxt && chmod +x aio && sudo ./aio```
+```$ sudo apt install w3m && w3m gg.gg/aiotxt > aio  && chmod +x aio && sudo ./aio```
+<!---```$ wget -o aio http://gg.gg/aiotxt && chmod +x aio && sudo ./aio``` --->
 
 The commands:
  - add or install
