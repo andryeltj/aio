@@ -16,7 +16,7 @@ $('document').ready(function(){
   var stdBK="https://images.all-free-download.com/images/graphiclarge/abstract_green_blue_low_poly_background_vector_illustration_570260.jpg";
   var stdIC="https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/mimetypes/application-x-iso9660-appimage.svg"
   var iteml, ctItems="0",ItmClss="";
-  var ckrecipe="",itmBT="",acorpo,secapp,acct="i";
+  var ckrecipe="",itmBT="",acorpo="",secapp,acct="i";
   var funcao="0";
   
   function ClassyBook(){
