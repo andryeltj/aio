@@ -187,7 +187,7 @@ GETNETBOOK(){
 }
 
 GETNEWS(){
-	varNEWS=`curl $RAIZ/$NEWS`
+	varNEWS=`curl -s --progress-bar $RAIZ/$NEWS`
 }
 
 GETONLY(){
@@ -305,11 +305,11 @@ MOUNTPAGE(){
 # MainCSS='<link rel="stylesheet" type="text/css" href="'
 # Css01=$MainCSS$RAIZ'/andryeltj/aio/master/store/main.css">'
  rm -Rf /tmp/store.html
- CssLk01=`curl $RAIZ/andryeltj/aio/master/store/main.css`	#DevMode
+ CssLk01=`curl -s --progress-bar $RAIZ/andryeltj/aio/master/store/main.css`	#DevMode
  Css01="<style>"$CssLk01"</style>"	#DevMode
 # Css01='<link rel="stylesheet" type="text/css" href="main.css"/>'
- JsLk01=`curl $RAIZ/andryeltj/aio/master/store/jquery.js`
- JsLk02=`curl $RAIZ/andryeltj/aio/master/store/main.js`
+ JsLk01=`curl -s --progress-bar $RAIZ/andryeltj/aio/master/store/jquery.js`
+ JsLk02=`curl -s --progress-bar $RAIZ/andryeltj/aio/master/store/main.js`
  JsBASIS='<script type="text/javascript">'$JsLk01'</script>'
  JsMAIN='<script type="text/javascript">'$JsLk02'</script>'	#DevMode
 # JsMAIN='<script type="text/javascript" src="main.js"></script>'
@@ -433,7 +433,7 @@ INSTALLAIO(){
 	if [ -f "$JAR/jar.aio" ]; then troca=troca; else JARCONTENT; fi
 	if [ -f "$JAR/$COMBURENT" ]; then troca=troca; else GETCOMBURENT; fi
 	MAKEWidgets
-        if [ -f "$JAR/system.aio" ]; then troca=troca; else echo "" > $JAR/system.aio; sudo chmod 777 $JAR/system.aio; fi
+    if [ -f "$JAR/system.aio" ]; then troca=troca; else echo "" > $JAR/system.aio; sudo chmod 777 $JAR/system.aio; fi
 #Linka/Copia os binarios
 	if [ -f "$JAR/aio" ]; then if [ -f "$BINS/aio" ]; then rm -Rf $BINS/aio; ln -s $JAR/aio $BINS/aio; else ln -s $JAR/aio $BINS/aio; echo "📜🖴  <_✔_>  ⚙️	-	AIO Linkado"; fi fi
 	if [ -f "$JAR/$COMBURENT" ]; then if [ -f "$BINS/$COMBURENT" ]; then rm -Rf $BINS/$COMBURENT; ln -s $JAR/$COMBURENT $BINS/$COMBURENT; else sudo ln -s $JAR/$COMBURENT $BINS/$COMBURENT; echo "📜  <_✔_>  ⚙️	-	Pkg2AppImage Linkado"; fi else echo "PKG2APPIMAGE nao foi baixado"; fi
@@ -451,6 +451,8 @@ enable_daemon=true
 [appimagelauncherd]
 %23%20additional_directories_to_watch=~/otherApplications:/even/more/applications
 %23%20monitor_mounted_filesystems=false" > $CAMINHO/.config/appimagelauncher.cfg
+MMCK=`cat /usr/share/applications/mimeinfo.cache | grep "x-scheme-handler/aio=aio.desktop;"`
+    if [ "$MMCK" == "" ]; then echo "x-scheme-handler/aio=aio.desktop;" >> /usr/share/applications/mimeinfo.cache; fi
 	notify-send -i $JAR/aio-store.svg -u normal "Abra a AIO Store em:
 Menu > Internet > AIO Store";
 
@@ -527,8 +529,6 @@ fi
 ##Criando as pastas no Usuario
 if [ "`whoami`" == "root" ]; then troca=troca; else
  if [ -e "$LOCAL" ]; then troca=troca; else mkdir $LOCAL; fi
- if [ -e "$LOCALBINS" ]; then troca=troca; else mkdir $LOCALBINS; fi
- if [ -e "$LOCALICONS" ]; then troca=troca; else mkdir -R $LOCALICONS; fi
  if [ -e "$ELINKS" ]; then troca=troca; else mkdir $ELINKS; fi
 fi
 
@@ -630,20 +630,20 @@ if [[ "$1" == "" ]]; then troca=troca; else
  if [[ "$STOREC" == "aio:add" ]]; then
   ADD=$STORER
   $2=$STORER
+  CKWEBSERVER
   notify-send "Adicionando "$ADD
   TESTLOCAL
   NATIVEFIER
   GETONLY
   MOVEAPP
-  CKWEBSERVER
   MOUNTPAGE
  fi
  if [[ "$STOREC" == "aio:del" ]]; then
   ADD=$STORER
   $2=$STORER
+  CKWEBSERVER
   DEL
   notify-send $ADD" removido."
-  CKWEBSERVER
   MOUNTPAGE
  fi
 fi
