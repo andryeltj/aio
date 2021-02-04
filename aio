@@ -21,7 +21,7 @@ JARRA=""
 PRODUTO=""
 CAMINHO=`pwd`
 AUTOINTEGRAR=0
-VERSIONR=202101281710
+VERSIONR=202102040053
 ISLOCAL=0
 troca=""
 
@@ -88,12 +88,12 @@ fi
 CKFREELIB(){
 	FreeLibINFO=`cat $RECEITA_PASTA/$ADD.yml | grep -w "freelib:" | awk '{print $2}'`
 	echo "FreeLib: $FreeLibINFO"
-	if [ "$FreeLibINFO" == null ]; then
+	if [ "$FreeLibINFO" == "" ]; then
 	 troca=troca
 	else
 	 mkdir $RECEITA_PASTA/$OVEN
-	 wget -q --show-progress -O $RECEITA_PASTA/$OVEN/excludedeblist $RAIZ/andryeltj/aio/master/excludedeblist-$FreeLibINFO
-	 if [ -e "$RECEITA_PASTA/$OVEN/excludedeblist" ]; then sed 's|$FreeLibINFO|#$FreeLibINFO|g' $RECEITA_PASTA/$OVEN/excludedeblist; else echo "BlackList nao baixada para a receita"; fi
+	 wget -q --show-progress -O $RECEITA_PASTA/$OVEN/excludedeblist $RAIZ/andryeltj/aio/master/xlists/$FreeLibINFO
+#	 if [ -e "$RECEITA_PASTA/$OVEN/excludedeblist" ]; then sed 's|$FreeLibINFO|#$FreeLibINFO|g' $RECEITA_PASTA/$OVEN/excludedeblist; else echo "BlackList nao baixada para a receita"; fi
 	fi
 }
 
@@ -441,7 +441,7 @@ INSTALLAIO(){
 #Instala o suporte
 	echo "###########################"
 	#Arch an Fedora put here command for install the APT.
-	sudo apt update; sudo apt install build-essential libcurl4 curl rpm2cpio -y;
+	sudo apt update; sudo apt install build-essential libcurl4 curl rpm2cpio imagemagick -y;
 #Instala o Integrador
 	echo "[AppImageLauncher]
 ask_to_move=true
