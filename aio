@@ -14,16 +14,45 @@ LOCALICONS=$LOCAL/share/icons/hicolor/256x256/apps
 SYSICONS=/usr/share/icons/hicolor/256x256/apps
 ELINKS=$LOCAL/share/applications
 NEWS="andryeltj/aio/master/store/news.html"
-MENTE="x86_64"
-Integrator="appimagelauncher-lite-2.2.0-travis995-0f91801-x86_64.AppImage"
 OVEN=""
 JARRA=""
 PRODUTO=""
 CAMINHO=`pwd`
+RFIND="0"
+ITEMW=""
 AUTOINTEGRAR=0
-VERSIONR=202102040053
+VERSIONR=202102060226
 ISLOCAL=0
 troca=""
+VERSION=""
+
+case "$(uname -i)" in
+  x86_64|amd64)
+#    echo "x86-64 system architecture"
+    SYSTEM_ARCH="x86_64";;
+  i?86)
+#    echo "x86 system architecture"
+    SYSTEM_ARCH="i686";;
+  aarch64|arm64)
+#    echo "ARM system architecture"
+    SYSTEM_ARCH="aarch64";;
+  unknown|AuthenticAMD|GenuineIntel)
+#         uname -i not answer on debian, then:
+    case "$(uname -m)" in
+      x86_64|amd64)
+#        echo "x86-64 system architecture"
+        SYSTEM_ARCH="x86_64";;
+      i?86)
+#        echo "x86 system architecture"
+        SYSTEM_ARCH="i686";;
+      aarch64|arm64)
+#        echo "ARM system architecture"
+        SYSTEM_ARCH="arm64";;
+    esac ;;
+  *)
+    echo "Unsupported system architecture, testing if ARM"
+    exit 1;;
+esac
 
 echo $1 $2 $3 $4 $5
 ### Funções
@@ -32,28 +61,6 @@ if [[ "$2" == "local" || "$3" == "local" || "$4" == "local" || "$5" == "local" |
   echo "local"
   ISLOCAL=1
 fi
-}
-
-CHECKINTEGRATE(){
-if [[ "$1" == "--nointegrate" || "$2" == "--nointegrate" || "$3" == "--nointegrate" || "$4" == "--nointegrate" || "$5" == "--nointegrate" ]]; then
-  AUTOINTEGRAR=1
-fi
-}
-
-CKLOCALNAMES(){
-if [ "$2"=="local" || "$2"=="nointegrate" || "$2"=="--local" || "$2"=="--nointegrate"]; then
-	$2=""
-fi
-if [ "$3"=="local" || "$3"=="nointegrate" || "$3"=="--local" || "$3"=="--nointegrate"]; then
-	$3=""
-fi
-if [ "$4"=="local" || "$4"=="nointegrate" || "$4"=="--local" || "$4"=="--nointegrate"]; then
-	$4=""
-fi
-if [ "$5"=="local" || "$5"=="nointegrate" || "$5"=="--local" || "$5"=="--nointegrate"]; then
-	$5=""
-fi
-ADD=`cat $JAR/system.aio | grep -w "$2$3$4$5:" | awk '{print $3}'`
 }
 
 ADDLIBRARY(){
@@ -87,10 +94,10 @@ fi
 
 CKFREELIB(){
 	FreeLibINFO=`cat $RECEITA_PASTA/$ADD.yml | grep -w "freelib:" | awk '{print $2}'`
-	echo "FreeLib: $FreeLibINFO"
 	if [ "$FreeLibINFO" == "" ]; then
 	 troca=troca
 	else
+	 echo "FreeLib: $FreeLibINFO"
 	 mkdir $RECEITA_PASTA/$OVEN
 	 wget -q --show-progress -O $RECEITA_PASTA/$OVEN/excludedeblist $RAIZ/andryeltj/aio/master/xlists/$FreeLibINFO
 #	 if [ -e "$RECEITA_PASTA/$OVEN/excludedeblist" ]; then sed 's|$FreeLibINFO|#$FreeLibINFO|g' $RECEITA_PASTA/$OVEN/excludedeblist; else echo "BlackList nao baixada para a receita"; fi
@@ -98,6 +105,7 @@ CKFREELIB(){
 }
 
 DOCOOK(){
+rm -Rf $PRATO
 CKFREELIB
 if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then
  cd $RECEITA_PASTA; MSGA001;
@@ -124,7 +132,6 @@ DELBINS(){
 	  IDATARM=`cat $line | awk {print $0}`
 	  rm -Rf $ELINKS/$IDATARM	  #Remove os atalhos de integração
 	done < "/tmp/idata.aio"
-	
 }
 
 DEL(){
@@ -135,13 +142,9 @@ DEL(){
 }
 
 DELOVEN(){
- MISTURA=$RECEITA_PASTA/$OVEN
- FORNO=$MISTURA/$ADD.AppDir
- echo "FORNO: $OVEN"
-# echo "$MISTURA"
-  if [ -e "$PRATO" ]; then rm -Rf $PRATO; echo "removendo o Prato";
-   if [ -e "$FORNO" ]; then rm -Rf $MISTURA; echo "removendo Ingredintes"; else  echo "Pasta com Ingredientes não existe"; fi
-  else  echo "o Prato não existe"; fi
+	OVEN=`cat $RECEITA_PASTA/$ITEMW.yml | grep "app:" | awk '{print $2}'`
+	MISTURA=$RECEITA_PASTA/$OVEN
+	if [ "$MISTURA/$OVEN.AppDir" ]; then rm -Rf $MISTURA; echo 'Forno limpo'; else echo "Aconteceu algum erro, revise a receita"; fi
 }
 
 GETAIO(){
@@ -153,13 +156,19 @@ GETAIO(){
 }
 
 GETRECEITA(){
- ADD=`cat /tmp/book | grep -w "$ADD:" | awk '{print $2}'`
- JARRA=`cat /tmp/book | grep -w "$ADD" | awk '{print $4}'`
- if [ -f "$RECEITA_PASTA/$ADD.yml" ]; then rm -Rf $RECEITA_PASTA/$ADD.yml; fi
- echo "$RAIZ/$JARRA/$ADD.yml"
- wget -q --show-progress $RAIZ/$JARRA/$ADD.yml -P $RECEITA_PASTA/
-# if [ "`whoami`"=="root" ]; then chmod 777 $RECEITA_PASTA/$ADD.yml; fi
- if [ -f "$RECEITA_PASTA/$ADD.yml" ]; then OVEN=`cat $RECEITA_PASTA/$ADD.yml | grep "app:" | awk '{print $2}'`; echo "OVEN: $OVEN"; else echo "Receita não baixada"; fi
+ RECIPE=`cat /tmp/book | grep -w "$ITEMW:" | awk '{print $2}'`
+ if [ "$ITEMW" == "$RECIPE" ]; then
+  RFIND="1" 
+  SACOLA=`cat /tmp/book | grep -w "$ITEMW:" | awk '{print $4}'`;
+  if [ -f "$RECEITA_PASTA/$RECIPE.yml" ]; then rm -Rf $RECEITA_PASTA/$RECIPE.yml; fi
+  wget -q --show-progress $RAIZ/$SACOLA/$RECIPE.yml -P $RECEITA_PASTA/
+  if [ -f "$RECEITA_PASTA/$RECIPE.yml" ]; then
+   OVEN=`cat $RECEITA_PASTA/$RECIPE.yml | grep "app:" | awk '{print $2}'`; echo "FORNO: $OVEN";
+   notify-send "Instalando: "$OVEN
+  else echo "Receita não baixada"; fi
+ else
+  echo "Receita não encontrada"
+ fi 
 }
 
 GETCOMBURENT(){
@@ -171,6 +180,33 @@ echo "isInstall: $isInstall"
    if [ -f "$JAR/$COMBURENT" ]; then echo "🖴  <====  🌐"; else echo "🖴  X====  🌐"; fi
   else echo "BOOK nao baixado"; fi
   if [ $isInstall == "1" ]; then rm -Rf /tmp/book; fi
+}
+
+GETMIND(){
+GETINTEGRATE=https://github.com/TheAssassin/AppImageLauncher/releases/download/v2.2.0
+if [[ "$SYSTEM_ARCH" == "x86_64" || "$SYSTEM_ARCH" == "amd64" || "$SYSTEM_ARCH" == "i686" ]]; then
+ if [[ "$SYSTEM_ARCH" == "x86_64" || "$SYSTEM_ARCH" == "amd64" ]]; then
+  MIND="appimagelauncher-lite-2.2.0-travis995-0f91801-x86_64.AppImage"; fi
+ if [ "$SYSTEM_ARCH" == "i686" ]; then
+  MIND="appimagelauncher-lite-2.2.0-travis995-0f91801-i386.AppImage"; fi
+ if [ -e "$JAR/$MIND" ]; then troca=troca; else
+  wget -q --show-progress -c $GETINTEGRATE/$MIND -O $JAR/$MIND;
+  chmod -R 777 $JAR/$MIND; chmod +x $JAR/$MIND;
+  if [ -e "$JAR/$MIND" ]; then echo "🖴  <====  🧠"; $JAR/$MIND install; else echo "🖴  X====  🧠"; fi
+ fi 
+fi
+if [[ "$SYSTEM_ARCH" == "arm64" || "$SYSTEM_ARCH" == "armhf" ]]; then
+ sudo apt install libqt5core5a libqt5dbus5 libqt5gui5 libqt5widgets5 -y;
+ if [ "$SYSTEM_ARCH" == "arm64" ]; then
+ MIND="appimagelauncher_2.2.0-travis995.0f91801.bionic_arm64.deb"; fi
+ if [ "$SYSTEM_ARCH" == "armhf" ]; then
+ MIND="appimagelauncher_2.2.0-travis995.0f91801.bionic_armhf.deb"; fi
+ if [ -e "$JAR/$MIND" ]; then troca=troca; else
+  wget -q --show-progress -c $GETINTEGRATE/$MIND -O AppIL.deb
+  dpkg -i AppIL.deb && sudo apt --fix-broken install; rm -Rf AppIL.deb;
+  if [ -e "/usr/bin/AppImageLauncher" ]; then echo "🖴  <====  🧠"; appimagelauncher %f && killall AppImageLauncherSettings; else echo "🖴  X====  🧠"; fi
+ fi
+fi
 }
 
 GETNETBOOK(){
@@ -191,6 +227,8 @@ GETNEWS(){
 }
 
 GETONLY(){
+	## Checa se a receita e de montagem ou somente download
+	## Baixa o conteudo ja gerado em outros sites e o integra ao sistema
 	GETOnly=`cat $RECEITA_PASTA/$ADD.yml | grep -w "getonly:" | awk '{print $2}'`
 	if [ "$GETOnly" == "" ]; then
 	 DOCOOK
@@ -203,18 +241,11 @@ GETONLY(){
 	fi
 }
 
-GETSUGESTS(){ 
-if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then
- SUGESTS=`cat $RECEITA_PASTA/$ADD.yml | grep -w "sugestname:"`	#Cria a lista de provaveis nomes para o app atravez da receita
- sed -i '/'$ADD'/d' $JAR/system.aio
- for n in $SUGESTS; do
-  echo $n: $ADD >> $JAR/system.aio
-  sed -i '/sugests/d' $JAR/system.aio
-  shift
- done
-else
- echo "A receita não existe para ver se existem sugestões de palavras"
-fi
+GETPAGEBASE(){
+ URL1=$RAIZ/andryeltj/aio/master/store/main.css
+ URL2=$RAIZ/andryeltj/aio/master/store/jquery.js
+ URL3=$RAIZ/andryeltj/aio/master/store/main.js
+ wget -q --show-progress -c -P /tmp/ $URL1 $URL2 $URL3
 }
 
 JARCONTENT(){
@@ -222,13 +253,13 @@ JARCONTENT(){
 }
 
 LAUNCHLIB(){
- MISTURA=$RECEITA_PASTA/$OVEN
- echo "$MISTURA" 
- if [ -e "$MISTURA" ]; then troca=troca; else echo "Não foi adicionada a tijela ao forno"; fi
+ OVEN=`cat $RECEITA_PASTA/$ITEMW.yml | grep "app:" | awk '{print $2}'`
+ MISTURA=$RECEITA_PASTA/$OVEN 
+ if [ -e "$MISTURA" ]; then troca=troca; else echo "Forno não gerado"; fi
  cd $CAMINHO
  if [ -e "$PRATO" ]; then	#Testa pra ver se foi cozinhado
-  PRODUTO=`ls $RECEITA_PASTA/out/`	#Pega o nome do app criado
-  APPNMLIST=`cat $JAR/aio.list | grep -w '$ADD: $PRODUTO'`; echo $APPNMLIST
+  PRODUTO=`ls $PRATO`	#Pega o nome do app criado
+  APPNMLIST=`cat $JAR/aio.list | grep -w '$ITEMW: $PRODUTO'`;
   if [ "$APPNMLIST" == "$ADD: $PRODUTO" ]; then #Atualiza os dados da lista
    DELLIBRARY; ADDLIBRARY
   else ADDLIBRARY	#Coloca o nome do app novo na lista 
@@ -257,12 +288,17 @@ cat /tmp/book2
 
 MOVEAPP(){
 ### Parte dessa função só deve ser chamada se o Produto já existir mas aquele usuario ainda não o tem > somente lincar
+PRODUTO=`ls $PRATO`
 echo "Produto: $PRODUTO"
-if [ -e "$RECEITA_PASTA/out" ]; then
- if [ -e "$RECEITA_PASTA/out/$PRODUTO" ]; then cp -Rf $RECEITA_PASTA/out/$PRODUTO $APPS;	#Move o app para a pasta de apps
-  chmod 777 $APPS/$PRODUTO; echo "Produto encontrado, movendo para a Mesa"; MSGA002; else echo "produto não existe, ou não encontrado"; fi
+if [ -e "$PRATO" ]; then
+ if [ -e "$PRATO/$PRODUTO" ]; then 
+  cp -Rf $PRATO/$PRODUTO $APPS;	#Move o app para a pasta de apps
+  chmod 777 $APPS/$PRODUTO;
+  rm -Rf $PRATO
+  echo $ITEMW" foi instalado.";
+  notify-send -i gtk-yes -u normal "$ITEMW foi instalado."
+  else echo "X - Produto não existe, ou não encontrado"; fi
 else echo "O Prato não foi criado"; fi
-echo "$ADD: $ADD" >> $JAR/system.aio
 }
 
 STOREIN="/tmp/aiostore"
@@ -299,17 +335,18 @@ MOUNTLISTS(){
 }
 
 MOUNTPAGE(){
-  imgloadstore="data:image/gif;base64,R0lGODlhMAAwAPeOAB2S//z+/vb6/A2+/efw92fO9vP4+9vt+vn8/SfC+zjJ/t/t9qrh9+30+d3t+ODy+t7w/brl93DX/qjk/tfp9uLu99zu+zTF+uDu99zt+ery+Lfj9t3w+VHL+a3j+E3J+ITV9drs+Q+n/k2q/ujx+FTQ/sTr/urz+ga0/huU/g6//tPs/hrA/Ojy+eny+UHH+eTx+bbn/tnr+F3O+Oz0+uvz+Z3f+H3W+Nvr9m3S+ODv+aff9t/w/HrU9+Tv983r+d3v/N/v+tvs+O71+t/u+N7t9+bw90TJ+orY937a/hac/irG/kGk/gS2/hzC/tru+CmY/prh/ozd/mLT/q/a/gix/pbO/hSf/gmu/tLu/hKh/gus/lmw/hmX/n7C/hCk/oDY+UbM/sDp+rvg/heZ/g2p/qPU/ma2/jWe/nK8/gK5/tHp9orI/uLw+cfm/sXh+q7V9sPm9nTR/ofN/i6o/rrb9qrh/nLU/oTT+bzg9sLm+la1/o3F9o/Y/hS3/iq9+6ra9rvi9mnL9nfM/iyr/kjK/j7B/r3e+dLn+imw/l/A/jOw+wG8/uDy/v///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/wtYTVAgRGF0YVhNUDw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDIxIDc5LjE1NTc3MiwgMjAxNC8wMS8xMy0xOTo0NDowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTQgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjI3QTBDNzUxNDYxQzExRTU4Q0JEOEI2RTczNTE2OTA4IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjI3QTBDNzUyNDYxQzExRTU4Q0JEOEI2RTczNTE2OTA4Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MjdBMEM3NEY0NjFDMTFFNThDQkQ4QjZFNzM1MTY5MDgiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MjdBMEM3NTA0NjFDMTFFNThDQkQ4QjZFNzM1MTY5MDgiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4B//79/Pv6+fj39vX08/Lx8O/u7ezr6uno5+bl5OPi4eDf3t3c29rZ2NfW1dTT0tHQz87NzMvKycjHxsXEw8LBwL++vby7urm4t7a1tLOysbCvrq2sq6qpqKempaSjoqGgn56dnJuamZiXlpWUk5KRkI+OjYyLiomIh4aFhIOCgYB/fn18e3p5eHd2dXRzcnFwb25tbGtqaWhnZmVkY2JhYF9eXVxbWllYV1ZVVFNSUVBPTk1MS0pJSEdGRURDQkFAPz49PDs6OTg3NjU0MzIxMC8uLSwrKikoJyYlJCMiISAfHh0cGxoZGBcWFRQTEhEQDw4NDAsKCQgHBgUEAwIBAAAh+QQFCACOACwAAAAAMAAwAAAI/wAdCRxIsKDBgwgTKlzIsKHDhxAjSpxI0VEAAwQyajQQoKJDBC4cHIDQqKRJCAccGBHgEaGABSFMypxZ8gAGAy0HBjhhgabPmRYqdPQoAMfPozODsKQoIAPSpyZ5DJkYwAHUq40OLH0YoAhWrBm2Nqzw9auDoQxrkCyLtULDAELYfrWAc2ELuWV1LEQgA+9XIA0U0vBbFoZCIoS/hkBbEMGBxF8DH2ywFjJUHwhJWMaKAeGCzVcpeAYNVfTBNTFAr6DCOoqEEgoYyS6AcIeKMElSy11hhguTKyJQyB4+nPZBMcRVlJBi4qqVEQC6aGlCvLpsMAgJWJftREGS5jSfK6X5Iny79R0IDSQwT1yBe/d+yrPf/iThh/n48w9nUfegDf0AsjeDQg0MEOCBxEWwUA4IIngBAgs9YGCDAHrQ0A0U6ncEhAwJcEGG8w3AwUMcTAiidQxEFIGJJ8qGBGMO/bBeiwMwAONDD8yYYQIKevRADxl28EBOFm3wwoEJbCBWTgJE0AGL233gwZJEChSABgyAUMCWXILAgAY3VinmmGSWaeaZAQEAIfkEBQgAjgAsBAAYACQABQAACFcAFzRyRLCgwYMIC2aRIiHMEkYQIcIBAGXEGSoJMzpaOMVJRIgH9ZS5kgIAACZsxmgkGEOCio+MVhJEgUVLSTRpxgwkmGVCR5gyM6qpQrSKAkcePwYtGBAAIfkEBQgAjgAsBAAYACgABQAACFUAHQkcSLCgQUcmJiSZoqChw4cSJETJIxCARQBQRpyhchBhlBJLGIlk1LGgoDcXK15kwmbMwAkKRoosWbLLxZQ3CRVSIZOmT0cosIgYSnQLip4/fQYEACH5BAUIAI4ALAQAGAAoAAUAAAhaAB0JHEiwoEATE5JMUcCQYUEJEqJkaUSxEYU6I6AMBMCR4wguc6KUWMKoZEmDBpeUkGDHCx+UG5VUMXkSpk2BavA4AmDwyhY1NBndHEpwkQgRjragCEq06cCAACH5BAUIAI4ALAQAGAAoAAUAAAhcABc0GkiwYKMYEySUUMCwYcMwEiRMMGiQgsAxVtKMgAKAjBYsTRiJHEmypEgFU5KYoEgBERMAMAFoCWmyps2RTkokidHIzSECAFJ8vEm0qMglIgAZ+GO0qdEnAQEAIfkEBQgAjgAsBAAYACgABQAACFMAFzQaSHDgBCkSEipUmGTChIIQIzaiIHCgiSQlVDDayLGjR0YSosSQCJHCiRgZP6pcudFJCSkjJbYhoJGlTZYqpkwwUXCBgQQ3g9pcIkFKHxIBAQAh+QQFCACOACwEABgAJwAFAAAIVwAdCcwyIYmEgwcFCpQyIUajhw8VSpwoMU4YRhgzUpTYRISSLgCYjPDSaONEMRpNqkRR5koXKGfMrChpkpHKmxObfFGSgouVmTRxClWJRcQVOoMmKI0SEAAh+QQFCACOACwEABgAKAAFAAAIXADXTBjoaKBBE40SKmzkqKHDhxAjOtrBSKJDFSUmmPEyAg2Aj44+fmQywovFkyeblLmSQqRLkVDOmFmBsibEJlvIvNzJxcqKLFLi2LSJ4ouSli5TKBGBhRGjJwEBACH5BAUIAI4ALAkAGAAjAAUAAAhaAE00GkiwoMGDCA1SYMRIRYkJCVdQ8cKFCYCLGC+iGZHGTcFADEMycjIlSpYVVkZAyciyJYA9dxSoACOyJqMmW8i4dJlCyxaRO2wKZYTii5IULFMoEYFF6JOAACH5BAUIAI4ALAQAGAAoAAUAAAhdABc0GjjQkcGDCBMqXMjQiYQYBAsujLiCihcuTBACAJBCSSJDChQUULhEwoSIKButsDICykIyZaowmkmT4cGSJiiyQbOwyxeZNBnZHBpGjqKNSAF0uSICRVChCwMCADs="
+  imgloadstore="data:image/webp;base64,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"
   GETNETBOOK
+  GETPAGEBASE
   GETNEWS
 # MainCSS='<link rel="stylesheet" type="text/css" href="'
 # Css01=$MainCSS$RAIZ'/andryeltj/aio/master/store/main.css">'
  rm -Rf /tmp/store.html
- CssLk01=`curl -s --progress-bar $RAIZ/andryeltj/aio/master/store/main.css`	#DevMode
+ CssLk01=`cat /tmp/main.css`	#DevMode
+ JsLk01=`cat /tmp/jquery.js`
+ JsLk02=`cat /tmp/main.js`
  Css01="<style>"$CssLk01"</style>"	#DevMode
 # Css01='<link rel="stylesheet" type="text/css" href="main.css"/>'
- JsLk01=`curl -s --progress-bar $RAIZ/andryeltj/aio/master/store/jquery.js`
- JsLk02=`curl -s --progress-bar $RAIZ/andryeltj/aio/master/store/main.js`
  JsBASIS='<script type="text/javascript">'$JsLk01'</script>'
  JsMAIN='<script type="text/javascript">'$JsLk02'</script>'	#DevMode
 # JsMAIN='<script type="text/javascript" src="main.js"></script>'
@@ -331,6 +368,7 @@ MOUNTPAGE(){
  MainBAR="<div class='mainbar'><a class='aiologo'>AIO</a><span class='searchbar' contenteditable='true'></span><a class='x'>X</a><div style='float:right'><a>A</a><a href='aio:store-up' class='updatestore'>🔄</a></div><i class='infoqtd'></i></div>"
  echo "$HTMLINFO<body><center></center><div class='container'>$CORPO</div>$MainBAR</body>" > $STOREIN/index.html
  yes | cp -Rf $JAR/aio-store.svg $STOREIN/favicon.svg
+ rm -Rf /tmp/main.css /tmp/jquery.js /tmp/main.js
 	}
 
 NATIVEFIER(){
@@ -363,7 +401,6 @@ else
   echo "📜 ONLINE"
   GETNETBOOK
   GETRECEITA
-  GETSUGESTS
 fi
 }
 
@@ -392,7 +429,7 @@ MSGA001(){
 	notify-send -i "Instalando: "$ADD"."
 	}
 MSGA002(){
-	echo $APPNMLIST" foi instalado."; notify-send -i gtk-yes -u normal $APPNMLIST" foi instalado."
+	echo $ITEMW" foi instalado."; notify-send -i gtk-yes -u normal "$ITEMW foi instalado."
 	}
 MSGAE001(){
 	notify-send -i "gtk-dialog-warning" "Não encontrado" "O App não foi encontrado nas fontes"
@@ -455,28 +492,6 @@ MMCK=`cat /usr/share/applications/mimeinfo.cache | grep "x-scheme-handler/aio=ai
     if [ "$MMCK" == "" ]; then echo "x-scheme-handler/aio=aio.desktop;" >> /usr/share/applications/mimeinfo.cache; fi
 	notify-send -i $JAR/aio-store.svg -u normal "Abra a AIO Store em:
 Menu > Internet > AIO Store";
-
-##if [ "$MENTE" == "x86_64" || "$MENTE" == "amd64" ]; then
-##	Metodo="0";
-##	if [ "$Metodo" == "0" ]; then
-	  ## sh -c $JAR/$Integrator;
-##	fi
-##	if [ "$Metodo" == "1" ]; then
-##	 sudo apt install libqt5core5a libqt5dbus5 libqt5gui5 libqt5widgets5 -y;
-##	 GETINTEGRATE="https://github.com/TheAssassin/AppImageLauncher/releases/download/v2.2.0/appimagelauncher_2.2.0-travis995.0f91801.bionic_amd64.deb"
-##	 InstallDEB
-##	fi
-##fi
-##if [ "$MENTE" == "arm64" ]; then
-##	 #Check dependencies in this processor ## sudo apt install libqt5core5a libqt5dbus5 libqt5gui5 libqt5widgets5 -y;
-##	 GETINTEGRATE="https://github.com/TheAssassin/AppImageLauncher/releases/download/v2.2.0/appimagelauncher_2.2.0-travis995.0f91801.bionic_arm64.deb"
-##	 InstallDEB
-##fi
-##if [ "$MENTE" == "armhf" ]; then
-##	 #Check dependencies in this processor ## sudo apt install libqt5core5a libqt5dbus5 libqt5gui5 libqt5widgets5 -y;
-##	 GETINTEGRATE="https://github.com/TheAssassin/AppImageLauncher/releases/download/v2.2.0/appimagelauncher_2.2.0-travis995.0f91801.bionic_armhf.deb"
-##	 InstallDEB
-##fi	
 }
 
 MAKEWidgets(){
@@ -532,111 +547,96 @@ if [ "`whoami`" == "root" ]; then troca=troca; else
  if [ -e "$ELINKS" ]; then troca=troca; else mkdir $ELINKS; fi
 fi
 
+##########################################
+##
+##				LAUNCHERS
+##
+##########################################
+
+ISONLINE=`service NetworkManager status | grep "manager:" | awk '/D*G/{print $13}'`
+if [ "$ISONLINE" == "CONNECTED_GLOBAL" ]; then 
 #### COMANDOS E INTEGRAÇÔES
 if [[ "$1" == "add" || "$1" == "install" || "$1" == "-i" ]]; then
  if [[ "`whoami`" == "root" ]]; then echo "Por favor tente instalar Apps sem ser o Administrador"; else
 #  echo "`whoami`"
-#  CHECKINTEGRATE
+  ADD=$2
+  ITEMW=$2
   TESTLOCAL
-  NATIVEFIER
-  GETONLY
-  MOVEAPP
-#  EXEINTEGRAR
-  if [[ "$3" == "--mb" || "$4" == "--mb" ]]; then echo "A Bases serão mantidas"; else DELOVEN; fi
+  if [ "$RFIND" == "1" ]; then
+   NATIVEFIER
+   GETONLY
+   if [[ "$3" == "-mb" || "$4" == "-mb" ]]; then echo "A Bases serão mantidas"; else DELOVEN; fi
+   MOVEAPP
+   CHECKAIOVERSION
+  fi
  fi
  
 elif [[ "$1" == "del" || "$1" == "remove" || "$1" == "-d" ]]; then
  DEL
- 
- 
+
 elif [[ "$1" == "list" || "$1" == "-l" ]]; then
  GETNETBOOK
  LISTJAR
  CHECKAIOVERSION
  
- 
-elif [[ "$1" == "up" || "$1" == "update" || "$1" == "-u" ]]; then
- GETNETBOOK
- CHECKAIOVERSION
- 
- 
-elif [[ "$1" == "atu" || "$1" == "atualizar" || "$1" == "-a" ]]; then
- CKLOCALNAMES
+elif [[ "$1" == "upd" || "$1" == "update" || "$1" == "-u" ]]; then
+ ADD=$2
+ ITEMW=$2
  CALLLOCAL
- CHECKINTEGRATE
- echo "App para atualizar: $ADD"
+ echo "Atualizando: "$ADD
+ DEL
  TESTLOCAL
- if [ -e "RECEITA_PASTA/$ADD.yml" ]; then
-   echo "Receita encontrada no disco"
-   MSGU001
-   NATIVEFIER
-   GETONLY
-   TSTINTEGRAR
-   DEL
-   if [[ "$3" == "--mb" || "$4" == "--mb" ]]; then echo "A Bases serão mantidas"; else DELOVEN; fi
-   MSGU002
- else
-   echo "Receita não encontrada"
-   echo "A receita buscada foi: $APP"
-   MSGUE001
- fi
- 
- 
+ NATIVEFIER
+ GETONLY
+ if [[ "$3" == "-mb" || "$4" == "-mb" ]]; then echo "A Bases serão mantidas"; else DELOVEN; fi
+ MOVEAPP
+ CHECKAIOVERSION
+
 elif [[ "$1" == "--help" || "$2" == "--help" || "$3" == "--help" || "$4" == "--help" || "$1" == "help" || "$2" == "help" || "$3" == "help" || "$4" == "help" ]]; then
  HELP
+
 elif [[ "$1" == "store" ]]; then
  if [[ "$3" == "-r" || "$4" == "-r" ]]; then
   CKWEBSERVER
   MOUNTPAGE
+  CHECKAIOVERSION
  else
   RUNPAGE
+  CHECKAIOVERSION
  fi
+
 elif [[ "$1" == "aio:store-up" ]]; then
  CKWEBSERVER
  MOUNTPAGE
-elif [[ "$1" == "aio:add" ]]; then
- TESTLOCAL
- NATIVEFIER
- GETONLY
- MOVEAPP
- CKWEBSERVER
- MOUNTPAGE
-elif [[ "$1" == "aio:del" ]]; then
- DEL
- CKWEBSERVER
- MOUNTPAGE
+ CHECKAIOVERSION
+ 
 elif [[ "$1" == "f-i" ]]; then
  if [ "`whoami`" == "root" ]; then INSTALLAIO; else echo "Vamos instalar... Execute como Root:
 $ sudo ./aio"; fi
 else
- if [ "$1" == '' ]; then troca=troca; else if ["$isInstall" == "1"]; then RUNPAGE; fi fi
+ if [ "$1" == '' ]; then troca=troca; else if ["$isInstall" == "1"]; then RUNPAGE; CHECKAIOVERSION; fi fi
 fi
-if [ -f "$JAR/$Integrator" ]; then troca=troca; echo 'existe';
-	else
-	 echo "Nao existe";
-	 if [ "`whoami`" == "root" ]; then echo "Agora chame o AIO sem sudo"; else
-	  echo 'Concluindo a instalacao. Pegando integrador...'; notify-send -i "Na primeira vez, e demorado mesmo.... Vai depender da sua internet";
-	  GETINTEGRATE=https://github.com/TheAssassin/AppImageLauncher/releases/download/v2.2.0/$Integrator
-	  wget -q --show-progress -c $GETINTEGRATE -O $JAR/$Integrator;
-	  chmod -R 777 $JAR/$Integrator; chmod +x $JAR/$Integrator;
-	 fi
-	 if [ -e "$JAR/$Integrador" ]; then echo "🖴  <====  🧠"; $JAR/$Integrator install; else echo "🖴  X====  🧠"; fi
-fi
+GETMIND
 if [ -e "$JAR" ]; then troca=troca; else if [ "`whoami`" == "root" ]; then echo 'iniciando instalacao'; INSTALLAIO; else echo "Vamos instalar... Execute como Root:
 $ sudo ./aio"; fi fi	#Aciona a instalacao
+
 if [[ "$1" == "" ]]; then troca=troca; else
  STOREC=`echo $1 | awk '{print $1}'`
  STORER=`echo $1 | awk '{print $2}'`
  if [[ "$STOREC" == "aio:add" ]]; then
   ADD=$STORER
   $2=$STORER
+  ITEMW=$STORER
   CKWEBSERVER
-  notify-send "Adicionando "$ADD
   TESTLOCAL
-  NATIVEFIER
-  GETONLY
-  MOVEAPP
-  MOUNTPAGE
+  if [ $RFIND == "1" ]; then
+   NATIVEFIER
+   GETONLY
+   DELOVEN
+   MOVEAPP
+   MOUNTPAGE
+   CHECKAIOVERSION
+  fi
  fi
  if [[ "$STOREC" == "aio:del" ]]; then
   ADD=$STORER
@@ -645,5 +645,10 @@ if [[ "$1" == "" ]]; then troca=troca; else
   DEL
   notify-send $ADD" removido."
   MOUNTPAGE
+  CHECKAIOVERSION
  fi
+fi
+else
+	echo "::::::: Conecte-se a Internet antes de  Instalar :::::::"
+	notify-send "Conecte-se a Internet"
 fi
