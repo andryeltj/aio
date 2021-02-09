@@ -99,7 +99,7 @@ $('document').ready(function(){
         var ElHead=ElHead1+appbg+ElHead2;
 		var itName="<a class='nameapp'>"+friendnm+"</a>"
 		var appic1='<button class="app" alt="'+appname+'"style="background:url(\'';
-		var appic2='\') no-repeat center 1.3em;background-size:50% auto"></button>';
+		var appic2='\') no-repeat center 2em;background-size:50% auto"></button>';
         var appic=appic1+appicon+appic2;
         ckrecipe=idrecipe;	CkInstall();
         var itBotton="<span>"+itmBT+"</span>"; itmBT="";
