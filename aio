@@ -22,7 +22,7 @@ CAMINHO=`pwd`
 RFIND="0"
 ITEMW=""
 AUTOINTEGRAR=0
-VERSIONR=202102060226
+VERSIONR=202102140000
 ISLOCAL=0
 troca=""
 VERSION=""
@@ -158,17 +158,18 @@ GETAIO(){
 
 GETRECEITA(){
  RECIPE=`cat /tmp/book | grep -w "$ITEMW:" | awk '{print $2}'`
- if [ "$ITEMW" == "$RECIPE" ]; then
+ if [ "$RECIPE" == "" ]; then
+  echo "A Receita não está na lista"
+ else
   RFIND="1" 
   SACOLA=`cat /tmp/book | grep -w "$ITEMW:" | awk '{print $4}'`;
   if [ -f "$RECEITA_PASTA/$RECIPE.yml" ]; then rm -Rf $RECEITA_PASTA/$RECIPE.yml; fi
-  wget -q --show-progress $RAIZ/$SACOLA/$RECIPE.yml -P $RECEITA_PASTA/
+  wget $RAIZ/$SACOLA/$RECIPE.yml -P $RECEITA_PASTA/
   if [ -f "$RECEITA_PASTA/$RECIPE.yml" ]; then
+   ADD=$RECIPE
    OVEN=`cat $RECEITA_PASTA/$RECIPE.yml | grep "app:" | awk '{print $2}'`; echo "FORNO: $OVEN";
    notify-send "Instalando: "$OVEN
   else echo "Receita não baixada"; fi
- else
-  echo "Receita não encontrada"
  fi 
 }
 
