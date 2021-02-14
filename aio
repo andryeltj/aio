@@ -1,5 +1,7 @@
 #!/bin/bash
 ADD=$2
+inNAME="0"
+RECIPE="0"
 JAR=/etc/aio	#Pasta das definições
 RECEITA_PASTA=/home/apps/receitas	#Pasta das receitas
 BASIS=$RECEITA_PASTA/basis	#Pasta das bases para receitas
@@ -16,16 +18,19 @@ ELINKS=$LOCAL/share/applications
 NEWS="andryeltj/aio/master/store/news.html"
 mail="andryel.aio@gmail.com"
 OVEN=""
+MISTURA=""
 JARRA=""
 PRODUTO=""
 CAMINHO=`pwd`
-RFIND="0"
-ITEMW=""
+PROGRESS="0"
+ITEMW="0"
 AUTOINTEGRAR=0
-VERSIONR=202102141750
+VERSIONR=202102141800
 ISLOCAL=0
 troca=""
 VERSION=""
+ITEMDEL=""
+ANO="";MES="";DIA="";LINHA="";TEMPO="";
 
 case "$(uname -i)" in
   x86_64|amd64)
@@ -65,21 +70,18 @@ fi
 }
 
 ADDLIBRARY(){
- LISTITEM=`cat $JAR/aio.list | grep -w "$ADD:" | awk '{print $1}'`
- if [ "$LISTITEM" == "$ADD:" ]; then
-    DELLIBRARY; echo "Atualizando "$LISTITEM" lista."
+ LISTITEM=`cat $JAR/aio.list | grep -w "$ITEMW:" | awk '{print $1}'`
+ if [ "$LISTITEM" == "$ITEMW:" ]; then
+    REMOVELIB; echo "Atualizando "$LISTITEM" lista."
  else
-	echo "$ADD: $PRODUTO" >> $JAR/aio.list; echo "Item "$LISTITEM" adicionado a lista."
+	HORA; echo "$ITEMW:	$PRODUTO	$LINHA.$TEMPO-UTC" >> $JAR/aio.list; echo "Item "$ITEMW" adicionado a lista."
  fi
 }
 
-DELLIBRARY(){
- LISTITEM=`cat $JAR/aio.list | grep -w "$ADD:" | awk '{print $1}'`
- if [ "$LISTITEM" == "$ADD:" ]; then
-	sed -i '/'$ADD:'/d' $JAR/aio.list; echo "Item removido da lista"	#Remove da lista o nome do app existente
- else
-    echo "O Item não foi encontrado na lista."
- fi
+REMOVELIB(){
+	sed -i '/'$ITEMW:'/d' $JAR/aio.list;
+	LISTITEM=`cat $JAR/aio.list | grep -w "$ITEMW:" | awk '{print $1}'`
+	if [ "$LISTITEM" == "" ]; then  echo "Item removido da lista"; else echo "Erro ao remover da lista"; fi	#Remove da lista o nome do app existente
 }
 
 CHECKAIOVERSION(){
@@ -94,7 +96,7 @@ fi
 }
 
 CKFREELIB(){
-	FreeLibINFO=`cat $RECEITA_PASTA/$ADD.yml | grep -w "freelib:" | awk '{print $2}'`
+	FreeLibINFO=`cat $RECEITA_PASTA/$RECIPE.yml | grep -w "freelib:" | awk '{print $2}'`
 	if [ "$FreeLibINFO" == "" ]; then
 	 troca=troca
 	else
@@ -108,10 +110,10 @@ CKFREELIB(){
 DOCOOK(){
 rm -Rf $PRATO
 CKFREELIB
-if [ -e "$RECEITA_PASTA/$ADD.yml" ]; then
+if [ -e "$RECEITA_PASTA/$RECIPE.yml" ]; then
  cd $RECEITA_PASTA; MSGA001;
  echo "##*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*##"
- pkg2appimage "$RECEITA_PASTA/$ADD.yml"	#COZINHA
+ pkg2appimage "$RECEITA_PASTA/$RECIPE.yml"	#COZINHA
  echo "##*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*##"
  LAUNCHLIB
 fi
@@ -136,16 +138,20 @@ DELBINS(){
 }
 
 DEL(){
-	echo "A remover: "$ADD
-	EXISTAPP=`cat $JAR/aio.list | grep -w "$ADD:" | awk '{print $2}'`	#Detecta o nome do app antigo
-	if [ -f "$APPS/$EXISTAPP" ]; then rm -Rf $APPS/$EXISTAPP; echo "App "$EXISTAPP" Removido"; MSGD001; else echo "O app "$EXISTAPP" não foi encontrado para remoção"; fi	#Remove o app; se existir
-	DELLIBRARY
+	ITEMW=`cat /tmp/book | grep -w "$InNAME:" | awk '{print $2}'`
+	ITEMDEL=`cat $JAR/aio.list | grep -w "$ITEMW:" | awk '{print $2}'`	#Detecta o nome do app a ser removido
+	if [ "$ITEMDEL" == "" ]; then troca=troca; else echo "Removendo: "$ITEMDEL; fi
+	if [ -f "$APPS/$ITEMDEL" ]; then rm -Rf $APPS/$ITEMDEL; REMOVELIB; echo "App "$ITEMDEL" Removido"; MSGD001;
+	else echo "O app "$ITEMDEL" não foi encontrado para remoção"; fi	#Remove o app; se existir
 }
 
 DELOVEN(){
-	OVEN=`cat $RECEITA_PASTA/$ITEMW.yml | grep "app:" | awk '{print $2}'`
-	MISTURA=$RECEITA_PASTA/$OVEN
-	if [ "$MISTURA/$OVEN.AppDir" ]; then rm -Rf $MISTURA; echo 'Forno limpo'; else echo "Aconteceu algum erro, revise a receita"; fi
+#	OVEN=`cat $RECEITA_PASTA/$RECIPE.yml | grep "app:" | awk '{print $2}'`
+	if [ "$OVEN" == "" ]; then echo 'Parametro OVEN vazio'; else
+	 echo 'DELOVEN='$OVEN' Receita_Pasta='$RECEITA_PASTA' ITEMW='$ITEMW;
+	 MISTURA=$RECEITA_PASTA/$OVEN
+	 if [ "$MISTURA/$OVEN.AppDir" ]; then rm -Rf $MISTURA; echo 'Forno limpo'; else echo "Aconteceu algum erro, revise a receita"; fi
+	fi
 }
 
 GETAIO(){
@@ -157,19 +163,15 @@ GETAIO(){
 }
 
 GETRECEITA(){
- RECIPE=`cat /tmp/book | grep -w "$ITEMW:" | awk '{print $2}'`
+ RECIPE=`cat /tmp/book | grep -w "$InNAME:" | awk '{print $2}'`
  if [ "$RECIPE" == "" ]; then
-  echo "A Receita não está na lista"
+  echo "A Receita não está na lista"; RECIPE="0"; PROGRESS="0";
  else
-  RFIND="1" 
-  SACOLA=`cat /tmp/book | grep -w "$ITEMW:" | awk '{print $4}'`;
+  PROGRESS="1" 
+  SACOLA=`cat /tmp/book | grep -w "$RECIPE" | awk '{print $4}'`;
   if [ -f "$RECEITA_PASTA/$RECIPE.yml" ]; then rm -Rf $RECEITA_PASTA/$RECIPE.yml; fi
   wget $RAIZ/$SACOLA/$RECIPE.yml -P $RECEITA_PASTA/
-  if [ -f "$RECEITA_PASTA/$RECIPE.yml" ]; then
-   ADD=$RECIPE
-   OVEN=`cat $RECEITA_PASTA/$RECIPE.yml | grep "app:" | awk '{print $2}'`; echo "FORNO: $OVEN";
-   notify-send "Instalando: "$OVEN
-  else echo "Receita não baixada"; fi
+  SETADDRESS;
  fi 
 }
 
@@ -179,7 +181,7 @@ echo "isInstall: $isInstall"
   if [ -f "/tmp/book" ]; then
    JARRA=`cat /tmp/book | grep -w "$COMBURENT:" | awk '{print $4}'`;
    wget -q --show-progress $RAIZ/$JARRA/$COMBURENT -P /etc/aio/; chmod +x $JAR/$COMBURENT;
-   if [ -f "$JAR/$COMBURENT" ]; then echo "🖴  <====  🌐"; else echo "🖴  X====  🌐"; fi
+   if [ -f "$JAR/$COMBURENT" ]; then echo "🖴  <====  🌐"; else echo "🖴  X====  🌐"; PROGRESS="0"; fi
   else echo "BOOK nao baixado"; fi
   if [ $isInstall == "1" ]; then rm -Rf /tmp/book; fi
 }
@@ -231,12 +233,12 @@ GETNEWS(){
 GETONLY(){
 	## Checa se a receita e de montagem ou somente download
 	## Baixa o conteudo ja gerado em outros sites e o integra ao sistema
-	GETOnly=`cat $RECEITA_PASTA/$ADD.yml | grep -w "getonly:" | awk '{print $2}'`
+	GETOnly=`cat $RECEITA_PASTA/$RECIPE.yml | grep -w "getonly:" | awk '{print $2}'`
 	if [ "$GETOnly" == "" ]; then
 	 DOCOOK
 	else
 	 echo "GETOnly: YES"
-	 OVEN=`cat $RECEITA_PASTA/$ADD.yml | grep "app:" | awk '{print $2}'`;
+	 OVEN=`cat $RECEITA_PASTA/$RECIPE.yml | grep "app:" | awk '{print $2}'`;
 	 mkdir $RECEITA_PASTA/$OVEN; mkdir $PRATO;
 	 wget -q --show-progress -P $PRATO/ $GETOnly
 	 LAUNCHLIB
@@ -255,18 +257,19 @@ JARCONTENT(){
 }
 
 LAUNCHLIB(){
- OVEN=`cat $RECEITA_PASTA/$ITEMW.yml | grep "app:" | awk '{print $2}'`
- MISTURA=$RECEITA_PASTA/$OVEN 
- if [ -e "$MISTURA" ]; then troca=troca; else echo "Forno não gerado"; fi
+## OVEN=`cat $RECEITA_PASTA/$ITEMW.yml | grep "app:" | awk '{print $2}'`
+## MISTURA=$RECEITA_PASTA/$OVEN 
+ if [ -e "$MISTURA" ]; then troca=troca; else echo "Forno não gerado"; PROGRESS="0"; fi
  cd $CAMINHO
  if [ -e "$PRATO" ]; then	#Testa pra ver se foi cozinhado
   PRODUTO=`ls $PRATO`	#Pega o nome do app criado
   APPNMLIST=`cat $JAR/aio.list | grep -w '$ITEMW: $PRODUTO'`;
-  if [ "$APPNMLIST" == "$ADD: $PRODUTO" ]; then #Atualiza os dados da lista
-   DELLIBRARY; ADDLIBRARY
+  if [ "$APPNMLIST" == "$ITEMW: $PRODUTO" ]; then #Atualiza os dados da lista
+   REMOVELIB; ADDLIBRARY
   else ADDLIBRARY	#Coloca o nome do app novo na lista 
   fi
  else
+  PROGRESS="0"
   echo "A tigela não saiu do forno"
  fi
 }
@@ -299,15 +302,16 @@ if [ -e "$PRATO" ]; then
   rm -Rf $PRATO
   echo $ITEMW" foi instalado.";
   notify-send -i gtk-yes -u normal "$ITEMW foi instalado."
-  else echo "X - Produto não existe, ou não encontrado"; fi
-else echo "O Prato não foi criado"; fi
+  else echo "X - Produto não existe, ou não encontrado"; PROGRESS="0"; fi
+else echo "O Prato não foi criado"; PROGRESS="0"; fi
 }
 
 STOREIN="/tmp/aiostore"
 imgloadstore="data:image/webp;base64,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"
 JsReload='<script type="text/javascript"> setTimeout("location.reload();",3000); </script>'
-ShReload='<script type="text/javascript"> $("article, div.book, div.list, div.mural").remove();$("div.container").append("<center><img style=\"margin-top:20%\" src='$imgloadstore'></center>");</script>'
+ShReload='<script type="text/javascript"> $("article, div.book, div.list, div.mural").remove();$("div.container").append("<center><img style=\"margin-top:20%\" src='$imgloadstore'></center>");$(".infoqtd").html("Atualizando informações, aguarde...")</script>'
 CKWEBSERVER(){
+	##Checa se o Apache está instalado para exibir a loja.
 	if [ -e "/var/www" ]; then
 	 STOREIN="/var/www/html/aiostore"
 	 if [ -e "$STOREIN" ]; then troca=troca; echo "a pasta existe no apache"; else echo "a pasta não existe no apache"; echo $STOREIN; sudo mkdir $STOREIN; sudo chmod -R 777 $STOREIN; fi
@@ -393,13 +397,26 @@ RUNPAGE(){
   LinkSTORE=""
 }
 
+SETADDRESS(){
+  if [ -f "$RECEITA_PASTA/$RECIPE.yml" ]; then
+   ITEMW=`cat $RECEITA_PASTA/$RECIPE.yml | grep "app:" | awk '{print $2}'`;
+   OVEN=$ITEMW; #echo "FORNO: $OVEN";
+   MISTURA=$RECEITA_PASTA/$OVEN
+   echo '************************
+Instalando '$OVEN' em '$MISTURA'
+************************'
+   notify-send "Instalando: "$OVEN
+  else echo "Receita não baixada"; PROGRESS="0"; fi
+}
+
 TESTLOCAL(){
 echo "##################### $ISLOCAL ###################"
 if [ "$ISLOCAL" == "1" ]; then
   echo "##################### $ISLOCAL ###################"
   echo "📜 Offline"
   MSGU004
-  OVEN=`cat $RECEITA_PASTA/$ADD.yml | grep "app:" | awk '{print $2}'`
+  OVEN=`cat $RECEITA_PASTA/$InNAME.yml | grep "app:" | awk '{print $2}'`
+  if [ "$OVEN" == "" ]; then troca=troca; else PROGRESS="1"; fi
 else
   echo "📜 ONLINE"
   GETNETBOOK
@@ -417,16 +434,26 @@ HELP(){
 # add ou install	instala o app
 # del ou remove		remove a instalação de um app
 # upd ou update		Atualiza up app específico
-# 	info			Info sobre um app. Ex.: aio -i firefox
-# 	list			Exibe a lista de apps do repositório
+#	list			Exibe a lista de apps no repositorio
+#	info			Exibe a info de um app instalado. Ex.: '$ aio info firefox'
 #	store			Abre a loja
 #	store -r		Recarrega a Loja
-#	-i			É o mesmo que 'info'
+#	-a			É o mesmo que 'add'
 #	-d			É o mesmo que 'del'
+#	-i			É o mesmo que 'info'
 #	-u			É o mesmo que 'upd'
 #
 #
 #"
+}
+
+HORA(){
+	ANO=$(date '+%Y')
+	MES=$(date '+%m')
+	DIA=$(date '+%d')
+	LINHA=$(date '+%Y%m%d')
+	TEMPO=$(date '+%H%M.%S')
+	echo $LINHA$TEMPO
 }
 
 ############# MENSAGENS DO SISTEMA
@@ -440,7 +467,7 @@ MSGAE001(){
 	notify-send -i "gtk-dialog-warning" "Não encontrado" "O App não foi encontrado nas fontes"
 	}
 MSGD001(){
-	notify-send -i gtk-dialog-question -u normal $ADD" Removido." 
+	notify-send -i gtk-dialog-question -u normal "$ITEMW Removido." 
 	}
 MSGU001(){
 	notify-send -i gtk-refresh "Atualizando o app: $1 $2 $3 $4"
@@ -499,6 +526,7 @@ MMCK=`cat /usr/share/applications/mimeinfo.cache | grep "x-scheme-handler/aio=ai
 Menu > Internet > AIO Store";
 }
 
+
 MAKEWidgets(){
 if [ -e "/usr/share/applications/aio.desktop" ]; then troca=troca; else 
 echo "[Desktop Entry]
@@ -546,6 +574,15 @@ echo "Adicionando icone da Loja"
 fi
 }
 
+INFOAPP(){
+	ITEMW=`cat /tmp/book | grep -w "$InNAME:" | awk '{print $2}'`
+	ITEMINFO=`cat $JAR/aio.list | grep -w "$ITEMW:"`
+	if [ "$ITEMINFO" == "" ]; then echo "Item não listado"; else echo "*#*#*#*#*#*#*#
+<Receita>		<Item>				<Hora>
+ "$ITEMINFO"
+*#*#*#*#*#*#*#"; fi
+}
+
 ##Criando as pastas no Usuario
 if [ "`whoami`" == "root" ]; then troca=troca; else
  if [ -e "$LOCAL" ]; then troca=troca; else mkdir $LOCAL; fi
@@ -559,96 +596,93 @@ fi
 ##########################################
 
 ISONLINE=`service NetworkManager status | grep "manager:" | awk '/D*G/{print $13}'`
+GETMIND
 #if [ "$ISONLINE" == "CONNECTED_GLOBAL" ]; then 
 #### COMANDOS E INTEGRAÇÔES
-if [[ "$1" == "add" || "$1" == "install" || "$1" == "-i" ]]; then
- if [[ "`whoami`" == "root" ]]; then echo "Por favor tente instalar Apps sem ser o Administrador"; else
-#  echo "`whoami`"
-  ADD=$2
-  ITEMW=$2
+if [[ "`whoami`" == "root" ]]; then echo "Os comandos só são executados sem a conta de Administrador"; if  [ "$1" == "f-i" ]; then INSTALLAIO; fi else
+ if [[ "$1" == "add" || "$1" == "install" || "$1" == "-a" ]]; then
+  InNAME=$2
   TESTLOCAL
-  if [ "$RFIND" == "1" ]; then
-   NATIVEFIER
-   GETONLY
-   if [[ "$3" == "-mb" || "$4" == "-mb" ]]; then echo "A Bases serão mantidas"; else DELOVEN; fi
-   MOVEAPP
+  if [ "$PROGRESS" == "1" ]; then NATIVEFIER; fi
+  if [ "$PROGRESS" == "1" ]; then GETONLY; fi
+  if [[ "$3" == "-mb" || "$4" == "-mb" ]]; then echo "A Bases serão mantidas"; else if [ "$PROGRESS" == "1" ]; then DELOVEN; fi fi
+  if [ "$PROGRESS" == "1" ]; then MOVEAPP; fi
+  CHECKAIOVERSION
+ 
+ elif [[ "$1" == "del" || "$1" == "remove" || "$1" == "-d" ]]; then
+  InNAME=$2
+  DEL
+
+ elif [[ "$1" == "info" || "$1" == "-i" ]]; then
+  InNAME=$2
+  INFOAPP
+
+ elif [[ "$1" == "list" || "$1" == "-l" ]]; then
+  GETNETBOOK
+  LISTJAR
+  CHECKAIOVERSION
+ 
+ elif [[ "$1" == "upd" || "$1" == "update" || "$1" == "-u" ]]; then
+  InNAME=$2
+  CALLLOCAL
+  echo "Atualizando: "$ITEMW
+  DEL
+  TESTLOCAL
+  NATIVEFIER
+  if [ "$PROGRESS" == "1" ]; then GETONLY; fi
+  if [[ "$3" == "-mb" || "$4" == "-mb" ]]; then echo "A Bases serão mantidas"; else if [ "$PROGRESS" == "1" ]; then DELOVEN; fi fi
+  if [ "$PROGRESS" == "1" ]; then MOVEAPP; fi
+  CHECKAIOVERSION
+
+ elif [[ "$1" == "--help" || "$2" == "--help" || "$3" == "--help" || "$4" == "--help" || "$1" == "help" || "$2" == "help" || "$3" == "help" || "$4" == "help" ]]; then
+  HELP
+
+ elif [[ "$1" == "store" ]]; then
+  if [[ "$3" == "-r" || "$4" == "-r" ]]; then
+   CKWEBSERVER
+   MOUNTPAGE
+   CHECKAIOVERSION
+  else
+   RUNPAGE
    CHECKAIOVERSION
   fi
- fi
- 
-elif [[ "$1" == "del" || "$1" == "remove" || "$1" == "-d" ]]; then
- DEL
 
-elif [[ "$1" == "list" || "$1" == "-l" ]]; then
- GETNETBOOK
- LISTJAR
- CHECKAIOVERSION
- 
-elif [[ "$1" == "upd" || "$1" == "update" || "$1" == "-u" ]]; then
- ADD=$2
- ITEMW=$2
- CALLLOCAL
- echo "Atualizando: "$ADD
- DEL
- TESTLOCAL
- NATIVEFIER
- GETONLY
- if [[ "$3" == "-mb" || "$4" == "-mb" ]]; then echo "A Bases serão mantidas"; else DELOVEN; fi
- MOVEAPP
- CHECKAIOVERSION
-
-elif [[ "$1" == "--help" || "$2" == "--help" || "$3" == "--help" || "$4" == "--help" || "$1" == "help" || "$2" == "help" || "$3" == "help" || "$4" == "help" ]]; then
- HELP
-
-elif [[ "$1" == "store" ]]; then
- if [[ "$3" == "-r" || "$4" == "-r" ]]; then
+ elif [[ "$1" == "aio:store-up" ]]; then
   CKWEBSERVER
   MOUNTPAGE
   CHECKAIOVERSION
- else
-  RUNPAGE
-  CHECKAIOVERSION
- fi
 
-elif [[ "$1" == "aio:store-up" ]]; then
- CKWEBSERVER
- MOUNTPAGE
- CHECKAIOVERSION
- 
-elif [[ "$1" == "f-i" ]]; then
- if [ "`whoami`" == "root" ]; then INSTALLAIO; else echo "Vamos instalar... Execute como Root:
-$ sudo ./aio"; fi
-else
- if [ "$1" == '' ]; then troca=troca; else if ["$isInstall" == "1"]; then RUNPAGE; CHECKAIOVERSION; fi fi
+ elif  [[ "$1" == "f-i" ]]; then echo "Vamos instalar... Execute como Root:
+$ sudo ./aio";
+
+##Fim dos comandos por texto
+ fi
 fi
-GETMIND
-if [ -e "$JAR" ]; then troca=troca; else if [ "`whoami`" == "root" ]; then echo 'iniciando instalacao'; INSTALLAIO; else echo "Vamos instalar... Execute como Root:
+
+
+if [ -e "$JAR" ]; then troca=troca; else 
+ if [ "`whoami`" == "root" ]; then echo 'iniciando instalacao'; INSTALLAIO; else echo "Vamos instalar... Execute como Root:
 $ sudo ./aio"; fi fi	#Aciona a instalacao
 
+##Comandos da Loja
 if [[ "$1" == "" ]]; then troca=troca; else
  STOREC=`echo $1 | awk '{print $1}'`
  STORER=`echo $1 | awk '{print $2}'`
  if [[ "$STOREC" == "aio:add" ]]; then
-  ADD=$STORER
-  $2=$STORER
-  ITEMW=$STORER
-  CKWEBSERVER
+  InNAME=$STORER
+  CKWEBSERVER ##Orientação para a loja
   TESTLOCAL
-  if [ $RFIND == "1" ]; then
-   NATIVEFIER
-   GETONLY
-   DELOVEN
-   MOVEAPP
-   MOUNTPAGE
-   CHECKAIOVERSION
-  fi
+  if [ "$PROGRESS" == "1" ]; then NATIVEFIER; fi
+  if [ "$PROGRESS" == "1" ]; then GETONLY; fi
+  if [ "$PROGRESS" == "1" ]; then DELOVEN; fi
+  if [ "$PROGRESS" == "1" ]; then MOVEAPP; fi
+  MOUNTPAGE;
+  CHECKAIOVERSION
  fi
  if [[ "$STOREC" == "aio:del" ]]; then
-  ADD=$STORER
-  $2=$STORER
+  InNAME=$STORER
   CKWEBSERVER
   DEL
-  notify-send $ADD" removido."
   MOUNTPAGE
   CHECKAIOVERSION
  fi
