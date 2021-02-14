@@ -22,7 +22,7 @@ CAMINHO=`pwd`
 RFIND="0"
 ITEMW=""
 AUTOINTEGRAR=0
-VERSIONR=202102140000
+VERSIONR=202102141750
 ISLOCAL=0
 troca=""
 VERSION=""
@@ -417,9 +417,11 @@ HELP(){
 # add ou install	instala o app
 # del ou remove		remove a instalação de um app
 # upd ou update		Atualiza up app específico
+# 	info			Info sobre um app. Ex.: aio -i firefox
+# 	list			Exibe a lista de apps do repositório
 #	store			Abre a loja
 #	store -r		Recarrega a Loja
-#	-i			É o mesmo que 'add'
+#	-i			É o mesmo que 'info'
 #	-d			É o mesmo que 'del'
 #	-u			É o mesmo que 'upd'
 #
