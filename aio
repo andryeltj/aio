@@ -25,11 +25,11 @@ CAMINHO=`pwd`
 PROGRESS="0"
 ITEMW="0"
 AUTOINTEGRAR=0
-VERSIONR=202102141800
+VERSIONR=202102150050
 ISLOCAL=0
 troca=""
 VERSION=""
-ITEMDEL=""
+ITEMDEL=""; RECIPE="";
 ANO="";MES="";DIA="";LINHA="";TEMPO="";
 
 case "$(uname -i)" in
@@ -70,18 +70,21 @@ fi
 }
 
 ADDLIBRARY(){
- LISTITEM=`cat $JAR/aio.list | grep -w "$ITEMW:" | awk '{print $1}'`
- if [ "$LISTITEM" == "$ITEMW:" ]; then
-    REMOVELIB; echo "Atualizando "$LISTITEM" lista."
- else
-	HORA; echo "$ITEMW:	$PRODUTO	$LINHA.$TEMPO-UTC" >> $JAR/aio.list; echo "Item "$ITEMW" adicionado a lista."
- fi
+## LISTITEM=`cat $JAR/aio.list | grep -w "$ITEMW:" | awk '{print $1}'`
+# if [ "$LISTITEM" == "$ITEMW:" ]; then
+#    REMOVELIB; echo "Atualizando "$LISTITEM" lista."
+# else
+    InBOOK=`cat /tmp/book | grep "$RECIPE" | awk '{print $1}' | sed 's|\:||g'`;
+	HORA; echo "$ITEMW:	$InBOOK $PRODUTO	$LINHA.$TEMPO-UTC	" >> $JAR/aio.list; 
+	LISTITEM=`cat $JAR/aio.list | grep -w "$ITEMW:" | awk '{print $3}'`
+	if [ "$LISTITEM" == "$PRODUTO" ]; then  echo "Item adicionado a lista."; else  echo "Item "$ITEMW" não adicionado"; fi
+# fi
 }
 
 REMOVELIB(){
 	sed -i '/'$ITEMW:'/d' $JAR/aio.list;
 	LISTITEM=`cat $JAR/aio.list | grep -w "$ITEMW:" | awk '{print $1}'`
-	if [ "$LISTITEM" == "" ]; then  echo "Item removido da lista"; else echo "Erro ao remover da lista"; fi	#Remove da lista o nome do app existente
+	if [ "$LISTITEM" == "" ]; then  troca=troca; else echo "Erro ao remover "$LISTITEM" da lista"; fi	#Remove da lista o nome do app existente
 }
 
 CHECKAIOVERSION(){
@@ -139,16 +142,16 @@ DELBINS(){
 
 DEL(){
 	ITEMW=`cat /tmp/book | grep -w "$InNAME:" | awk '{print $2}'`
-	ITEMDEL=`cat $JAR/aio.list | grep -w "$ITEMW:" | awk '{print $2}'`	#Detecta o nome do app a ser removido
+	ITEMDEL=`cat $JAR/aio.list | grep -w "$ITEMW:" | awk '{print $3}'`	#Detecta o nome do app a ser removido
 	if [ "$ITEMDEL" == "" ]; then troca=troca; else echo "Removendo: "$ITEMDEL; fi
-	if [ -f "$APPS/$ITEMDEL" ]; then rm -Rf $APPS/$ITEMDEL; REMOVELIB; echo "App "$ITEMDEL" Removido"; MSGD001;
+	if [ -f "$APPS/$ITEMDEL" ]; then rm -Rf $APPS/$ITEMDEL; REMOVELIB; echo 'Item removido da lista'; echo "App "$ITEMDEL" Removido"; MSGD001;
 	else echo "O app "$ITEMDEL" não foi encontrado para remoção"; fi	#Remove o app; se existir
 }
 
 DELOVEN(){
 #	OVEN=`cat $RECEITA_PASTA/$RECIPE.yml | grep "app:" | awk '{print $2}'`
 	if [ "$OVEN" == "" ]; then echo 'Parametro OVEN vazio'; else
-	 echo 'DELOVEN='$OVEN' Receita_Pasta='$RECEITA_PASTA' ITEMW='$ITEMW;
+#	 echo 'DELOVEN='$OVEN' Receita_Pasta='$RECEITA_PASTA' ITEMW='$ITEMW;
 	 MISTURA=$RECEITA_PASTA/$OVEN
 	 if [ "$MISTURA/$OVEN.AppDir" ]; then rm -Rf $MISTURA; echo 'Forno limpo'; else echo "Aconteceu algum erro, revise a receita"; fi
 	fi
@@ -258,19 +261,18 @@ JARCONTENT(){
 
 LAUNCHLIB(){
 ## OVEN=`cat $RECEITA_PASTA/$ITEMW.yml | grep "app:" | awk '{print $2}'`
-## MISTURA=$RECEITA_PASTA/$OVEN 
+## MISTURA=$RECEITA_PASTA/$OVEN
  if [ -e "$MISTURA" ]; then troca=troca; else echo "Forno não gerado"; PROGRESS="0"; fi
  cd $CAMINHO
  if [ -e "$PRATO" ]; then	#Testa pra ver se foi cozinhado
   PRODUTO=`ls $PRATO`	#Pega o nome do app criado
-  APPNMLIST=`cat $JAR/aio.list | grep -w '$ITEMW: $PRODUTO'`;
-  if [ "$APPNMLIST" == "$ITEMW: $PRODUTO" ]; then #Atualiza os dados da lista
+  APPNMLIST=`cat $JAR/aio.list | grep -w '$ITEMW' | awk '{print $3}'`;
+  if [ "$APPNMLIST" == "$PRODUTO" ]; then #Atualiza os dados da lista
    REMOVELIB; ADDLIBRARY
   else ADDLIBRARY	#Coloca o nome do app novo na lista 
   fi
  else
-  PROGRESS="0"
-  echo "A tigela não saiu do forno"
+  PROGRESS="0"; echo "A tigela não saiu do forno"
  fi
 }
 
@@ -314,12 +316,12 @@ CKWEBSERVER(){
 	##Checa se o Apache está instalado para exibir a loja.
 	if [ -e "/var/www" ]; then
 	 STOREIN="/var/www/html/aiostore"
-	 if [ -e "$STOREIN" ]; then troca=troca; echo "a pasta existe no apache"; else echo "a pasta não existe no apache"; echo $STOREIN; sudo mkdir $STOREIN; sudo chmod -R 777 $STOREIN; fi
+	 if [ -e "$STOREIN" ]; then troca=troca; echo "👜 no apache"; else echo "a pasta não existe no apache"; echo $STOREIN; sudo mkdir $STOREIN; sudo chmod -R 777 $STOREIN; fi
 	 LinkSTORE="localhost/aiostore"
 	 MetSTORE="http://"
 	else
 	 STOREIN="/tmp/aiostore"
-	 if [ -e "$STOREIN" ]; then troca=troca; echo "a pasta em tmp"; else echo "a loja vai estar em "$STOREIN; mkdir $STOREIN; fi
+	 if [ -e "$STOREIN" ]; then troca=troca; echo "👜 em tmp"; else echo "a loja vai estar em "$STOREIN; mkdir $STOREIN; fi
 	 LinkSTORE=$STOREIN"/index.html"
 	 MetSTORE="file://"
 	fi
@@ -337,7 +339,7 @@ MOUNTLISTS(){
 	CList=""
 	while IFS= read -r line
     do
-       Par02=`echo $line | awk '{print $1}' | sed 's|\:||g'`
+       Par02=`echo $line | awk '{print $2}' | sed 's|\:||g'`
        CList=$CList`echo "<li><a>"$Par02"</a>"``echo $line | awk '{print "<a>"$2"</a></li>"}'`
     done < /etc/aio/aio.list
 }
@@ -453,7 +455,6 @@ HORA(){
 	DIA=$(date '+%d')
 	LINHA=$(date '+%Y%m%d')
 	TEMPO=$(date '+%H%M.%S')
-	echo $LINHA$TEMPO
 }
 
 ############# MENSAGENS DO SISTEMA
@@ -612,6 +613,7 @@ if [[ "`whoami`" == "root" ]]; then echo "Os comandos só são executados sem a 
  elif [[ "$1" == "del" || "$1" == "remove" || "$1" == "-d" ]]; then
   InNAME=$2
   DEL
+  CHECKAIOVERSION
 
  elif [[ "$1" == "info" || "$1" == "-i" ]]; then
   InNAME=$2
@@ -625,8 +627,8 @@ if [[ "`whoami`" == "root" ]]; then echo "Os comandos só são executados sem a 
  elif [[ "$1" == "upd" || "$1" == "update" || "$1" == "-u" ]]; then
   InNAME=$2
   CALLLOCAL
-  echo "Atualizando: "$ITEMW
   DEL
+  echo "Atualizando: "$ITEMW
   TESTLOCAL
   NATIVEFIER
   if [ "$PROGRESS" == "1" ]; then GETONLY; fi
