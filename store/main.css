@@ -9,7 +9,9 @@ div.mainbar a{cursor:pointer;padding:.3em 1em;background:rgba(180,180,180,.3);he
 div.mainbar a:hover{background:rgba(255,255,255,.3)}
 div.mainbar a.aiologo{background:rgba(0,0,0,.3);height:100%;}
 div.mainbar span.searchbar{height:90%;width:30%;height:1em;padding:.45em;background:rgba(255,255,255,.6);color:black}
-div.aiostyle, div.aiomenu{position:absolute; button:1.3em}
+div.aiostyle, div.aiomenu{position:absolute; bottom:1.3em;background: rgba(8,8,8,.9);border-radius: 10px;}
+div.aiostyle a, div.aiomenu a{display:inline-block;width:100%}
+div.aiostyle a{right:2.3em}
 textarea{display:block;margin:0;border:0;background:transparent;width:100%}
 div.appinfo{display:block;position:relative;width:100%;height:20%;max-height:9em;text-shadow: 0 0 .06em black;color:orangered;padding:2.3% 0;box-shadow:0 0 .6em black}
 div.appinfo{background-image:url('https://img5.goodfon.com/wallpaper/nbig/0/b6/sinii-seryi-metallik-material-design-linii-background.jpg');background-size:100% 100%;}
