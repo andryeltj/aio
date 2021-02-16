@@ -48,6 +48,7 @@ $('document').ready(function(){
 	  appimg3=$(this).children("a:nth-child(10)").text();
 	  appimg4=$(this).children("a:nth-child(11)").text();
 	  appdesc=$(this).children("a:nth-child(12)").text();
+	  console.log(category);
       if(funcao == "0"){GeraItMenu();};
       if(funcao == "1"){Identifica();};
     });
