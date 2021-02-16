@@ -11,7 +11,7 @@ div.mainbar a.aiologo{background:rgba(0,0,0,.3);height:100%;}
 div.mainbar span.searchbar{height:90%;width:30%;height:1em;padding:.45em;background:rgba(255,255,255,.6);color:black}
 div.aiostyle, div.aiomenu{position:absolute; bottom:1.9em;background: rgba(8,8,8,.9);border-radius: 10px;}
 div.aiostyle a, div.aiomenu a{display:inline-block;width:80%;float:right}
-div.aiostyle span, div.aiomenu span{position:absolute;left:0;padding;0 1.2em;}
+div.aiostyle span, div.aiomenu span{position:absolute;left:0;padding:0 1em;}
 div.aiostyle{right:2.3em}
 textarea{display:block;margin:0;border:0;background:transparent;width:100%}
 div.appinfo{display:block;position:relative;width:100%;height:20%;max-height:9em;text-shadow: 0 0 .06em black;color:orangered;padding:2.3% 0;box-shadow:0 0 .6em black}
