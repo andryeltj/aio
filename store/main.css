@@ -9,7 +9,7 @@ div.mainbar a{cursor:pointer;padding:.3em 1em;background:rgba(180,180,180,.3);he
 div.mainbar a:hover{background:rgba(255,255,255,.3)}
 div.mainbar a.aiologo{background:rgba(0,0,0,.3);height:100%;}
 div.mainbar span.searchbar{height:90%;width:30%;height:1em;padding:.45em;background:rgba(255,255,255,.6);color:black}
-div.aiostyle, div.aiomenu{position:absolute; bottom:1.9em;background: rgba(8,8,8,.9);border-radius: 10px;}
+div.aiostyle, div.aiomenu{position:absolute;display:none; bottom:1.9em;background: rgba(8,8,8,.9);border-radius: 10px;}
 div.aiostyle a, div.aiomenu a{display:inline-block;width:80%;float:right}
 div.aiostyle span, div.aiomenu span{position:absolute;left:0;padding:0 1em;}
 div.aiostyle{right:2.3em}
