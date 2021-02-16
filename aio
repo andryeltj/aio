@@ -90,7 +90,7 @@ REMOVELIB(){
 CHECKAIOVERSION(){
 AIOR=`cat /tmp/book | grep -w "aio:" | awk '{print $2}'`
 echo "AIO: $AIOR"
-if [ "$VERSIONR" -lt "$AIOR" ]; then
+if [[ "$VERSIONR" -lt "$AIOR" ]]; then
     troca=troca
     echo "Existe uma nova atualização do AIO."
     MSGU003
@@ -262,6 +262,7 @@ JARCONTENT(){
 LAUNCHLIB(){
 ## OVEN=`cat $RECEITA_PASTA/$ITEMW.yml | grep "app:" | awk '{print $2}'`
 ## MISTURA=$RECEITA_PASTA/$OVEN
+ if [ -e "$JAR/aio.list" ];then troca=troca; else echo "" > $JAR/aio.list; fi 
  if [ -e "$MISTURA" ]; then troca=troca; else echo "Forno não gerado"; PROGRESS="0"; fi
  cd $CAMINHO
  if [ -e "$PRATO" ]; then	#Testa pra ver se foi cozinhado
@@ -343,7 +344,7 @@ MOUNTLISTS(){
        CList=$CList`echo "<li><a>"$Par02"</a>"``echo $line | awk '{print "<a>"$2"</a></li>"}'`
     done < /etc/aio/aio.list
 }
-
+IMGDOTS='<svg focusable="false" viewBox="0 0 24 24" style="height:1.2em"><path d="M6,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM16,6c0,1.1 0.9,2 2,2s2,-0.9 2,-2 -0.9,-2 -2,-2 -2,0.9 -2,2zM12,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2z"></path></svg>'
 MOUNTPAGE(){  
   GETNETBOOK
   GETPAGEBASE
@@ -374,7 +375,10 @@ MOUNTPAGE(){
  Mural="<div class='mural'><div class='imgview'><center><div class='exhib'></div><div class='rule'><a>📷</a><a>📷</a><a>📷</a><a>📷</a></div></center></div><div class='fullinfo'><p></p><a class='xview'>X</a></div></div>";
  CORPO=$HtmlHAreas$Newspaper$AppInfo"<article><center style='margin-top:18%'><img src='"$imgloadstore"'/></center></article>"$Mural
  echo "Abrindo a loja"
- MainBAR="<div class='mainbar'><a class='aiologo'>AIO</a><span class='searchbar' contenteditable='true'></span><a class='x'>X</a><div style='float:right'><a>░</a><a href='aio:store-up' class='updatestore'>🔄</a></div><i class='infoqtd'></i></div>"
+ POPUPMENU="<div class='aiomenu'><a>Ver DB</a><a>Crie Uma receita</a><a>Sobre AIO</a><a>Fale conosco</a></div>"
+ POPUPSTYLE="<div class='aiostyle'><div class='fstyle'><a class='card'><span>🍱</span>Cartão</a><a class='item'><span>▣</span>Item</a><a class='list'><span>▤</span>Lista</a></div><a><span>📑</span>Padrão</a><a class='cl1'><span>◉</span>Circulos 1</a><a class='cl2'><span>◉</span>Circulos 2</a><a class='cq1'><span>▢</span>Squircle</a></div>"
+ POPUPS=$POPUPMENU$POPUPSTYLE
+ MainBAR="<div class='mainbar'><a class='aiologo'>AIO</a><span class='searchbar' contenteditable='true'></span><a class='x'>✖</a><div style='float:right'><a class='styaio'>$IMGDOTS</a><a href='aio:store-up' class='updatestore'>🔄</a></div><i class='infoqtd'></i>"$POPUPS"</div>"
  echo "$HTMLINFO<body><center></center><div class='container'>$CORPO</div>$MainBAR</body>" > $STOREIN/index.html
  yes | cp -Rf $JAR/aio-store.svg $STOREIN/favicon.svg
  rm -Rf /tmp/main.css /tmp/jquery.js /tmp/main.js
