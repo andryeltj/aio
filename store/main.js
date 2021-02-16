@@ -153,5 +153,11 @@ $('document').ready(function(){
   $('a.xview').click(function(){
 	  $('div.mural').hide();
   });
+  $('a.aiologo').click(function(){
+	  $('div.aiomenu').toggle();
+  });
+  $('a.styaio').click(function(){
+	  $('div.aiostyle').toggle();
+  });
 //fim
 });
