@@ -111,12 +111,12 @@ $('document').ready(function(){
   $("div.news").html($("div.newspaper").html());$('div.newspaper').remove();
 //Pesquisa
   $('.searchbar').keyup(function(){
-	  $('div.pkg_disp').addClass("hide");
 	  var SCont=$(this).html();
-	  if (SCont == null ){$('div.pkg_disp').removeClass("hide");};
-	  if ($('div.pkg_disp.'+SCont).length) {$('div.pkg_disp.'+SCont).removeClass("hide");};
+	  if (SCont == "" ){$('div.pkg_disp').show();}else
+	  {$('div.pkg_disp').hide();if ($('div.pkg_disp.'+SCont+'*').length) {$('div.pkg_disp.'+SCont).show();};
+	  };
   });
-  $('.x').click(function(){$("div.searchbar").html("");$('div.pkg_disp').removeClass("hide");});
+  $('.x').click(function(){$("div.searchbar").html("");$('div.pkg_disp').show();});
 //Seleção de Item
   function Identifica(){
 	  if ( secapp == appname ){
