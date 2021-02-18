@@ -60,9 +60,9 @@ $('document').ready(function(){
 	  recipenm=$(this).children("a:nth-child(1)").text();
 	  appnm=$(this).children("a:nth-child(2)").text();
       if(funcao=="0"){
-		  if (ckrecipe == recipenm){itmBT="<button class='del'>Instalado</button>"};
-		  if(itmBT == "" || itmBT == "<button class='add'>Disponivel</button>")
-		    {itmBT="<button class='add'>Disponivel</button>"};
+		  if (ckrecipe == recipenm){itmBT="<div class='onsys'></div>"};
+//		  if(itmBT == "" || itmBT == "<button class='add'>Disponivel</button>")
+//		    {itmBT="<button class='add'>Disponivel</button>"};
 	  }
 	  if(funcao=="1"){
 		  if(secapp == recipenm){
