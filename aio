@@ -25,7 +25,7 @@ CAMINHO=`pwd`
 PROGRESS="0"
 ITEMW="0"
 AUTOINTEGRAR=0
-VERSIONR=202102150050
+VERSIONR=202102181540
 ISLOCAL=0
 troca=""
 VERSION=""
@@ -75,13 +75,14 @@ ADDLIBRARY(){
 #    REMOVELIB; echo "Atualizando "$LISTITEM" lista."
 # else
     InBOOK=`cat /tmp/book | grep "$RECIPE" | awk '{print $1}' | sed 's|\:||g'`;
-	HORA; echo "$ITEMW:	$InBOOK $PRODUTO	$LINHA.$TEMPO-UTC	" >> $JAR/aio.list; 
+	HORA; echo "$ITEMW:	$InBOOK $PRODUTO	$LINHA.$TEMPO-UTC" >> $JAR/aio.list; 
 	LISTITEM=`cat $JAR/aio.list | grep -w "$ITEMW:" | awk '{print $3}'`
 	if [ "$LISTITEM" == "$PRODUTO" ]; then  echo "Item adicionado a lista."; else  echo "Item "$ITEMW" não adicionado"; fi
 # fi
 }
 
 REMOVELIB(){
+	ITEMW=`cat /tmp/book | grep -w "$InNAME:" | awk '{print $2}'`;
 	sed -i '/'$ITEMW:'/d' $JAR/aio.list;
 	LISTITEM=`cat $JAR/aio.list | grep -w "$ITEMW:" | awk '{print $1}'`
 	if [ "$LISTITEM" == "" ]; then  troca=troca; else echo "Erro ao remover "$LISTITEM" da lista"; fi	#Remove da lista o nome do app existente
@@ -141,11 +142,10 @@ DELBINS(){
 }
 
 DEL(){
-	ITEMW=`cat /tmp/book | grep -w "$InNAME:" | awk '{print $2}'`
-	ITEMDEL=`cat $JAR/aio.list | grep -w "$ITEMW:" | awk '{print $3}'`	#Detecta o nome do app a ser removido
-	if [ "$ITEMDEL" == "" ]; then troca=troca; else echo "Removendo: "$ITEMDEL; fi
-	if [ -f "$APPS/$ITEMDEL" ]; then rm -Rf $APPS/$ITEMDEL; REMOVELIB; echo 'Item removido da lista'; echo "App "$ITEMDEL" Removido"; MSGD001;
-	else echo "O app "$ITEMDEL" não foi encontrado para remoção"; fi	#Remove o app; se existir
+	ITEMW=`cat /tmp/book | grep -w "$InNAME:" | awk '{print $2}'`; ITEMD=$ITEMW.AppImage
+	if [ "$ITEMW" == "" ]; then troca=troca; else echo "Removendo: "$ITEMW; fi
+	if [ -f "$APPS/$ITEMD" ]; then rm -Rf $APPS/$ITEMD; REMOVELIB; echo 'Item removido da lista'; echo "App "$ITEMW" Removido"; MSGD001;
+	else echo "O app "$ITEMW" não foi encontrado para remoção"; fi	#Remove o app; se existir
 }
 
 DELOVEN(){
@@ -241,10 +241,11 @@ GETONLY(){
 	 DOCOOK
 	else
 	 echo "GETOnly: YES"
-	 OVEN=`cat $RECEITA_PASTA/$RECIPE.yml | grep "app:" | awk '{print $2}'`;
-	 mkdir $RECEITA_PASTA/$OVEN; mkdir $PRATO;
-	 wget -q --show-progress -P $PRATO/ $GETOnly
-	 LAUNCHLIB
+	 OVEN=`cat $RECEITA_PASTA/$RECIPE.yml | grep -w "app:" | awk '{print $2}'`;
+	 mkdir $RECEITA_PASTA/$OVEN; mkdir $RECEITA_PASTA/$OVEN/$OVEN.AppDir; mkdir $PRATO;
+	 if [ -e "$PRATO" ]; then wget -q --show-progress -P $PRATO/ $GETOnly; fi
+	 PRODUTO=`ls $PRATO`;
+	 if [ "$PRODUTO" == "" ]; then PROGRESS="0"; else chmod +x $PRATO/$PRODUTO; LAUNCHLIB; fi
 	fi
 }
 
@@ -267,7 +268,7 @@ LAUNCHLIB(){
  cd $CAMINHO
  if [ -e "$PRATO" ]; then	#Testa pra ver se foi cozinhado
   PRODUTO=`ls $PRATO`	#Pega o nome do app criado
-  APPNMLIST=`cat $JAR/aio.list | grep -w '$ITEMW' | awk '{print $3}'`;
+  APPNMLIST=`cat $JAR/aio.list | grep -w '$ITEMW' | awk '{print $2}'`;
   if [ "$APPNMLIST" == "$PRODUTO" ]; then #Atualiza os dados da lista
    REMOVELIB; ADDLIBRARY
   else ADDLIBRARY	#Coloca o nome do app novo na lista 
@@ -300,8 +301,8 @@ PRODUTO=`ls $PRATO`
 echo "Produto: $PRODUTO"
 if [ -e "$PRATO" ]; then
  if [ -e "$PRATO/$PRODUTO" ]; then 
-  cp -Rf $PRATO/$PRODUTO $APPS;	#Move o app para a pasta de apps
-  chmod 777 $APPS/$PRODUTO;
+  cp -Rf $PRATO/$PRODUTO $APPS/$RECIPE.AppImage;	#Move o app para a pasta de apps
+  chmod 777 $APPS/$RECIPE.AppImage;
   rm -Rf $PRATO
   echo $ITEMW" foi instalado.";
   notify-send -i gtk-yes -u normal "$ITEMW foi instalado."
@@ -370,7 +371,7 @@ MOUNTPAGE(){
  MOUNTLISTS
 # CList=`cat /etc/aio/aio.list`
  HtmlHAreas="<div class='book'>"$CBook"</div><div class='list'>"$CList"</div>"
- AppInfo="<div class='appinfo'><div class='appname'>Bem vindo</div><i>Clique abaixo para exibir as informações do App</i><div class='passing'>⚙️°°°°°°°°</div><div class='pdthumbs'><img src='https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/devices/camera-photo.svg'><a></a><a></a><a></a><a></a></div><a class='applogo'></a><a class='ckrecipe' alt='Exibe a receita do app instalado'>📑</a><button class='seta'></button></div>"
+ AppInfo="<div class='appinfo'><div class='appname'>Bem vindo</div><i>Clique abaixo para exibir as informações do App</i><div class='passing'>⚙️°°°°°°°°</div><a class='applogo'></a><div class='iteminfo'><a class='ckrecipe' alt='Exibe a receita do app instalado'>📑</a><button class='seta'></button><div class='pdthumbs'><img src='https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/devices/camera-photo.svg'><a></a><a></a><a></a><a></a></div></div></div>"
  Newspaper="<div class='newspaper'>"$varNEWS"</div>"
  Mural="<div class='mural'><div class='imgview'><center><div class='exhib'></div><div class='rule'><a>📷</a><a>📷</a><a>📷</a><a>📷</a></div></center></div><div class='fullinfo'><p></p><a class='xview'>X</a></div></div>";
  CORPO=$HtmlHAreas$Newspaper$AppInfo"<article><center style='margin-top:18%'><img src='"$imgloadstore"'/></center></article>"$Mural
@@ -379,7 +380,7 @@ MOUNTPAGE(){
  POPUPSTYLE="<div class='aiostyle'><div class='fstyle'><a class='card'><span>🍱</span>Cartão</a><a class='item'><span>▣</span>Item</a><a class='list'><span>▤</span>Lista</a></div><a><span>📑</span>Padrão</a><a class='cl1'><span>◉</span>Circulos 1</a><a class='cl2'><span>◉</span>Circulos 2</a><a class='cq1'><span>▢</span>Squircle</a></div>"
  POPUPS=$POPUPMENU$POPUPSTYLE
  MainBAR="<div class='mainbar'><a class='aiologo'>AIO</a><span class='searchbar' contenteditable='true'></span><a class='x'>✖</a><div style='float:right'><a class='styaio'>$IMGDOTS</a><a href='aio:store-up' class='updatestore'>🔄</a></div><i class='infoqtd'></i>"$POPUPS"</div>"
- echo "$HTMLINFO<body><center></center><div class='container'>$CORPO</div>$MainBAR</body>" > $STOREIN/index.html
+ echo "$HTMLINFO<body><center></center><div class='container'><div class='backy'></div>$CORPO</div>$MainBAR</body>" > $STOREIN/index.html
  yes | cp -Rf $JAR/aio-store.svg $STOREIN/favicon.svg
  rm -Rf /tmp/main.css /tmp/jquery.js /tmp/main.js
 	}
@@ -515,7 +516,8 @@ INSTALLAIO(){
 #Instala o suporte
 	echo "###########################"
 	#Arch an Fedora put here command for install the APT.
-	sudo apt update; sudo apt install build-essential libcurl4 curl rpm2cpio imagemagick mutt -y;
+	sudo apt update; sudo apt install build-essential libcurl4 curl rpm2cpio imagemagick ffmpeg -y;
+	mutt para emails
 #Instala o Integrador
 	echo "[AppImageLauncher]
 ask_to_move=true
