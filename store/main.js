@@ -141,6 +141,7 @@ $('document').ready(function(){
   $("button.app").click(function(){
 	  secapp=$(this).attr('alt');
 	  funcao="1";LerBOOK();
+	  $('div.iteminfo').show();
 	  //console.log("Clicou em "+secapp);
   });
 //Exibir Imagens
