@@ -43,7 +43,7 @@ article{display:inline-block;position:relative;width:94%;height:73%;padding:.6em
 div.pkg_disp{display:inline-block;float:left;width:128px;height:158px;position:relative;margin-right:.7em;background:red;box-shadow:#000 0 0 .3em;border-radius:38% 10% 10% 10%;margin-bottom:3.3em;}
 div.pkg_disp a{display:inline-block;width:90%;margin:0 5%;color:#EEE;font-family:'Titillium Web', sans-serif;position:absolute;bottom:2.4em;text-shadow:#000 0 0 .6em;font-weight: bolder;height: 2em;word-wrap: break-word;font-size: 1.2em;line-height: 1em;background:radial-gradient(circle, rgba(109,109,109,0.16341224083533656) 0%, rgba(0,0,0,0) 100%);}
 div.pkg_disp span{display:block;width:1.2em;height:1.2em;position:absolute;top:-0.3em;right:-0.3em;}
-button.app{display:block;width:128px;height:164px;border-radius:38% 10% 10% 10%;border:0;box-shadow:0 0 1px #111 inset}
+button.app{display:block;width:128px;height:159px;border-radius:38% 10% 10% 10%;border:0;box-shadow:0 0 1px #111 inset}
 button.add, button.del{width:100%;height:32px;font-size:1em;padding:0;border:0;color:white;border-radius:0 0 1em 1em;}
 button.add,.add,.onsys{background:forestgreen !important} button.del,.del{background:#0267ca !important}button.del:hover,.del:hover{background:darkorange !important}
 div.onsys{background:blueviolet !important;width: 1.2em;height: 1.2em;border-radius: 50%;border: 2px solid rgba(255,255,255,.7);}
