@@ -161,6 +161,6 @@ $('document').ready(function(){
   $('a.styaio').click(function(){
 	  $('div.aiostyle').toggle();
   });
-  $('article').click(function(){alert("clicou")})
+  $('div.backy').click(function(){alert("clicou")})
 //fim
 });
