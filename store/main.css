@@ -52,7 +52,7 @@ div.news{display:inline-block;width:19%;float:left;margin-right:-14%;margin-top:
 button.thumb{display:inline-block;position:relative;width:88%;height:11em;margin:0 .3em 3.5em 5%; box-shadow:#222 0 0 .3em;font-size: 11px;border: none;border-radius: 12px;}
 div.weekvideos{margin-top:1em}
 div.weekvideos button:link{color:#1988ff}
-div.weekvideos button span{position:absolute;bottom:-3em;display:inline-block;width: 100%;left: 0;color:#fe7a15 !important; text-shadow:black 0 0 2pt;font-weight: bold;font-family: 'Titillium Web', sans-serif;font-size: 1.3em;line-height: 1em;}
+div.weekvideos button span{position:absolute;top:104%;display:inline-block;width: 100%;left: 0;color:#fe7a15 !important; text-shadow:black 0 0 2pt;font-weight: bold;font-family: 'Titillium Web', sans-serif;font-size: 1.3em;line-height: 1em;}
 div.articles{border-top: 1px solid rgba(180,180,180,.3);margin-top: .5em;}
 div.articles h3{padding-left: .5em;color: #1988ff;font-size: 1.2em;font-family: Titillium web;margin: .3em;}
 div.articles a{display:inline-block;color:white;font-size:1.2em;width:100%;margin-top:.3em;background:#1988ff;text-align:center;text-decoration:none;padding:.5em 0;font-weight: bold;font-family: Titillium web;}
