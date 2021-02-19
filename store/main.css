@@ -71,3 +71,6 @@ a.xview{display:block;position:absolute;top:0;right:0;color:white;cursor:pointer
 a.xview:hover{background:rgba(255,255,255,.3);color:black}
 a.x:target{background:white;color:red}
 i.infoqtd{float:right}
+div.cl1{border-radius:50%;height:128px;}
+div.cl1 button{border-radius:50%;height:128px;}
+div.cli a.nameapp{bottom:-2.5em}
