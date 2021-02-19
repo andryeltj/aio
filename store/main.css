@@ -13,7 +13,6 @@ div.mainbar a, div.searchbar a{cursor:pointer;padding:.3em 1em;background:rgba(1
 div.mainbar a:hover,div.searchbar a:hover{background:rgba(255,255,255,.3)}
 div.searchbar a:hover{color:black}
 div.mainbar a.aiologo{background:rgba(0,0,0,.3);height:100%;}
-
 div.aiostyle, div.aiomenu{position:absolute;display:none; bottom:1.9em;background: rgba(8,8,8,.9);border-radius: 10px;}
 div.aiostyle a, div.aiomenu a{display:inline-block;width:80%;float:right}
 div.aiostyle span, div.aiomenu span{position:absolute;left:0;padding:0 1em;}
@@ -74,3 +73,5 @@ i.infoqtd{float:right}
 div.cl1{border-radius:50%;height:128px;}
 div.cl1 button{border-radius:50%;height:128px;}
 div.cli a.nameapp{bottom:-2.5em}
+div.cl1 span {right:1.2}
+div.cl1 span div.onsys {width: 2em; height: 2em;}
