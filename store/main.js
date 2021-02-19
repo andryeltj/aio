@@ -117,7 +117,7 @@ $('document').ready(function(){
 	  {$('div.pkg_disp').hide();if ($('div.pkg_disp.'+SCont+'*').length) {$('div.pkg_disp.'+SCont).show();};
 	  };
   });
-  $('.x').click(function(){$("div.searchbar").html("");$('div.pkg_disp').show();});
+  $('.x').click(function(){$("span.searchbar").html("");$('div.pkg_disp').show();});
 //Seleção de Item
   function Identifica(){
 	  if ( secapp == appname ){
