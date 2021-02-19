@@ -111,7 +111,7 @@ $('document').ready(function(){
   $("i.infoqtd").html(ctItems+" apps disponíveis.");
   $("div.news").html($("div.newspaper").html());$('div.newspaper').remove();
 //Pesquisa
-  $('.searchbar').keyup(function(){
+  $('span.searchbar').keyup(function(){
 	  var SCont=$(this).html();
 	  if (SCont == "" ){$('div.pkg_disp').show();}else
 	  {$('div.pkg_disp').hide();if ($('div.pkg_disp.'+SCont+'*').length) {$('div.pkg_disp.'+SCont).show();};
