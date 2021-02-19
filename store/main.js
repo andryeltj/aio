@@ -171,5 +171,6 @@ $('document').ready(function(){
   $('div.backy').click(function(){alert("clicou")})
 //Stylers
   $('.cl1').click(function(){$('div.pkg_disp').addClass('cl1')});
+  $('.std').click(function(){$('div.pkg_disp').removeClass('cl1')});
 //fim
 });
