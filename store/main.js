@@ -114,8 +114,15 @@ $('document').ready(function(){
   $('span.searchbar').keyup(function(){
 	  var SCont=$(this).html();
 	  if (SCont == "" ){$('div.pkg_disp').show();}else
-	  {$('div.pkg_disp').hide();if ($('div.pkg_disp.'+SCont+'*').length) {$('div.pkg_disp.'+SCont).show();};
-	  };
+	  {$('div.pkg_disp').hide();
+		  $('div.menu div').each(function(){
+			var identfy=$(this).attr('class');
+			if(identfy.indexOf(SCont) != -1){
+			  identfy=identfy.replace(/ /g,'.');
+			  $("."+identfy).show();
+			}
+		  });
+		};
   });
   $('.x').click(function(){$("span.searchbar").html("");$('div.pkg_disp').show();});
 //Seleção de Item
