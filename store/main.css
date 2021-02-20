@@ -75,4 +75,4 @@ div.cl1 button,div.qd1 button{border-radius:50%;height:128px;}
 div.cl1 a.nameapp, div.qd1 a{bottom:-2.5em}
 div.cl1 span {right:1.2em}
 div.cl1 span div.onsys {width: 2em; height: 2em;}
-div.qd1{border-radius:12px}
+div.qd1,div.qd1 button{width:168;border-radius:12px}
