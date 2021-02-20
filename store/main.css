@@ -10,7 +10,7 @@ div.searchbar a.x{position:absolute;top:0;right:0;background:rgba(84,84,84,.3);c
 div.mainbar{display:block;position:absolute;bottom:0;width:100%;background:rgba(55,55,55,.87)}
 div.searchbar a, div.searchbar span,.mainbar a, .mainbar span{display:block;float:left;text-align:center}
 div.mainbar a, div.searchbar a{cursor:pointer;padding:.45em 1em;background:rgba(180,180,180,.3);height:1.5em;color:white;text-decoration:none}
-div.mainbar a:hover,div.searchbar a:hover{background:rgba(255,255,255,.3)}
+div.mainbar a:hover,div.searchbar a:hover{background:rgba(232,232,232,.3)}
 div.searchbar a:hover{color:black}
 div.mainbar a.aiologo{background:rgba(0,0,0,.3);height:100%;}
 div.aiostyle, div.aiomenu{position:absolute;display:none; bottom:1.9em;background: rgba(8,8,8,.9);border-radius: 10px;}
