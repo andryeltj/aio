@@ -70,8 +70,9 @@ a.xview{display:block;position:absolute;top:0;right:0;color:white;cursor:pointer
 a.xview:hover{background:rgba(255,255,255,.3);color:black}
 a.x:target{background:white;color:red}
 i.infoqtd{float:right}
-div.cl1{border-radius:50%;height:128px;}
-div.cl1 button{border-radius:50%;height:128px;}
-div.cl1 a.nameapp{bottom:-2.5em}
+div.cl1,div.qd1{border-radius:50%;height:128px;margin-bottom:5.8em}
+div.cl1 button,div.qd1 button{border-radius:50%;height:128px;}
+div.cl1 a.nameapp, div.qd1 a{bottom:-2.5em}
 div.cl1 span {right:1.2em}
 div.cl1 span div.onsys {width: 2em; height: 2em;}
+div.qd1{border-radius:12px}
