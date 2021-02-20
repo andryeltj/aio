@@ -171,7 +171,8 @@ $('document').ready(function(){
   });
   $('div.backy').click(function(){alert("clicou")})
 //Stylers
-  $('.cl1').click(function(){$('div.pkg_disp').addClass('cl1')});
-  $('.std').click(function(){$('div.pkg_disp').removeClass('cl1')});
+  $('.std').click(function(){$('div.pkg_disp').removeClass('cl1, qd1')});
+  $('.cl1').click(function(){$('div.pkg_disp').removeClass('qd1').addClass('cl1')});
+  $('.qd1').click(function(){$('div.pkg_disp').removeClass('cl1').addClass('qd1')});
 //fim
 });
