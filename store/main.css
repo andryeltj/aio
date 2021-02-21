@@ -80,3 +80,4 @@ div.qd1,div.qd1 button{width:168px;border-radius:12px}
 div.qd1 button{background-size:40% auto !important;background-position-x: 2em !important;}
 div.listv{width: 98%;height: 128px;box-shadow: #9e9e9e .1em .1em .05em;border-radius:12px 0 0 12px;background-position-x: 0 !important;background-size: 128px 128px !important;margin-bottom:1em;float:none}
 div.listv a.nameapp{margin:0 12px;bottom:none;top:.17em;left: 128px;font-size: x-large;}
+div.listv a.nameapp{width: 100%;height: 128px;border-radius: 12px;background-size: 5em !important;background-position-x: 2.2em !important;}
