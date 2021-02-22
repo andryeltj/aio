@@ -83,7 +83,7 @@ div.listv a.nameapp{margin:0 12px;bottom:none;top:.17em;left: 128px;font-size: x
 div.listv button.app{width: 100%;height: 128px;border-radius: 12px;background-size: 5em !important;background-position-x: 2.2em !important;}
 div.appinfo.listv{width: 20%;height: 100%;float: left;display: block !important;padding: 0px;max-height: unset;background-size: auto 100% !important;margin:0}
 div.appinfo.listv div.searchbar{width:97%}
-div.appinfo.listv div.appname{margin-top: 5em;}
+div.appinfo.listv div.appname{margin-top: 5em;word-break: break-word;width: 99%;margin-left: .5%;padding: 0;text-align: center;}
 div.appinfo.listv a.applogo{top: 4em;left: 41%;}
 div.appinfo.listv i{margin: 0 1em;display: block;width: 90%;}
 div.appinfo.listv div.passing{margin: 1em 3%;text-align: center;font-size: 2em;width: 94%;}
