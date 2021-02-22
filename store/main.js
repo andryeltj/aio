@@ -174,6 +174,6 @@ $('document').ready(function(){
   $('.std').click(function(){$('div.pkg_disp').removeClass('cl1, qd1, listv')});
   $('.cl1').click(function(){$('div.pkg_disp').removeClass('qd1, listv').addClass('cl1')});
   $('.qd1').click(function(){$('div.pkg_disp').removeClass('cl1, listv').addClass('qd1')});
-  $('.list').click(function(){$('div.pkg_disp').removeClass('cl1, qd1').addClass('listv')});
+  $('.list').click(function(){$('div.pkg_disp,article,div.appinfo').removeClass('cl1, qd1').addClass('listv')});
 //fim
 });
