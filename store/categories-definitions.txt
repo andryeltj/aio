@@ -16,11 +16,11 @@
 🎨	= P	temas themes personalizar transformation icones icons
 H	
 J	
-K	
+🛍️	= K kits meta package
 L	
 N	
 O	
-Q	
+Q 
 R	
 X	
 Y	
