@@ -1,0 +1,26 @@
+🖌	= E	editores edictores
+🎴	= I	imagem imagens images
+🗒	= T	textos texts offices suites suítes
+🎧	= A	audios spectros spectrums
+🎞	= M	midias mídias medias
+🌐	= W	web internet redes networks browsers navegadores
+📸	= C	webcams cameras câmeras
+⚙	= S	systems sistemas
+🛠	= U	ferramentas utility utilities
+🗜	= Z	zip rar 7z packages compress comprimir comprime
+⚠	= D	informations informacoes informações
+🎮	= G	games jogos controls controles controlar
+🗂️	= F	folders pastas files managers arquivos gerenciadores
+🎥	= V	videos vídeos
+💬	= B	messengers mensageiros send sender enviar
+🎨	= P	temas themes personalizar transformation icones icons
+H	
+J	
+K	
+L	
+N	
+O	
+Q	
+R	
+X	
+Y	
