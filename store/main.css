@@ -89,6 +89,6 @@ div.appinfo.listv i{margin: 0 1em;display: block;width: 90%;}
 div.appinfo.listv div.passing{margin: 1em 3%;text-align: center;font-size: 2em;width: 94%;}
 div.appinfo.listv div.iteminfo{display: block;top: unset;bottom: 2.3em;height: 256px;}
 div.appinfo.listv div.iteminfo button.seta{display:none}
-div.appinfo.listv div.iteminfo div.pdthumbs{width: 101%;right:0;top:unset;bottom:.5em;box-shadow:0 0 7px white;}
+div.appinfo.listv div.iteminfo div.pdthumbs{width: 101%;right:1px;top:unset;bottom:.5em;box-shadow:0 0 7px white;}
 article.listv{width: 79%;float: left;height: 100%;margin: 0 0 0 1%;padding: 0;}
 article.listv div.menu{width:80%}
