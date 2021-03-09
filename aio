@@ -701,6 +701,16 @@ if [[ "$1" == "" ]]; then troca=troca; else
   sh -c /home/apps/$ITEMW.AppImage
   echo "Abriu: "$STORER >> /tmp/aiolog.log
  fi
+ if [[ "$STOREC" == "aio:upd" ]]; then
+  InNAME=$STORER
+  CALLLOCAL
+  DEL
+  TESTLOCAL
+  NATIVEFIER
+  if [ "$PROGRESS" == "1" ]; then GETONLY; fi
+  if [ "$PROGRESS" == "1" ]; then DELOVEN; fi
+  if [ "$PROGRESS" == "1" ]; then MOVEAPP; fi
+ fi
 fi
 #else
 #	echo "::::::: Conecte-se a Internet antes de  Instalar :::::::"
