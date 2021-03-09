@@ -105,7 +105,10 @@ $('document').ready(function(){
 			  $('div.appinfo button.seta').removeClass("add");
 			  $('div.appinfo button.seta').addClass("del");
 			  $('div.appinfo button.seta').attr({'onclick':"location.href='aio:del "+secapp+"'"});
-			  $('div.appinfo button.seta').html("Remover");console.log(recipenm+" Está instalado")};
+			  $('div.appinfo button.seta').html("Remover");console.log(recipenm+" Está instalado");
+			  $('div.appinfo button.openapp').removeClass('hide');
+			  $('div.appinfo button.updtapp').removeClass('hide');
+		  };
 		  	  $('div.appinfo button.openapp').attr({'onclick':"location.href='aio:run "+secapp+"'"});
 		  if(acct=="i"){
 			  $('div.appinfo button.seta').removeAttr('href');
