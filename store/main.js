@@ -115,7 +115,10 @@ $('document').ready(function(){
 			  $('div.appinfo button.seta').removeClass("del");
 			  $('div.appinfo button.seta').addClass("add");
 			  $('div.appinfo button.seta').attr({'onclick':"location.href='aio:add "+secapp+"'"});
-			  $('div.appinfo button.seta').html("Instalar");console.log(recipenm+" Não instalado")}
+			  $('div.appinfo button.seta').html("Instalar");console.log(recipenm+" Não instalado");
+			  $('div.appinfo button.openapp').addClass('hide');
+			  $('div.appinfo button.updtapp').addClass('hide');
+		  }
 	  }
     });
     acct="i";
