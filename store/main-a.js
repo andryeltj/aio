@@ -110,6 +110,7 @@ $(window).on('load', function(){
 			  $('div.appinfo button.updtapp').removeClass('hide');
 		  };
 		  	  $('div.appinfo button.openapp').attr({'onclick':"location.href='aio:run "+secapp+"'"});
+		          $('div.appinfo button.updtapp').attr({'onclick':"location.href='aio:upd "+secapp+"'"});
 		  if(acct=="i"){
 			  $('div.appinfo button.seta').removeAttr('href');
 			  $('div.appinfo button.seta').removeClass("del");
