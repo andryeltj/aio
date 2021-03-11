@@ -207,7 +207,7 @@ $(window).on('load', function(){
 			}
 		  });
 		};
-	  if(SCont.includes('progressbar:')){$('.applogo').html("");$('.applogo').html('<div class="piebase"></div>');nslice=SCont.replace("progressbar:","");countslice();}
+	  if(SCont.includes('progressbar:')){$('.applogo').html("");$('.applogo').html('<div class="piebase"></div>');nslice=SCont.replace("progressbar:","");countslice();}else{$('.applogo').html("");}
   });
   $('.x').click(function(){$("span.searchbar").html("");$('div.pkg_disp').show();});
 //Seleção de Item
