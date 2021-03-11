@@ -25,7 +25,7 @@ CAMINHO=`pwd`
 PROGRESS="0"
 ITEMW="0"
 AUTOINTEGRAR=0
-VERSIONR=202103100137
+VERSIONR=202103111549
 ISLOCAL=0
 troca=""
 VERSION=""
@@ -77,15 +77,16 @@ ADDLIBRARY(){
     InBOOK=`cat /tmp/book | grep "$RECIPE" | awk '{print $1}' | sed 's|\:||g'`;
 	HORA; echo "$ITEMW:	$InBOOK $PRODUTO	$LINHA.$TEMPO-UTC" >> $JAR/aio.list; 
 	LISTITEM=`cat $JAR/aio.list | grep -w "$ITEMW:" | awk '{print $3}'`
-	if [ "$LISTITEM" == "$PRODUTO" ]; then  echo "Item adicionado a lista."; else  echo "Item "$ITEMW" não adicionado"; fi
+	if [ "$LISTITEM" == "$PRODUTO" ]; then   echo -ne "*" >> $JAR/aiostore/$RECIPE.html; echo "Item adicionado a lista."; else  echo "Item "$ITEMW" não adicionado"; fi
 # fi
 }
 
 REMOVELIB(){
+	echo -ne "*" >> $JAR/aiostore/$InNAME.html;
 	ITEMW=`cat /tmp/book | grep -w "$InNAME:" | awk '{print $2}'`;
 	sed -i '/'$ITEMW:'/d' $JAR/aio.list;
 	LISTITEM=`cat $JAR/aio.list | grep -w "$ITEMW:" | awk '{print $1}'`
-	if [ "$LISTITEM" == "" ]; then  troca=troca; else echo "Erro ao remover "$LISTITEM" da lista"; fi	#Remove da lista o nome do app existente
+	if [ "$LISTITEM" == "" ]; then  troca=troca; echo -ne "*" >> $JAR/aiostore/$InNAME.html; else echo "Erro ao remover "$LISTITEM" da lista"; fi	#Remove da lista o nome do app existente
 }
 
 CHECKAIOVERSION(){
@@ -108,6 +109,7 @@ CKFREELIB(){
 	 mkdir $RECEITA_PASTA/$OVEN
 	 wget -q --show-progress -O $RECEITA_PASTA/$OVEN/excludedeblist $RAIZ/andryeltj/aio/master/xlists/$FreeLibINFO
 #	 if [ -e "$RECEITA_PASTA/$OVEN/excludedeblist" ]; then sed 's|$FreeLibINFO|#$FreeLibINFO|g' $RECEITA_PASTA/$OVEN/excludedeblist; else echo "BlackList nao baixada para a receita"; fi
+     echo -ne "*" >> $JAR/aiostore/$RECIPE.html
 	fi
 }
 
@@ -142,10 +144,12 @@ DELBINS(){
 }
 
 DEL(){
+	echo -ne "*" >> $JAR/aiostore/$InNAME.html;
 	ITEMW=`cat /tmp/book | grep -w "$InNAME:" | awk '{print $2}'`; ITEMD=$ITEMW.AppImage
-	if [ "$ITEMW" == "" ]; then troca=troca; else echo "Removendo: "$ITEMW; fi
+	if [ "$ITEMW" == "" ]; then troca=troca; else echo "Removendo: "$ITEMW; echo -ne "*" >> $JAR/aiostore/$InNAME.html; fi
 	if [ -f "$APPS/$ITEMD" ]; then rm -Rf $APPS/$ITEMD; REMOVELIB; echo 'Item removido da lista'; echo "App "$ITEMW" Removido"; MSGD001;
 	else echo "O app "$ITEMW" não foi encontrado para remoção"; fi	#Remove o app; se existir
+	echo -ne "**" >> $JAR/aiostore/$InNAME.html;
 }
 
 DELOVEN(){
@@ -240,6 +244,7 @@ GETONLY(){
 	if [ "$GETOnly" == "" ]; then
 	 DOCOOK
 	else
+	 echo -ne "******" >> $JAR/aiostore/$RECIPE.html;
 	 echo "GETOnly: YES"
 	 OVEN=`cat $RECEITA_PASTA/$RECIPE.yml | grep -w "app:" | awk '{print $2}'`;
 	 mkdir $RECEITA_PASTA/$OVEN; mkdir $RECEITA_PASTA/$OVEN/$OVEN.AppDir; mkdir $PRATO;
@@ -264,10 +269,12 @@ JARCONTENT(){
 LAUNCHLIB(){
 ## OVEN=`cat $RECEITA_PASTA/$ITEMW.yml | grep "app:" | awk '{print $2}'`
 ## MISTURA=$RECEITA_PASTA/$OVEN
- if [ -e "$JAR/aio.list" ];then troca=troca; else echo "" > $JAR/aio.list; fi 
+ echo -ne "*" >> $JAR/aiostore/$RECIPE.html;
+ if [ -e "$JAR/aio.list" ];then troca=troca; else echo "" > $JAR/aio.list; echo -ne "*" >> $JAR/aiostore/$RECIPE.html; fi 
  if [ -e "$MISTURA" ]; then troca=troca; else echo "Forno não gerado"; PROGRESS="0"; fi
  cd $CAMINHO
  if [ -e "$PRATO" ]; then	#Testa pra ver se foi cozinhado
+  echo -ne "*" >> $JAR/aiostore/$RECIPE.html
   PRODUTO=`ls $PRATO`	#Pega o nome do app criado
   APPNMLIST=`cat $JAR/aio.list | grep -w '$ITEMW' | awk '{print $2}'`;
   if [ "$APPNMLIST" == "$PRODUTO" ]; then #Atualiza os dados da lista
@@ -301,20 +308,19 @@ MOVEAPP(){
 PRODUTO=`ls $PRATO`
 echo "Produto: $PRODUTO"
 if [ -e "$PRATO" ]; then
- if [ -e "$PRATO/$PRODUTO" ]; then 
+ if [ -e "$PRATO/$PRODUTO" ]; then
+  echo -ne "*" >> $JAR/aiostore/$RECIPE.html
   cp -Rf $PRATO/$PRODUTO $APPS/$RECIPE.AppImage;	#Move o app para a pasta de apps
   chmod 777 $APPS/$RECIPE.AppImage;
   rm -Rf $PRATO
+  echo -ne "*" >> $JAR/aiostore/$RECIPE.html
   echo $ITEMW" foi instalado.";
-  notify-send -i gtk-yes -u normal "$ITEMW foi instalado."
+  notify-send -i gtk-yes -u normal "$ITEMW foi instalado.";
   else echo "X - Produto não existe, ou não encontrado"; PROGRESS="0"; fi
 else echo "O Prato não foi criado"; PROGRESS="0"; fi
 }
 
 STOREIN="/tmp/aiostore"
-imgloadstore="data:image/webp;base64,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"
-JsReload='<script type="text/javascript"> setTimeout("location.reload();",3000); </script>'
-ShReload='<script type="text/javascript"> $("article, div.book, div.list, div.mural").remove();$("div.container").append("<center><img style=\"margin-top:20%\" src='$imgloadstore'></center>");$(".infoqtd").html("Atualizando informações, aguarde...")</script>'
 CKWEBSERVER(){
 	##Checa se o Apache está instalado para exibir a loja.
 	if [ -e "/var/www" ]; then
@@ -329,7 +335,7 @@ CKWEBSERVER(){
 ##	 LinkSTORE=$STOREIN"/index.html"
 ##	 MetSTORE="file://"
 ##	fi
-	echo $JsReload$ShReload >> $STOREIN/index.html
+##	echo $JsReload$ShReload >> $STOREIN/index.html
 }
 MOUNTLISTS(){
 	CBook=""
@@ -342,16 +348,22 @@ MOUNTLISTS(){
         CBook=$CBook`echo "<li><a>"$Par01"</a>"``echo $line | awk '{print "<a>"$2"</a>"}'``echo $line | awk '{print "<a>"$3"</a>"}'``echo $line | awk '{print "<a>"$4"</a>"}'``echo $line | awk '{print "<a>"$5"</a>"}'``echo $line | awk '{print "<a>"$6"</a>"}'``echo $line | awk '{print "<a>"$7"</a>"}'``echo $line | awk '{print "<a>"$8"</a>"}'``echo $line | awk '{print "<a>"$9"</a>"}'``echo $line | awk '{print "<a>"$10"</a>"}'``echo $line | awk '{print "<a>"$11"</a>"}'``echo $line | awk '{print "<a>"$12"</a></li>"}'`
        fi
     done < /tmp/book
-	echo $CBook > $STOREIN/lista.html
+    echo $CBook > $JAR/aiostore/lista.html
 	CList=""
 	while IFS= read -r line
     do
        Par02=`echo $line | awk '{print $2}' | sed 's|\:||g'`
-       CList=$CList`echo "<li><a>"$Par02"</a>"``echo $line | awk '{print "<a>"$2"</a></li>"}'`
+       CList=$CList`echo "<li><a>"$Par02"</a>"``echo $line | awk '{print "<a>"$2"</a></li>"\n}'`
     done < /etc/aio/aio.list
+    echo $CList > $JAR/aiostore/installed.html
 }
 IMGDOTS='<svg focusable="false" viewBox="0 0 24 24" style="height:1.2em"><path d="M6,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM16,6c0,1.1 0.9,2 2,2s2,-0.9 2,-2 -0.9,-2 -2,-2 -2,0.9 -2,2zM12,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2z"></path></svg>'
-MOUNTPAGE(){  
+imgloadstore="data:image/webp;base64,UklGRvgFAABXRUJQVlA4WAoAAAASAAAAOwAAOwAAQU5JTQYAAAAAAAAAAABBTk1GKgAAAAAAAAAAADsAADsAAFAAAAJWUDhMEQAAAC87wA4AB9D//ve//4GI6H8AAEFOTUY8AAAAAAAAFAAAEwAAEwAAUAAAAlZQOEwjAAAALxPABBAPMP/zP//zH/BQ1LYR097xZ7zH6xBE9H8CcFrqM5wAQU5NRkoAAAAAAAAKAAAnAAAnAABQAAACVlA4TDEAAAAvJ8AJEA8w//M///Mf8FDUSJLSztb6SaIvMwqI6P8EgE6p45P7DOiJWZWko9NLMDMGAEFOTUZcAAAAAAAAAAAAOwAAOwAAUAAAAlZQOExEAAAALzvADhAPMP/zP//zH/Bg20hSpJYIgJBInZDucZHa4gc/ov8TAI9qrBX/y8HTBXRkU9Pj6aAP6OsvhiZjU067wQDoawZBTk1GZgAAAAEAAAAAADkAADkAAFAAAAJWUDhMTQAAAC85QA4QDzD/8z//8x/wYBXZVptD/4wkrD8HsRAJCGAmnS4gov8TACDnaUrSuRfluDqoA6lqeJ5FcpqitM0GdUDd+DmWna8jjAYFNCgGAEFOTUZkAAAAAgAAAAAANwAANwAAUAAAAlZQOExLAAAALzfADRAPMP/zP//zH/BgFElWq6EQgASkYAUpSEMSx/DDO5ERENH/CWBiFNeRpOfVp8AIjGwtpiM6xGS1DzRg6JavhmB7/ABD0OoEAEFOTUZaAAAAAwAAAQAAMwAAMwAAUAAAAlZQOExBAAAALzPADBAPMP/zP//zH/BQE0lSNPwhKWoppCEFCTi4iB8BEf2fADZWMRM9VjH5Ikaw8k0BWphJCyzB6Ot5pqg5WAIAQU5NRlAAAAADAAACAAAxAAAwAABQAAACVlA4TDcAAAAvMQAMEA8w//M///Mf8FATSVI0RFg4tVdIxQnR/QiI6P8EkPmAuz0SIATW19Vzlg9Cn9cMCWABAEFOTUZKAAAAAwAAAwAALwAALwAAUAAAAlZQOEwxAAAALy/ACxAPMP/zP//zH/BQ0EiKs7hALcE5fK8CIvo/AUxiI5cJYOL7CqA9Ph5bXCaAFQBBTk1GUgAAAAIAAAMAADAAADEAAFAAAAJWUDhMOQAAAC8wQAwQDzD/8z//8x/wUBvJVvI/llICrb1SKJvMXfKI/k8ArUWF3n8DT5mJuvPYaBd5N4UJGqF6BgBBTk1GWAAAAAEAAAMAADIAADMAAFAAAAJWUDhMQAAAAC8ywAwQDzD/8z//8x/wUBPJVvOofkmLWgapXwIOfiAHARH9nwD0mZbSQjv4eo2jvFTCHDDztsghGTHdA4ig3QRBTk1GYgAAAAAAAAMAADUAADUAAFAAAAJWUDhMSQAAAC81QA0QDzD/8z//8x/wYBTbVptH2hYJkfKtRdqXxDKd3hEQ0f8JYILPhFNkbRlIGanSWe8cOfZ2AKXhR+pqLetomcPUC5ACFAMAQU5NRmAAAAABAAACAAA1AAA1AABQAAACVlA4TEgAAAAvNUANEA8w//M///Mf8GAU21abS+oSSViPlEhoW2Z6BwER/Z8ArQDIMan77Ae0gljvxpRcZi155CiQAUQqYsxa8BtZotWMIAFBTk1GXAAAAAAAAAEAADkAADkAAFAAAAJWUDhMQwAAAC85QA4QDzD/8z//8x/wYNRIVqVOEPAkYR0Ha2UFkPSJP9wj+j8B1QRAlzFW8mnQB425GkOfeez3dtAVMKCOVdPjgBYAQU5NRlAAAAAAAAAAAAA7AAA7AABQAAACVlA4TDcAAAAvO8AOEA8w//M///Mf8FDTSFa1CQKeJPxXWEEAyXb8oY7of2gA0CvmcfV26AYM1HEzPQ4MNP4FAEFOTUZAAAAACgAAAAAAJwAAJwAAUAAAAlZQOEwoAAAALyfACRAPMP/zP//zH/Aw2rZNPuhJ+x/tpKCyjUf0fwI0UNY5JlA+BEFOTUYqAAAAFAAAAAAAEwAAEwAAUAAAAlZQOEwRAAAALxPABAAH0P/+97//gYjofwAA"
+JsReload='<script type="text/javascript"> setTimeout("location.reload();",3000); </script>'
+ShReload='<script type="text/javascript"> $("article, div.book, div.list, div.mural").remove();$("div.container").append("<center><img style=\"margin-top:20%\" src='$imgloadstore'></center>");$(".infoqtd").html("Atualizando informações, aguarde...")</script>'
+
+MOUNTPAGE(){
+  echo $JsReload$ShReload >> $JAR/aiostore/index.html
   GETNETBOOK
   GETPAGEBASE
   GETNEWS
@@ -377,7 +389,7 @@ MOUNTPAGE(){
 # CBook=`cat /tmp/book`
  MOUNTLISTS
 # CList=`cat /etc/aio/aio.list`
- HtmlHAreas="<div class='book' w3-include-html='lista.html'></div><div class='list'>"$CList"</div>"
+ HtmlHAreas="<div class='book' w3-include-html='lista.html'></div><div class='list' w3-include-html='installed.html'></div>"
  Searchbar="<div class='searchbar'><div style='display:block;position:relative;width:100%;height:100%;left:-50%'><span class='searchbar' contenteditable='true'></span><a class='x'>✖</a></div></div>"
  AppInfo="<div class='appinfo'>"$Searchbar"<div class='appname'>Bem vindo</div><i>Clique abaixo para exibir as informações do App</i><div class='passing'>⚙️°°°°°°°°</div><a class='applogo'></a><div class='iteminfo'><a class='ckrecipe' alt='Exibe a receita do app instalado'>📑</a><button class='openapp hide'>Abrir</button><button class='updtapp hide'>Atualizar</button><button class='seta'></button><div class='pdthumbs'><img src='https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/devices/camera-photo.svg'><a></a><a></a><a></a><a></a></div></div></div>"
  Newspaper="<div class='newspaper'>"$varNEWS"</div>"
@@ -414,6 +426,7 @@ RUNPAGE(){
 
 SETADDRESS(){
   if [ -f "$RECEITA_PASTA/$RECIPE.yml" ]; then
+   echo -ne "*" >> $JAR/aiostore/$RECIPE.html
    ITEMW=`cat $RECEITA_PASTA/$RECIPE.yml | grep "app:" | awk '{print $2}'`;
    OVEN=$ITEMW; #echo "FORNO: $OVEN";
    MISTURA=$RECEITA_PASTA/$OVEN
@@ -624,11 +637,13 @@ if [[ "`whoami`" == "root" ]]; then echo "Os comandos só são executados sem a 
   if [ "$PROGRESS" == "1" ]; then GETONLY; fi
   if [[ "$3" == "-mb" || "$4" == "-mb" ]]; then echo "A Bases serão mantidas"; else if [ "$PROGRESS" == "1" ]; then DELOVEN; fi fi
   if [ "$PROGRESS" == "1" ]; then MOVEAPP; fi
+  MOUNTLISTS
   CHECKAIOVERSION
  
  elif [[ "$1" == "del" || "$1" == "remove" || "$1" == "-d" ]]; then
   InNAME=$2
   DEL
+  MOUNTLISTS
   CHECKAIOVERSION
 
  elif [[ "$1" == "info" || "$1" == "-i" ]]; then
@@ -658,6 +673,7 @@ if [[ "`whoami`" == "root" ]]; then echo "Os comandos só são executados sem a 
  elif [[ "$1" == "store" ]]; then
   if [[ "$3" == "-r" || "$4" == "-r" ]]; then
    CKWEBSERVER
+   MOUNTLISTS
    MOUNTPAGE
    CHECKAIOVERSION
   else
@@ -667,6 +683,7 @@ if [[ "`whoami`" == "root" ]]; then echo "Os comandos só são executados sem a 
 
  elif [[ "$1" == "aio:store-up" ]]; then
   CKWEBSERVER
+  MOUNTLISTS
   MOUNTPAGE
   CHECKAIOVERSION
 
@@ -688,21 +705,25 @@ if [[ "$1" == "" ]]; then troca=troca; else
  STORER=`echo $1 | awk '{print $2}'`
  if [[ "$STOREC" == "aio:add" ]]; then
   InNAME=$STORER
+  echo -ne "" > $JAR/aiostore/$InNAME.html
   CKWEBSERVER ##Orientação para a loja
   TESTLOCAL
   if [ "$PROGRESS" == "1" ]; then NATIVEFIER; fi
   if [ "$PROGRESS" == "1" ]; then GETONLY; fi
   if [ "$PROGRESS" == "1" ]; then DELOVEN; fi
   if [ "$PROGRESS" == "1" ]; then MOVEAPP; fi
-  MOUNTPAGE;
+  MOUNTLISTS
   CHECKAIOVERSION
+  sleep 1.5; rm -Rf $JAR/aiostore/$InNAME.html
  fi
  if [[ "$STOREC" == "aio:del" ]]; then
   InNAME=$STORER
+  echo -ne "" > $JAR/aiostore/$InNAME.html
   CKWEBSERVER
   DEL
-  MOUNTPAGE
+  MOUNTLISTS
   CHECKAIOVERSION
+  sleep 1.5; rm -Rf $JAR/aiostore/$InNAME.html
  fi
  if [[ "$STOREC" == "aio:run" ]]; then
   InNAME=$STORER
@@ -713,6 +734,7 @@ if [[ "$1" == "" ]]; then troca=troca; else
  fi
  if [[ "$STOREC" == "aio:upd" ]]; then
   InNAME=$STORER
+  echo "" > $JAR/aiostore/$InNAME.html
   CALLLOCAL
   DEL
   TESTLOCAL
@@ -720,6 +742,9 @@ if [[ "$1" == "" ]]; then troca=troca; else
   if [ "$PROGRESS" == "1" ]; then GETONLY; fi
   if [ "$PROGRESS" == "1" ]; then DELOVEN; fi
   if [ "$PROGRESS" == "1" ]; then MOVEAPP; fi
+  MOUNTLISTS
+  CHECKAIOVERSION
+  sleep 1.5; rm -Rf $JAR/aiostore/$InNAME.html
  fi
 fi
 #else
