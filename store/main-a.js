@@ -1,7 +1,7 @@
 $(window).on('load', function(){
 //$('document').ready(function(){
   $('textarea').hide();
-  $('.updatestore, div.appinfo button.seta').click(function(){
+  $('.updatestore').click(function(){
 //     setTimeout(function(){
  //     location.reload();
 //     },5000)
@@ -15,10 +15,36 @@ $(window).on('load', function(){
   var appname="", idrecipe="",category="",recipejar="",friendnm="",appicon="",appbg="",appimg1="",appimg2="",appimg3="",appimg4="",appdesc="",recipenm="",appnm="";
   var stdBK="https://images.all-free-download.com/images/graphiclarge/abstract_green_blue_low_poly_background_vector_illustration_570260.jpg";
   var stdIC="https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/mimetypes/application-x-iso9660-appimage.svg"
-  var iteml, ctItems="0",ItmClss="",appcat="0",fcat="",troca="",knife=0;
+  var iteml, ctItems="0",ItmClss="",appcat="0",fcat="",troca="",knife=0,itemw="",CallPage="",Working="0";
   var ckrecipe="",itmBT="",acorpo="",secapp,acct="i";
   var funcao="0";
-  
+  function includeHTML() {
+	  var z, i, elmnt, file, xhttp;
+	  /*loop through a collection of all HTML elements:*/
+	  z = document.getElementsByTagName("*");
+	  for (i = 0; i < z.length; i++) {
+		elmnt = z[i];
+		/*search for elements with a certain atrribute:*/
+		file = elmnt.getAttribute("w3-include-html");
+		if (file) {
+		  /*make an HTTP request using the attribute value as the file name:*/
+		  xhttp = new XMLHttpRequest();
+		  xhttp.onreadystatechange = function() {
+			if (this.readyState == 4) {
+			  if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+			  if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+			  /*remove the attribute, and call this function once more:*/
+			  elmnt.removeAttribute("w3-include-html");
+			  includeHTML();
+			}
+		  }      
+		  xhttp.open("GET", file, true);
+		  xhttp.send();
+		  /*exit the function:*/
+		  return;
+		}
+	  }
+  };
   function ClassyBook(){
 	$('div.book li a:nth-child(1)').addClass('appname');
 	$('div.book li a:nth-child(2)').addClass('idrecipe');
@@ -116,6 +142,7 @@ $(window).on('load', function(){
 			  $('div.appinfo button.seta').removeClass("del");
 			  $('div.appinfo button.seta').addClass("add");
 			  $('div.appinfo button.seta').attr({'onclick':"location.href='aio:add "+secapp+"'"});
+			  $('div.appinfo button.seta').attr({'alt':secapp});
 			  $('div.appinfo button.seta').html("Instalar");console.log(recipenm+" Não instalado");
 			  $('div.appinfo button.openapp').addClass('hide');
 			  $('div.appinfo button.updtapp').addClass('hide');
@@ -152,10 +179,9 @@ $(window).on('load', function(){
   };
   function countslice(){
 //	var nslice=$("span.searchbar").html();
-	console.log('chamou');
 	if (nslice >= knife) {
 		$('.piebase').append('<span class="circle p'+knife+'" style="-webkit-transform:rotate('+knife+'deg)"></span>');
-		console.log(knife);
+//		console.log(knife);
 		knife=knife+1;
 		countslice();
 	}else{knife=0};
@@ -178,6 +204,43 @@ $(window).on('load', function(){
 		  $("div.pdthumbs a:nth-child(5),div.rule a:nth-child(4)").css({'background-image':"url('"+appimg4+"')"});
 		  CkInstall();
 		  }
+  }
+  function ShowAppInfo(){funcao="1";LerBOOK();$('div.iteminfo').show();};
+  function GetPage(){
+		if (pagename) {
+		  /*make an HTTP request using the attribute value as the file name:*/
+		  xhttp = new XMLHttpRequest();
+		  xhttp.onreadystatechange = function() {
+			if (this.readyState == 4) {
+			  if (this.status == 200) {CallPage = this.responseText;}
+			  if (this.status == 404) {CallPage = "NO";}
+			  GetProgress();
+			}
+		  }      
+		  xhttp.open("GET", pagename, true);
+		  xhttp.send();
+		  /*exit the function:*/
+		  return;
+		}
+  };
+  function GetProgress(){
+	  if(CallPage == "" ){GetPage()}else{
+		  if(CallPage == "NO" ){
+			  if(Working=="1"){GetPage()}else{
+			  $(".list").attr({'w3-include-html':'installed.html'});
+			  $('.applogo').html("");
+			  includeHTML();
+			  ClassyBook();
+			  LerBOOK();
+			  ShowAppInfo();}
+			  }
+		  else{
+			  Working="0";
+			  CallPage=(CallPage.match(/\*/g) || []).length;
+			  console.log("Callpage: "+CallPage);
+			  nslice=CallPage*30;console.log("nslice: "+nslice);
+			  countslice();setTimeout(GetPage(),500);}
+	  };
   }
   if(BOOK == null){ BOOK = [] };
 
@@ -211,13 +274,7 @@ $(window).on('load', function(){
   });
   $('.x').click(function(){$("span.searchbar").html("");$('div.pkg_disp').show();});
 //Seleção de Item
-  
-  $("button.app").click(function(){
-	  secapp=$(this).attr('alt');
-	  funcao="1";LerBOOK();
-	  $('div.iteminfo').show();
-	  //console.log("Clicou em "+secapp);
-  });
+  $("button.app").click(function(){secapp=$(this).attr('alt');ShowAppInfo()});
 //Exibir Imagens
   $(".pdthumbs").click(function(){
 	  $('div.mural').show();
@@ -241,5 +298,10 @@ $(window).on('load', function(){
   $('.cl1').click(function(){$('div.pkg_disp').removeClass('qd1, listv').addClass('cl1')});
   $('.qd1').click(function(){$('div.pkg_disp').removeClass('cl1, listv').addClass('qd1')});
   $('.list').click(function(){$('div.pkg_disp, article, div.appinfo').removeClass('cl1, qd1').addClass('listv')});
+  $('div.appinfo button.seta').click(function(){
+	  $('.applogo').html('<div class="piebase"></div>');
+	  pagename=$(this).attr('alt');secapp=pagename;pagename=pagename+".html";
+	  CallPage="";Working="1";setTimeout(GetProgress(),1000);
+  });
 //fim
 });
