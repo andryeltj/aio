@@ -15,7 +15,7 @@ $(window).on('load', function(){
   var appname="", idrecipe="",category="",recipejar="",friendnm="",appicon="",appbg="",appimg1="",appimg2="",appimg3="",appimg4="",appdesc="",recipenm="",appnm="";
   var stdBK="https://images.all-free-download.com/images/graphiclarge/abstract_green_blue_low_poly_background_vector_illustration_570260.jpg";
   var stdIC="https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/mimetypes/application-x-iso9660-appimage.svg"
-  var iteml, ctItems="0",ItmClss="",appcat="0",fcat="",troca="";
+  var iteml, ctItems="0",ItmClss="",appcat="0",fcat="",troca="",knife=0;
   var ckrecipe="",itmBT="",acorpo="",secapp,acct="i";
   var funcao="0";
   
@@ -124,15 +124,6 @@ $(window).on('load', function(){
     });
     acct="i";
   }
-  if(BOOK == null){ BOOK = [] };
-
-//Launchers
-
-	ClassyBook();
-	LerBOOK();
-  console.log('Loja Carregada');
-//Prateleira(MENU)
-  
   function GeraItMenu(){
 	    ctItems=parseInt(ctItems)+1;
         if (appbg == "."){appbg=stdBK};
@@ -158,28 +149,17 @@ $(window).on('load', function(){
         iteml=ElHead+appic+itName+itBotton+"</div>";
         acorpo=acorpo+iteml;ItmClss="";
 //        console.log(" ");
-	};
-  $("article").html("<div class='menu'>"+acorpo+"</div><div class='news'></div>");acorpo="";
-  $("i.infoqtd").html(ctItems+" apps disponíveis.");
-  $("div.news").html($("div.newspaper").html());$('div.newspaper').remove();
-//Pesquisa
-  $('span.searchbar').focus();
-  $('span.searchbar').keyup(function(){
-	  var SCont=$(this).html().toLowerCase();
-	  console.log(SCont);
-	  if (SCont == "" ){$('div.pkg_disp').show();}else
-	  {$('div.pkg_disp').hide();
-		  $('div.menu div').each(function(){
-			var identfy=$(this).attr('class');
-			if(identfy.indexOf(SCont) != -1){
-			  identfy=identfy.replace(/ /g,'.');
-			  $("."+identfy).show();
-			}
-		  });
-		};
-  });
-  $('.x').click(function(){$("span.searchbar").html("");$('div.pkg_disp').show();});
-//Seleção de Item
+  };
+  function countslice(){
+//	var nslice=$("span.searchbar").html();
+	console.log('chamou');
+	if (nslice >= knife) {
+		$('.piebase').append('<span class="circle p'+knife+'" style="-webkit-transform:rotate('+knife+'deg)"></span>');
+		console.log(knife);
+		knife=knife+1;
+		countslice();
+	}else{knife=0};
+  };
   function Identifica(){
 	  if ( secapp == appname ){
 		  $("div.appname").html(friendnm);
@@ -199,6 +179,39 @@ $(window).on('load', function(){
 		  CkInstall();
 		  }
   }
+  if(BOOK == null){ BOOK = [] };
+
+//Launchers
+
+	ClassyBook();
+	LerBOOK();
+  console.log('Loja Carregada');
+//Prateleira(MENU)
+  
+  
+  $("article").html("<div class='menu'>"+acorpo+"</div><div class='news'></div>");acorpo="";
+  $("i.infoqtd").html(ctItems+" apps disponíveis.");
+  $("div.news").html($("div.newspaper").html());$('div.newspaper').remove();
+//Pesquisa
+  $('span.searchbar').focus();
+  $('span.searchbar').keyup(function(){
+	  var SCont=$(this).html().toLowerCase();
+	  console.log(SCont);
+	  if (SCont == "" ){$('div.pkg_disp').show();}else
+	  {$('div.pkg_disp').hide();
+		  $('div.menu div').each(function(){
+			var identfy=$(this).attr('class');
+			if(identfy.indexOf(SCont) != -1){
+			  identfy=identfy.replace(/ /g,'.');
+			  $("."+identfy).show();
+			}
+		  });
+		};
+	  if(SCont.indexOf('progressbar:')){$('.applogo').html("");$('.applogo').html('<div class="piebase"></div>');nslice=SCont.replace("progressbar:","");countslice();}
+  });
+  $('.x').click(function(){$("span.searchbar").html("");$('div.pkg_disp').show();});
+//Seleção de Item
+  
   $("button.app").click(function(){
 	  secapp=$(this).attr('alt');
 	  funcao="1";LerBOOK();
