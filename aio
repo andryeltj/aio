@@ -257,9 +257,10 @@ GETONLY(){
 GETPAGEBASE(){
  URL1=$RAIZ/andryeltj/aio/master/store/main.css
  URL2=$RAIZ/andryeltj/aio/master/store/jquery.js
- URL3=$RAIZ/andryeltj/aio/master/store/main-a.js
- URL4=$RAIZ/andryeltj/aio/master/store/main-b.js
- wget -q --show-progress -c -P /tmp/ $URL1 $URL2 $URL3 $URL4
+ URL3=$RAIZ/andryeltj/aio/master/store/main.js
+# URL3=$RAIZ/andryeltj/aio/master/store/main-a.js
+# URL4=$RAIZ/andryeltj/aio/master/store/main-b.js
+ wget -q --show-progress -c -P /tmp/ $URL1 $URL2 $URL3 #$URL4
 }
 
 JARCONTENT(){
@@ -406,7 +407,7 @@ MOUNTPAGE(){
  MainBAR="<div class='mainbar'><a class='aiologo'>AIO</a><div style='float:right'><a class='styaio'>$IMGDOTS</a><a href='aio:store-up' class='updatestore'>🔄</a></div><i class='infoqtd'></i>"$POPUPS"</div>"
  echo "$HTMLINFO<body><center></center><div class='container'><div class='backy'></div>$CORPO</div>$MainBAR</body>" > $STOREIN/index.html
  yes | cp -Rf $JAR/aio-store.svg $STOREIN/favicon.svg
- rm -Rf /tmp/main.css /tmp/jquery.js /tmp/main-a.js /tmp/main-b.js
+ rm -Rf /tmp/main.css /tmp/jquery.js /tmp/main.js #/tmp/main-a.js /tmp/main-b.js
 	}
 
 NATIVEFIER(){
