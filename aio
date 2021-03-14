@@ -25,13 +25,13 @@ CAMINHO=`pwd`
 PROGRESS="0"
 ITEMW="0"
 AUTOINTEGRAR=0
-VERSIONR=202103111549
+VERSIONR=202103132353
 ISLOCAL=0
 troca=""
 VERSION=""
 ITEMDEL=""; RECIPE="";
 ANO="";MES="";DIA="";LINHA="";TEMPO="";
-
+echo $1 >> /tmp/aio.log
 case "$(uname -i)" in
   x86_64|amd64)
 #    echo "x86-64 system architecture"
@@ -345,7 +345,7 @@ MOUNTLISTS(){
     do
        if [[ ${line::1} == "#" ]]; then troca=troca; else
         Par01=`echo $line | awk '{print $1}' | sed 's|\:||g'`
-        CBook=$CBook`echo "<li><a>"$Par01"</a>"``echo $line | awk '{print "<a>"$2"</a>"}'``echo $line | awk '{print "<a>"$3"</a>"}'``echo $line | awk '{print "<a>"$4"</a>"}'``echo $line | awk '{print "<a>"$5"</a>"}'``echo $line | awk '{print "<a>"$6"</a>"}'``echo $line | awk '{print "<a>"$7"</a>"}'``echo $line | awk '{print "<a>"$8"</a>"}'``echo $line | awk '{print "<a>"$9"</a>"}'``echo $line | awk '{print "<a>"$10"</a>"}'``echo $line | awk '{print "<a>"$11"</a>"}'``echo $line | awk '{print "<a>"$12"</a></li>"}'`
+        CBook=$CBook`echo "<li class='L"$Par01"'><a>"$Par01"</a>"``echo $line | awk '{print "<a>"$2"</a>"}'``echo $line | awk '{print "<a>"$3"</a>"}'``echo $line | awk '{print "<a>"$4"</a>"}'``echo $line | awk '{print "<a>"$5"</a>"}'``echo $line | awk '{print "<a>"$6"</a>"}'``echo $line | awk '{print "<a>"$7"</a>"}'``echo $line | awk '{print "<a>"$8"</a>"}'``echo $line | awk '{print "<a>"$9"</a>"}'``echo $line | awk '{print "<a>"$10"</a>"}'``echo $line | awk '{print "<a>"$11"</a>"}'``echo $line | awk '{print "<a>"$12"</a></li>"}'`
        fi
     done < /tmp/book
     echo $CBook > $JAR/aiostore/lista.html
@@ -353,7 +353,9 @@ MOUNTLISTS(){
 	while IFS= read -r line
     do
        Par02=`echo $line | awk '{print $2}' | sed 's|\:||g'`
-       CList=$CList`echo "<li><a>"$Par02"</a>"``echo $line | awk '{print "<a>"$2"</a></li>"\n}'`
+       ITdata=`echo $line | awk '{print $3}'`
+       LIsTa=`echo "<li class='I"$Par02"'><a>"$Par02"</a><a>"$ITdata"</a></li>"`
+       CList=$CList$LIsTa
     done < /etc/aio/aio.list
     echo $CList > $JAR/aiostore/installed.html
 }
@@ -372,13 +374,15 @@ MOUNTPAGE(){
  rm -Rf /tmp/store.html
  CssLk01=`cat /tmp/main.css`	#DevMode
  JsLk01=`cat /tmp/jquery.js`
- JsLk02=`cat /tmp/main-a.js`
- JsLk03=`cat /tmp/main-b.js`
+ JsLk02=`cat /tmp/main.js`
+# JsLk02=`cat /tmp/main-a.js`
+# JsLk03=`cat /tmp/main-b.js`
  Css01="<style>"$CssLk01"</style>"	#DevMode
 # Css01='<link rel="stylesheet" type="text/css" href="main.css"/>'
  JsBASIS='<script type="text/javascript">'$JsLk01'</script>'
- JsMAINa='<script type="text/javascript">'$JsLk02'</script>'	#DevMode
- JsMAINb='<script type="text/javascript">'$JsLk03'</script>'	#DevMode
+ JsMAIN='<script type="text/javascript">'$JsLk02'</script>'	#DevMode
+# JsMAINa='<script type="text/javascript">'$JsLk02'</script>'	#DevMode
+# JsMAINb='<script type="text/javascript">'$JsLk03'</script>'	#DevMode
 # JsMAIN='<script type="text/javascript" src="main.js"></script>'
  JsBase64='<!--- BASE64 --->
 <script type="text/javascript">
@@ -391,7 +395,7 @@ MOUNTPAGE(){
 # CList=`cat /etc/aio/aio.list`
  HtmlHAreas="<div class='book' w3-include-html='lista.html'></div><div class='list' w3-include-html='installed.html'></div>"
  Searchbar="<div class='searchbar'><div style='display:block;position:relative;width:100%;height:100%;left:-50%'><span class='searchbar' contenteditable='true'></span><a class='x'>✖</a></div></div>"
- AppInfo="<div class='appinfo'>"$Searchbar"<div class='appname'>Bem vindo</div><i>Clique abaixo para exibir as informações do App</i><div class='passing'>⚙️°°°°°°°°</div><a class='applogo'></a><div class='iteminfo'><a class='ckrecipe' alt='Exibe a receita do app instalado'>📑</a><button class='openapp hide'>Abrir</button><button class='updtapp hide'>Atualizar</button><button class='seta'></button><div class='pdthumbs'><img src='https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/devices/camera-photo.svg'><a></a><a></a><a></a><a></a></div></div></div>"
+ AppInfo="<div class='appinfo'>"$Searchbar"<div class='appname'>Bem vindo</div><i>Clique abaixo para exibir as informações do App</i><div class='passing'>⚙️°°°°°°°°</div><a class='applogo'></a><div class='iteminfo'><a class='ckrecipe' alt='Exibe a receita do app instalado'>📑</a><a class='openapp hide'>Abrir</a><a class='updtapp hide'>Atualizar</a><a class='seta'></a><div class='pdthumbs'><img src='https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/devices/camera-photo.svg'><a></a><a></a><a></a><a></a></div></div></div>"
  Newspaper="<div class='newspaper'>"$varNEWS"</div>"
  Mural="<div class='mural'><div class='imgview'><center><div class='exhib'></div><div class='rule'><a>📷</a><a>📷</a><a>📷</a><a>📷</a></div></center></div><div class='fullinfo'><p></p><a class='xview'>X</a></div></div>";
  CORPO=$HtmlHAreas$Newspaper$AppInfo"<article><center style='margin-top:18%'><img src='"$imgloadstore"'/></center></article>"$Mural
@@ -701,11 +705,14 @@ $ sudo ./aio"; fi fi	#Aciona a instalacao
 
 ##Comandos da Loja
 if [[ "$1" == "" ]]; then troca=troca; else
- STOREC=`echo $1 | awk '{print $1}'`
- STORER=`echo $1 | awk '{print $2}'`
+ cloja=`echo $1 | sed -e 's|\%20| |g'`
+ echo $cloja >> /tmp/aio.log
+ STOREC=`echo $cloja | awk '{print $1}'`
+ STORER=`echo $cloja | awk '{print $2}'`
  if [[ "$STOREC" == "aio:add" ]]; then
   InNAME=$STORER
-  echo -ne "" > $JAR/aiostore/$InNAME.html
+  PageName=`echo $InNAME | tr '[:upper:]' '[:lower:]'`
+  echo -ne "" > $JAR/aiostore/$PageName.html
   CKWEBSERVER ##Orientação para a loja
   TESTLOCAL
   if [ "$PROGRESS" == "1" ]; then NATIVEFIER; fi
@@ -718,7 +725,8 @@ if [[ "$1" == "" ]]; then troca=troca; else
  fi
  if [[ "$STOREC" == "aio:del" ]]; then
   InNAME=$STORER
-  echo -ne "" > $JAR/aiostore/$InNAME.html
+  PageName=`echo $InNAME | tr '[:upper:]' '[:lower:]'`
+  echo -ne "" > $JAR/aiostore/$PageName.html
   CKWEBSERVER
   DEL
   MOUNTLISTS
