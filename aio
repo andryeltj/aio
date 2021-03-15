@@ -29,7 +29,7 @@ VERSIONR=202103132353
 ISLOCAL=0
 troca=""
 VERSION=""
-ITEMDEL=""; RECIPE="";
+ITEMDEL=""; RECIPE=""; Pagename='';
 ANO="";MES="";DIA="";LINHA="";TEMPO="";
 echo $1 >> /tmp/aio.log
 case "$(uname -i)" in
@@ -77,16 +77,16 @@ ADDLIBRARY(){
     InBOOK=`cat /tmp/book | grep "$RECIPE" | awk '{print $1}' | sed 's|\:||g'`;
 	HORA; echo "$ITEMW:	$InBOOK $PRODUTO	$LINHA.$TEMPO-UTC" >> $JAR/aio.list; 
 	LISTITEM=`cat $JAR/aio.list | grep -w "$ITEMW:" | awk '{print $3}'`
-	if [ "$LISTITEM" == "$PRODUTO" ]; then   echo -ne "*" >> $JAR/aiostore/$RECIPE.html; echo "Item adicionado a lista."; else  echo "Item "$ITEMW" não adicionado"; fi
+	if [ "$LISTITEM" == "$PRODUTO" ]; then   echo -ne "*" >> $JAR/aiostore/$PageName.html; echo "Item adicionado a lista."; else  echo "Item "$ITEMW" não adicionado"; fi
 # fi
 }
 
 REMOVELIB(){
-	echo -ne "*" >> $JAR/aiostore/$InNAME.html;
+	echo -ne "*" >> $JAR/aiostore/$PageName.html;
 	ITEMW=`cat /tmp/book | grep -w "$InNAME:" | awk '{print $2}'`;
 	sed -i '/'$ITEMW:'/d' $JAR/aio.list;
 	LISTITEM=`cat $JAR/aio.list | grep -w "$ITEMW:" | awk '{print $1}'`
-	if [ "$LISTITEM" == "" ]; then  troca=troca; echo -ne "*" >> $JAR/aiostore/$InNAME.html; else echo "Erro ao remover "$LISTITEM" da lista"; fi	#Remove da lista o nome do app existente
+	if [ "$LISTITEM" == "" ]; then  troca=troca; echo -ne "*" >> $JAR/aiostore/$PageName.html; else echo "Erro ao remover "$LISTITEM" da lista"; fi	#Remove da lista o nome do app existente
 }
 
 CHECKAIOVERSION(){
@@ -109,7 +109,7 @@ CKFREELIB(){
 	 mkdir $RECEITA_PASTA/$OVEN
 	 wget -q --show-progress -O $RECEITA_PASTA/$OVEN/excludedeblist $RAIZ/andryeltj/aio/master/xlists/$FreeLibINFO
 #	 if [ -e "$RECEITA_PASTA/$OVEN/excludedeblist" ]; then sed 's|$FreeLibINFO|#$FreeLibINFO|g' $RECEITA_PASTA/$OVEN/excludedeblist; else echo "BlackList nao baixada para a receita"; fi
-     echo -ne "*" >> $JAR/aiostore/$RECIPE.html
+     echo -ne "*" >> $JAR/aiostore/$PageName.html;
 	fi
 }
 
@@ -144,12 +144,12 @@ DELBINS(){
 }
 
 DEL(){
-	echo -ne "*" >> $JAR/aiostore/$InNAME.html;
+	echo -ne "*" >> $JAR/aiostore/$PageName.html;
 	ITEMW=`cat /tmp/book | grep -w "$InNAME:" | awk '{print $2}'`; ITEMD=$ITEMW.AppImage
-	if [ "$ITEMW" == "" ]; then troca=troca; else echo "Removendo: "$ITEMW; echo -ne "*" >> $JAR/aiostore/$InNAME.html; fi
+	if [ "$ITEMW" == "" ]; then troca=troca; else echo "Removendo: "$ITEMW; echo -ne "*" >> $JAR/aiostore/$PageName.html; fi
 	if [ -f "$APPS/$ITEMD" ]; then rm -Rf $APPS/$ITEMD; REMOVELIB; echo 'Item removido da lista'; echo "App "$ITEMW" Removido"; MSGD001;
 	else echo "O app "$ITEMW" não foi encontrado para remoção"; fi	#Remove o app; se existir
-	echo -ne "**" >> $JAR/aiostore/$InNAME.html;
+	echo -ne "**" >> $JAR/aiostore/$PageName.html;
 }
 
 DELOVEN(){
@@ -244,7 +244,7 @@ GETONLY(){
 	if [ "$GETOnly" == "" ]; then
 	 DOCOOK
 	else
-	 echo -ne "******" >> $JAR/aiostore/$RECIPE.html;
+	 echo -ne "******" >> $JAR/aiostore/$PageName.html;
 	 echo "GETOnly: YES"
 	 OVEN=`cat $RECEITA_PASTA/$RECIPE.yml | grep -w "app:" | awk '{print $2}'`;
 	 mkdir $RECEITA_PASTA/$OVEN; mkdir $RECEITA_PASTA/$OVEN/$OVEN.AppDir; mkdir $PRATO;
@@ -270,12 +270,12 @@ JARCONTENT(){
 LAUNCHLIB(){
 ## OVEN=`cat $RECEITA_PASTA/$ITEMW.yml | grep "app:" | awk '{print $2}'`
 ## MISTURA=$RECEITA_PASTA/$OVEN
- echo -ne "*" >> $JAR/aiostore/$RECIPE.html;
- if [ -e "$JAR/aio.list" ];then troca=troca; else echo "" > $JAR/aio.list; echo -ne "*" >> $JAR/aiostore/$RECIPE.html; fi 
+ echo -ne "*" >> $JAR/aiostore/$PageName.html;
+ if [ -e "$JAR/aio.list" ];then troca=troca; else echo "" > $JAR/aio.list; echo -ne "*" >> $JAR/aiostore/$PageName.html; fi 
  if [ -e "$MISTURA" ]; then troca=troca; else echo "Forno não gerado"; PROGRESS="0"; fi
  cd $CAMINHO
  if [ -e "$PRATO" ]; then	#Testa pra ver se foi cozinhado
-  echo -ne "*" >> $JAR/aiostore/$RECIPE.html
+  echo -ne "*" >> $JAR/aiostore/$PageName.html;
   PRODUTO=`ls $PRATO`	#Pega o nome do app criado
   APPNMLIST=`cat $JAR/aio.list | grep -w '$ITEMW' | awk '{print $2}'`;
   if [ "$APPNMLIST" == "$PRODUTO" ]; then #Atualiza os dados da lista
@@ -310,11 +310,11 @@ PRODUTO=`ls $PRATO`
 echo "Produto: $PRODUTO"
 if [ -e "$PRATO" ]; then
  if [ -e "$PRATO/$PRODUTO" ]; then
-  echo -ne "*" >> $JAR/aiostore/$RECIPE.html
+  echo -ne "*" >> $JAR/aiostore/$PageName.html;
   cp -Rf $PRATO/$PRODUTO $APPS/$RECIPE.AppImage;	#Move o app para a pasta de apps
   chmod 777 $APPS/$RECIPE.AppImage;
   rm -Rf $PRATO
-  echo -ne "*" >> $JAR/aiostore/$RECIPE.html
+  echo -ne "*" >> $JAR/aiostore/$PageName.html;
   echo $ITEMW" foi instalado.";
   notify-send -i gtk-yes -u normal "$ITEMW foi instalado.";
   else echo "X - Produto não existe, ou não encontrado"; PROGRESS="0"; fi
@@ -390,7 +390,7 @@ MOUNTPAGE(){
 "use strict";jQuery.base64=(function($){var _PADCHAR="=",_ALPHA="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",_VERSION="1.0";function _getbyte64(s,i){var idx=_ALPHA.indexOf(s.charAt(i));if(idx===-1){throw"Cannot decode base64"}return idx}function _decode(s){var pads=0,i,b10,imax=s.length,x=[];s=String(s);if(imax===0){return s}if(imax%4!==0){throw"Cannot decode base64"}if(s.charAt(imax-1)===_PADCHAR){pads=1;if(s.charAt(imax-2)===_PADCHAR){pads=2}imax-=4}for(i=0;i<imax;i+=4){b10=(_getbyte64(s,i)<<18)|(_getbyte64(s,i+1)<<12)|(_getbyte64(s,i+2)<<6)|_getbyte64(s,i+3);x.push(String.fromCharCode(b10>>16,(b10>>8)&255,b10&255))}switch(pads){case 1:b10=(_getbyte64(s,i)<<18)|(_getbyte64(s,i+1)<<12)|(_getbyte64(s,i+2)<<6);x.push(String.fromCharCode(b10>>16,(b10>>8)&255));break;case 2:b10=(_getbyte64(s,i)<<18)|(_getbyte64(s,i+1)<<12);x.push(String.fromCharCode(b10>>16));break}return x.join("")}function _getbyte(s,i){var x=s.charCodeAt(i);if(x>255){throw"INVALID_CHARACTER_ERR: DOM Exception 5"}return x}function _encode(s){if(arguments.length!==1){throw"SyntaxError: exactly one argument required"}s=String(s);var i,b10,x=[],imax=s.length-s.length%3;if(s.length===0){return s}for(i=0;i<imax;i+=3){b10=(_getbyte(s,i)<<16)|(_getbyte(s,i+1)<<8)|_getbyte(s,i+2);x.push(_ALPHA.charAt(b10>>18));x.push(_ALPHA.charAt((b10>>12)&63));x.push(_ALPHA.charAt((b10>>6)&63));x.push(_ALPHA.charAt(b10&63))}switch(s.length-imax){case 1:b10=_getbyte(s,i)<<16;x.push(_ALPHA.charAt(b10>>18)+_ALPHA.charAt((b10>>12)&63)+_PADCHAR+_PADCHAR);break;case 2:b10=(_getbyte(s,i)<<16)|(_getbyte(s,i+1)<<8);x.push(_ALPHA.charAt(b10>>18)+_ALPHA.charAt((b10>>12)&63)+_ALPHA.charAt((b10>>6)&63)+_PADCHAR);break}return x.join("")}return{decode:_decode,encode:_encode,VERSION:_VERSION}}(jQuery));
 </script>'
  favicon='<link rel="shortcut icon" href="favicon.svg" />'
- HTMLINFO="<head><title>Store</title><meta charset=UTF-8>"$favicon"<link href='https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap' rel='stylesheet'> $Css01 $JsBASIS $JsBase64 $JsMAIN</head>"
+ HTMLINFO="<head><title>Store</title><meta charset=UTF-8>"$favicon"<link href='https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap' rel='stylesheet'> $Css01 $JsBASIS $JsBase64 $JsMAIN </head>"
 # CBook=`cat /tmp/book`
  MOUNTLISTS
 # CList=`cat /etc/aio/aio.list`
@@ -431,7 +431,7 @@ RUNPAGE(){
 
 SETADDRESS(){
   if [ -f "$RECEITA_PASTA/$RECIPE.yml" ]; then
-   echo -ne "*" >> $JAR/aiostore/$RECIPE.html
+   echo -ne "*" >> $JAR/aiostore/$PageName.html;
    ITEMW=`cat $RECEITA_PASTA/$RECIPE.yml | grep "app:" | awk '{print $2}'`;
    OVEN=$ITEMW; #echo "FORNO: $OVEN";
    MISTURA=$RECEITA_PASTA/$OVEN
@@ -637,6 +637,8 @@ GETMIND
 if [[ "`whoami`" == "root" ]]; then echo "Os comandos só são executados sem a conta de Administrador"; if  [ "$1" == "f-i" ]; then INSTALLAIO; fi else
  if [[ "$1" == "add" || "$1" == "install" || "$1" == "-a" ]]; then
   InNAME=$2
+  PageName=`echo $InNAME | tr '[:upper:]' '[:lower:]'`
+  echo -ne "" > $JAR/aiostore/$PageName.html
   TESTLOCAL
   if [ "$PROGRESS" == "1" ]; then NATIVEFIER; fi
   if [ "$PROGRESS" == "1" ]; then GETONLY; fi
@@ -647,6 +649,8 @@ if [[ "`whoami`" == "root" ]]; then echo "Os comandos só são executados sem a 
  
  elif [[ "$1" == "del" || "$1" == "remove" || "$1" == "-d" ]]; then
   InNAME=$2
+  PageName=`echo $InNAME | tr '[:upper:]' '[:lower:]'`
+  echo -ne "" > $JAR/aiostore/$PageName.html
   DEL
   MOUNTLISTS
   CHECKAIOVERSION
@@ -662,6 +666,8 @@ if [[ "`whoami`" == "root" ]]; then echo "Os comandos só são executados sem a 
  
  elif [[ "$1" == "upd" || "$1" == "update" || "$1" == "-u" ]]; then
   InNAME=$2
+  PageName=`echo $InNAME | tr '[:upper:]' '[:lower:]'`
+  echo -ne "" > $JAR/aiostore/$PageName.html
   CALLLOCAL
   DEL
   echo "Atualizando: "$ITEMW
@@ -722,7 +728,7 @@ if [[ "$1" == "" ]]; then troca=troca; else
   if [ "$PROGRESS" == "1" ]; then MOVEAPP; fi
   MOUNTLISTS
   CHECKAIOVERSION
-  sleep 1.5; rm -Rf $JAR/aiostore/$InNAME.html
+  sleep 1.5; rm -Rf $JAR/aiostore/$PageName.html
  fi
  if [[ "$STOREC" == "aio:del" ]]; then
   InNAME=$STORER
@@ -732,7 +738,7 @@ if [[ "$1" == "" ]]; then troca=troca; else
   DEL
   MOUNTLISTS
   CHECKAIOVERSION
-  sleep 1.5; rm -Rf $JAR/aiostore/$InNAME.html
+  sleep 1.5; rm -Rf $JAR/aiostore/$PageName.html
  fi
  if [[ "$STOREC" == "aio:run" ]]; then
   InNAME=$STORER
@@ -743,7 +749,8 @@ if [[ "$1" == "" ]]; then troca=troca; else
  fi
  if [[ "$STOREC" == "aio:upd" ]]; then
   InNAME=$STORER
-  echo "" > $JAR/aiostore/$InNAME.html
+  PageName=`echo $InNAME | tr '[:upper:]' '[:lower:]'`
+  echo -ne "" > $JAR/aiostore/$PageName.html
   CALLLOCAL
   DEL
   TESTLOCAL
@@ -753,7 +760,7 @@ if [[ "$1" == "" ]]; then troca=troca; else
   if [ "$PROGRESS" == "1" ]; then MOVEAPP; fi
   MOUNTLISTS
   CHECKAIOVERSION
-  sleep 1.5; rm -Rf $JAR/aiostore/$InNAME.html
+  sleep 1.5; rm -Rf $JAR/aiostore/$PageName.html
  fi
 fi
 #else
