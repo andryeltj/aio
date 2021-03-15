@@ -265,7 +265,7 @@ $('document').ready(function(){
 			   console.log("Callpage: "+CallPage);
 			   nslice=CallPage*30;console.log("nslice: "+nslice);
 			  };
-			  countslice();setTimeout(GetPage(),500);}
+			  $('div.piebase').html("");countslice();setTimeout(GetPage(),500);}
 	  };
   }
   if(BOOK == null){ BOOK = [] };
