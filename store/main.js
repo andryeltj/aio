@@ -299,7 +299,7 @@ $('document').ready(function(){
 		};
 	  if(SCont.includes('progressbar:')){$('.applogo').html("");$('.applogo').html('<div class="piebase"></div>');nslice=SCont.replace("progressbar:","");countslice();}else{$('.applogo').html("");}
   });
-  $('.x').click(function(){$("span.searchbar").html("");$('div.pkg_disp').show();});
+  $('.x').click(function(){$("span.searchbar,.applogo").html("");$('div.pkg_disp').show();});
 //Seleção de Item
   $("button.app").click(function(){secapp=$(this).attr('alt');GetTItem()});
 //Exibir Imagens
