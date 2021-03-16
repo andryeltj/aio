@@ -22,14 +22,14 @@ div.appinfo{display:block;position:relative;width:100%;height:20%;max-height:9em
 div.appinfo{background-image:url('https://i.redd.it/gq3j7y6wzxk51.png');background-size:100%;}
 a.applogo{display:block;position:absolute;top:25%;left:6%;width:5em;height:5em}
 a.applogo{background-image:url('https://raw.githubusercontent.com/andryeltj/aio/master/store/aio-store.svg');background-size:100% auto}
-.appinfo i{display:inline-block;float:right;width:70%;margin-right:10%;color: black;font-family:Titillium web;text-shadow: white 1pt 0 5pt;font-weight: bolder;background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.37) 31%, rgba(125,185,232,0) 100%); /* FF3.6-15 */
+.appinfo i{display:inline-block;float:left;width:70%;margin:-.7% 0 0 17%;color: black;font-family:Titillium web;text-shadow: white 1pt 0 5pt;font-weight: bolder;background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.37) 31%, rgba(125,185,232,0) 100%); /* FF3.6-15 */
 background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(255,255,255,0.37) 31%,rgba(125,185,232,0) 100%); /* Chrome10-25,Safari5.1-6 */
 background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(255,255,255,0.37) 31%,rgba(125,185,232,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */}
 .ckrecipe{position: absolute;right: 1.5em;bottom: 5em;padding: .6em;box-shadow: black 0 0 1pt;cursor: pointer;}
 div.appinfo a.seta,div.appinfo a.openapp,div.appinfo a.updtapp{position:absolute;display:inline-block; right:1em;bottom:1em;width:5em !important;background:transparent;border:none;padding:.5em 2em;border-radius: 0;box-shadow: 0 0 5em white;font-size:1em;text-align:center;text-decoration: none;}
 div.appinfo a.updtapp{right:130px;color:white;background:#1988ff}
 div.appinfo a.openapp{right:248px;color:white;background:#1988ff}
-div.appname{display:block;width:65%;margin-top:1%;padding:.6% 18% .6% 0; font-size:2.3em;float:right;background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.37) 31%, rgba(125,185,232,0) 100%); /* FF3.6-15 */
+div.appname{display:block;width:60%;margin:2.5% 0 0 11%;padding:0% 18% 0.6% 4%; font-size:2.3em;float:left;background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.37) 31%, rgba(125,185,232,0) 100%); /* FF3.6-15 */
 background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(255,255,255,0.37) 31%,rgba(125,185,232,0) 100%); /* Chrome10-25,Safari5.1-6 */
 background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(255,255,255,0.37) 31%,rgba(125,185,232,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */}
 div.passing{display:block;width:80%;float:right}
