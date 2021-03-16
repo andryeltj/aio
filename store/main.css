@@ -20,7 +20,7 @@ textarea{display:block;margin:0;border:0;background:transparent;width:100%}
 div.appinfo{display:block;position:relative;width:100%;height:20%;max-height:9em;text-shadow: 0 0 .06em black;color:orangered;padding:.6% 0;box-shadow:0 0 .6em black;border-bottom: 1px solid rgba(0,0,0,0.3);}
 div.appinfo{background-image:url('https://i.redd.it/gq3j7y6wzxk51.png');background-size:100%;}
 a.applogo{display:block;position:absolute;top:25%;left:6%;width:5em;height:5em}
-a.applogo{background-image:url('https://raw.githubusercontent.com/andryeltj/aio/master/store/aio-store.svg');background-size:100% auto;background-repeat: no-repeat;background-position: center;}}
+a.applogo{background-image:url('https://raw.githubusercontent.com/andryeltj/aio/master/store/aio-store.svg');background-size:100% auto;background-repeat: no-repeat;background-position: center;}
 div.appinfo i{display:inline-block;float:left;width:70%;margin:-.7% 0 0 17%;color: black;font-family:Titillium web;text-shadow: white 1pt 0 5pt;font-weight: bolder;}
 .ckrecipe{position: absolute;right:26.5em;top:1.6em;padding:1.3em;cursor: pointer;}
 div.appinfo a.seta,div.appinfo a.openapp,div.appinfo a.updtapp{position:absolute;display:inline-block; right:1em;bottom:1em;width:5em !important;background:transparent;border:none;padding:.5em 2em;border-radius: 0;box-shadow: 0 0 5em white;font-size:1em;text-align:center;text-decoration: none;}
