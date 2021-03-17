@@ -25,7 +25,7 @@ CAMINHO=`pwd`
 PROGRESS="0"
 ITEMW="0"
 AUTOINTEGRAR=0
-VERSIONR=202103132353
+VERSIONR=202103171818
 ISLOCAL=0
 troca=""
 VERSION=""
@@ -399,7 +399,7 @@ MOUNTPAGE(){
  AppInfo="<div class='appinfo'>"$Searchbar"<div class='appname'>Bem vindo</div><i>Clique abaixo para exibir as informações do App</i><div class='passing'>⚙️°°°°°°°°</div><a class='applogo'></a><div class='iteminfo'><a class='ckrecipe' alt='Exibe a receita do app instalado'>📑</a><a class='openapp hide'>Abrir</a><a class='updtapp hide'>Atualizar</a><a class='seta'></a><div class='pdthumbs'><img src='https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/devices/camera-photo.svg'><a></a><a></a><a></a><a></a></div></div></div>"
  Newspaper="<div class='newspaper'>"$varNEWS"</div>"
  Mural="<div class='mural'><div class='imgview'><center><div class='exhib'></div><div class='rule'><a>📷</a><a>📷</a><a>📷</a><a>📷</a></div></center></div><div class='fullinfo'><p></p><a class='xview'>X</a></div></div>";
- CORPO=$HtmlHAreas$Newspaper$AppInfo"<article><center style='margin-top:18%'><img src='"$imgloadstore"'/></center></article>"$Mural
+ CORPO=$HtmlHAreas$Newspaper$AppInfo"<article><center style='margin-top:18%'><img src='"$imgloadstore"'/></center></article><div class='categories'></div>"$Mural
  echo "Abrindo a loja"
  POPUPMENU="<div class='aiomenu'><a>Ver DB</a><a>Crie Uma receita</a><a>Sobre AIO</a><a>Fale conosco</a></div>"
  POPUPSTYLE="<div class='aiostyle'><div class='fstyle'><a class='card'><span>🍱</span>Cartão</a><a class='item'><span>▣</span>Item</a><a class='list'><span>▤</span>Lista</a></div><a class='std'><span>📑</span>Padrão</a><a class='cl1'><span>◉</span>Circulo</a><a class='qd1'><span>▢</span>Quadrado</a></div>"
@@ -693,6 +693,7 @@ if [[ "`whoami`" == "root" ]]; then echo "Os comandos só são executados sem a 
   fi
 
  elif [[ "$1" == "aio:store-up" ]]; then
+  echo $JsReload$ShReload >> $JAR/aiostore/index.html
   CKWEBSERVER
   MOUNTLISTS
   MOUNTPAGE
@@ -719,6 +720,7 @@ if [[ "$1" == "" ]]; then troca=troca; else
  if [[ "$STOREC" == "aio:add" ]]; then
   InNAME=$STORER
   PageName=`echo $InNAME | tr '[:upper:]' '[:lower:]'`
+  echo -ne $PageName' ' >> $JAR/aiostore/running.html
   echo -ne "" > $JAR/aiostore/$PageName.html
   CKWEBSERVER ##Orientação para a loja
   TESTLOCAL
@@ -728,17 +730,18 @@ if [[ "$1" == "" ]]; then troca=troca; else
   if [ "$PROGRESS" == "1" ]; then MOVEAPP; fi
   MOUNTLISTS
   CHECKAIOVERSION
-  sleep 1.5; rm -Rf $JAR/aiostore/$PageName.html
+  sleep 1.5; rm -Rf $JAR/aiostore/running.html; rm -Rf $JAR/aiostore/$PageName.html
  fi
  if [[ "$STOREC" == "aio:del" ]]; then
   InNAME=$STORER
   PageName=`echo $InNAME | tr '[:upper:]' '[:lower:]'`
+  echo -ne $PageName' ' >> $JAR/aiostore/running.html
   echo -ne "" > $JAR/aiostore/$PageName.html
   CKWEBSERVER
   DEL
   MOUNTLISTS
   CHECKAIOVERSION
-  sleep 1.5; rm -Rf $JAR/aiostore/$PageName.html
+  sleep 1.5; rm -Rf $JAR/aiostore/running.html; rm -Rf $JAR/aiostore/$PageName.html
  fi
  if [[ "$STOREC" == "aio:run" ]]; then
   InNAME=$STORER
@@ -750,6 +753,7 @@ if [[ "$1" == "" ]]; then troca=troca; else
  if [[ "$STOREC" == "aio:upd" ]]; then
   InNAME=$STORER
   PageName=`echo $InNAME | tr '[:upper:]' '[:lower:]'`
+  echo -ne $PageName' ' >> $JAR/aiostore/running.html
   echo -ne "" > $JAR/aiostore/$PageName.html
   CALLLOCAL
   DEL
@@ -760,10 +764,14 @@ if [[ "$1" == "" ]]; then troca=troca; else
   if [ "$PROGRESS" == "1" ]; then MOVEAPP; fi
   MOUNTLISTS
   CHECKAIOVERSION
-  sleep 1.5; rm -Rf $JAR/aiostore/$PageName.html
+  sleep 1.5; rm -Rf $JAR/aiostore/running.html; rm -Rf $JAR/aiostore/$PageName.html
  fi
 fi
 #else
 #	echo "::::::: Conecte-se a Internet antes de  Instalar :::::::"
 #	notify-send "Conecte-se a Internet"
 #fi
+
+## Miniprocess, para exibir processoso em segundo plano piechart
+## Exibir receita / Criar Receita com criação de repoistório local e externo
+## Editor de repositórios
