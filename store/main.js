@@ -15,7 +15,7 @@ $('document').ready(function(){
   var stdBK="https://images.all-free-download.com/images/graphiclarge/abstract_green_blue_low_poly_background_vector_illustration_570260.jpg";
   var stdIC="https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/mimetypes/application-x-iso9660-appimage.svg"
   var iteml, ctItems="0",ItmClss="",appcat="0",fcat="",troca="",knife=0,itemw="",CallPage="",Working="0";
-  var ckrecipe="",itmBT="",acorpo="",secapp,ctstp="0",dblista="";dblocal="";
+  var ckrecipe="",itmBT="",acorpo="",secapp,ctstp="0",dblista="",dblocal="",catpress="0";
   var funcao="0";
   function includeHTML() {
 	  var z, i, elmnt, file, xhttp;
@@ -91,23 +91,23 @@ $('document').ready(function(){
   function AvalCat(){
 	  fcat="";fcat=category[index++];
 //	  console.log("index"+index+","+fcat);
-	  if (fcat=="E"){appcatnm="editores edictores"};
-	  if (fcat=="I"){appcatnm="imagem imagens images"};
-	  if (fcat=="T"){appcatnm="textos texts offices suites suítes"};
-	  if (fcat=="A"){appcatnm="audios spectros spectrums"};
-	  if (fcat=="M"){appcatnm="midias mídias medias"};
-	  if (fcat=="W"){appcatnm="web internet redes networks browsers navegadores"};
-	  if (fcat=="C"){appcatnm="webcams cameras câmeras"};
-	  if (fcat=="S"){appcatnm="systems sistemas"};
-	  if (fcat=="U"){appcatnm="ferramentas utility utilities"};
-	  if (fcat=="Z"){appcatnm="zip rar 7z packages compress comprimir comprime"};
-	  if (fcat=="D"){appcatnm="informations informacoes informações"};
-	  if (fcat=="G"){appcatnm="games jogos controls controles controlar"};
-	  if (fcat=="F️"){appcatnm="folders pastas files managers arquivos gerenciadores"};
-	  if (fcat=="V"){appcatnm="videos vídeos"};
-	  if (fcat=="B"){appcatnm="messengers mensageiros send sender enviar"};
-	  if (fcat=="P"){appcatnm="temas themes personalizar transformation icones icons"};
-	  if (fcat=="K"){appcatnm="kits meta package"}
+	  if (fcat=="E"){appcatnm="editores edictores";if($('.IdE').length == 0){$('.categories').append('<a class="IdE" alt="edit">Editores</a>');}};
+	  if (fcat=="I"){appcatnm="imagem imagens images";if($('.IdI').length == 0){$('.categories').append('<a class="IdI" alt="image">Imagens</a>');}};
+	  if (fcat=="T"){appcatnm="textos texts offices suites suítes";if($('.IdT').length == 0){$('.categories').append('<a class="IdT" alt="office">Office</a>');}};
+	  if (fcat=="A"){appcatnm="audios spectros spectrums";if($('.IdA').length == 0){$('.categories').append('<a class="IdA" alt="audio">Audio</a>');}};
+	  if (fcat=="M"){appcatnm="midias mídias medias players";if($('.IdM').length == 0){$('.categories').append('<a class="IdM" alt="player">Players</a>');}};
+	  if (fcat=="W"){appcatnm="web internet redes networks browsers navegadores";if($('.IdW').length == 0){$('.categories').append('<a class="IdW" alt="web">Navegadores</a>');}};
+	  if (fcat=="C"){appcatnm="webcams cameras câmeras";if($('.IdC').length == 0){$('.categories').append('<a class="IdC" alt="camera">Câmera</a>');}};
+	  if (fcat=="S"){appcatnm="systems sistemas";if($('.IdS').length == 0){$('.categories').append('<a class="IdS" alt="system">Sistema</a>');}};
+	  if (fcat=="U"){appcatnm="ferramentas utility utilities";if($('.IdU').length == 0){$('.categories').append('<a class="IdU" alt="util">Acessórios</a>');}};
+	  if (fcat=="Z"){appcatnm="zip rar 7z packages compress comprimir comprime";if($('.IdZ').length == 0){$('.categories').append('<a class="IdZ" alt="zip">Pacotes</a>');}};
+	  if (fcat=="D"){appcatnm="informations informacoes informações";if($('.IdD').length == 0){$('.categories').append('<a class="IdD" alt="info">Info</a>');}};
+	  if (fcat=="G"){appcatnm="games jogos controls controles controlar";if($('.IdG').length == 0){$('.categories').append('<a class="IdG" alt="game">Games</a>');}};
+	  if (fcat=="F️"){appcatnm="folders pastas files managers arquivos gerenciadores";if($('.IdF').length == 0){$('.categories').append('<a class="IdF" alt="manager">Arquivos</a>');}};
+	  if (fcat=="V"){appcatnm="videos vídeos";if($('.IdV').length == 0){$('.categories').append('<a class="IdV" alt="video">Video</a>');}};
+	  if (fcat=="B"){appcatnm="messengers mensageiros send sender enviar chat";if($('.IdB').length == 0){$('.categories').append('<a class="IdB" alt="chat">Chat</a>');}};
+	  if (fcat=="P"){appcatnm="temas themes personalizar transformation icones icons";if($('.IdP').length == 0){$('.categories').append('<a class="IdP" alt="tema">Temas</a>');}};
+	  if (fcat=="K"){appcatnm="kits meta package";if($('.IdK').length == 0){$('.categories').append('<a class="IdK" alt="kit">Kits</a>')}};
 	  if(appcat==""){appcat=appcatnm}else{
 	  if(appcat==appcatnm){troca=troca}else{appcat=appcat+" "+appcatnm;}}
 	  if (index < category.length) {Categories();}
@@ -330,6 +330,16 @@ $('document').ready(function(){
 	  pagename=$(this).attr('alt');secapp=pagename;pagename=pagename+".html";console.log("Work with: "+pagename);
 	  CallPage="";Working="1";setTimeout(GetProgress(),1000);
   });
+  $('div.categories a').click(function(){var mcatname=$(this).attr('alt');$('span.searchbar').html(mcatname);$('div.pkg_disp').hide();
+		  $('div.menu div').each(function(){
+			  var identfy=$(this).attr('class');
+			  if(identfy.indexOf(mcatname) != -1){
+				  identfy=identfy.replace(/ /g,'.');
+				  console.log(identfy);
+			  $("."+identfy).show();
+			}
+		  });
+	  });
 },500);
 //fim
 });
