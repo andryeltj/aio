@@ -25,7 +25,7 @@ CAMINHO=`pwd`
 PROGRESS="0"
 ITEMW="0"
 AUTOINTEGRAR=0
-VERSIONR=202103171818
+VERSIONR=202104092218
 ISLOCAL=0
 troca=""
 VERSION=""
@@ -396,10 +396,10 @@ MOUNTPAGE(){
 # CList=`cat /etc/aio/aio.list`
  HtmlHAreas="<div class='book' w3-include-html='lista.html'></div><div class='list' w3-include-html='installed.html'></div>"
  Searchbar="<div class='searchbar'><div style='display:block;position:relative;width:100%;height:100%;left:-50%'><span class='searchbar' contenteditable='true'></span><a class='x'>✖</a></div></div>"
- AppInfo="<div class='appinfo'>"$Searchbar"<div class='appname'>Bem vindo</div><i>Clique abaixo para exibir as informações do App</i><div class='passing'>⚙️°°°°°°°°</div><a class='applogo'></a><div class='iteminfo'><a class='ckrecipe' alt='Exibe a receita do app instalado'>📑</a><a class='openapp hide'>Abrir</a><a class='updtapp hide'>Atualizar</a><a class='seta'></a><div class='pdthumbs'><img src='https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/devices/camera-photo.svg'><a></a><a></a><a></a><a></a></div></div></div>"
+ AppInfo="<div class='appinfo'>"$Searchbar"<div class='appname'>Bem vindo</div><div class='passing'>⚙️</div><i>Clique abaixo para exibir as informações do App</i><a class='applogo'></a><div class='iteminfo'><a class='ckrecipe' alt='Exibe a receita do app instalado'>📑</a><a class='openapp hide'>Abrir</a><a class='updtapp hide'>Atualizar</a><a class='seta'></a><div class='pdthumbs'><img src='https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/devices/camera-photo.svg'><a></a><a></a><a></a><a></a></div></div></div>"
  Newspaper="<div class='newspaper'>"$varNEWS"</div>"
  Mural="<div class='mural'><div class='imgview'><center><div class='exhib'></div><div class='rule'><a>📷</a><a>📷</a><a>📷</a><a>📷</a></div></center></div><div class='fullinfo'><p></p><a class='xview'>X</a></div></div>";
- CORPO=$HtmlHAreas$Newspaper$AppInfo"<article><center style='margin-top:18%'><img src='"$imgloadstore"'/></center></article><div class='categories'></div>"$Mural
+ CORPO=$HtmlHAreas$Newspaper$AppInfo"<article><center style='margin-top:18%'><img src='"$imgloadstore"'/></center></article><div class='outer'><div class='categories'></div></div>"$Mural
  echo "Abrindo a loja"
  POPUPMENU="<div class='aiomenu'><a>Ver DB</a><a>Crie Uma receita</a><a>Sobre AIO</a><a>Fale conosco</a></div>"
  POPUPSTYLE="<div class='aiostyle'><div class='fstyle'><a class='card'><span>🍱</span>Cartão</a><a class='item'><span>▣</span>Item</a><a class='list'><span>▤</span>Lista</a></div><a class='std'><span>📑</span>Padrão</a><a class='cl1'><span>◉</span>Circulo</a><a class='qd1'><span>▢</span>Quadrado</a></div>"
@@ -543,7 +543,7 @@ INSTALLAIO(){
 #Instala o suporte
 	echo "###########################"
 	#Arch an Fedora put here command for install the APT.
-	sudo apt update; sudo apt install build-essential libcurl4 curl rpm2cpio imagemagick ffmpeg apache2 -y;
+	sudo apt update; sudo apt install build-essential libcurl4 curl rpm2cpio alien imagemagick apache2 -y;
 	sudo ln -s /etc/aio/aiostore /var/www/html/aiostore
 #	mutt para emails
 #Instala o Integrador
