@@ -102,7 +102,7 @@ article.listv div.menu{width:80%}
 .circle {border: 5px solid orangered;position:absolute;clip:rect(0px, 55px, 22px,53px);margin-top: -5px;margin-left: -5px;}
 @-moz-document url-prefix(){
   body{font-size:12px;}
-  div.pkg_disp{width:11.5em;height:14.1em;}
+  div.pkg_disp{width:10.67em;height:13.35em;}
   div.pkg_disp a {font-weight:bolder;font-size:1.2em;bottom:2.4em}
   div.pkg_disp i {font-size:1.2em}
   appinfo{max-height:9em}
