@@ -103,7 +103,8 @@ article.listv div.menu{width:80%}
 @-moz-document url-prefix(){
   body{moz-font-size:12px;}
   div.pkg_disp{width:11.5em;height:14.1em;}
-  div.pkg_disp a {font-weight:bolder;font-size:1.2em} div.pkg_disp i{font-size:1.2em}
+  div.pkg_disp a {font-weight:bolder;font-size:1.2em}
+  div.pkg_disp i {font-size:1.2em}
   appinfo{max-height:9em}
   div.outer{top:15%}
   article{height:83.9%}
