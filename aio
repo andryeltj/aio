@@ -17,6 +17,8 @@ SYSICONS=/usr/share/icons/hicolor/256x256/apps
 ELINKS=$LOCAL/share/applications
 NEWS="andryeltj/aio/master/store/news.html"
 mail="andryel.aio@gmail.com"
+REGs=$APPS/index
+AppIndex=REGs/aio.list
 OVEN=""
 MISTURA=""
 JARRA=""
@@ -25,13 +27,16 @@ CAMINHO=`pwd`
 PROGRESS="0"
 ITEMW="0"
 AUTOINTEGRAR=0
-VERSIONR=202104092218
+VERSIONR=202104121336
 ISLOCAL=0
 troca=""
 VERSION=""
 ITEMDEL=""; RECIPE=""; Pagename='';
 ANO="";MES="";DIA="";LINHA="";TEMPO="";
 echo $1 >> /tmp/aio.log
+#CORRECTION
+if [ -e "/etc/aio/aio.list" ]; then mkdir $REGs; mv $JAR/aio.list $REGs; fi
+
 case "$(uname -i)" in
   x86_64|amd64)
 #    echo "x86-64 system architecture"
@@ -70,13 +75,13 @@ fi
 }
 
 ADDLIBRARY(){
-## LISTITEM=`cat $JAR/aio.list | grep -w "$ITEMW:" | awk '{print $1}'`
+## LISTITEM=`cat $AppIndex | grep -w "$ITEMW:" | awk '{print $1}'`
 # if [ "$LISTITEM" == "$ITEMW:" ]; then
 #    REMOVELIB; echo "Atualizando "$LISTITEM" lista."
 # else
     InBOOK=`cat /tmp/book | grep "$RECIPE" | awk '{print $1}' | sed 's|\:||g'`;
-	HORA; echo "$ITEMW:	$InBOOK $PRODUTO	$LINHA.$TEMPO-UTC" >> $JAR/aio.list; 
-	LISTITEM=`cat $JAR/aio.list | grep -w "$ITEMW:" | awk '{print $3}'`
+	HORA; echo "$ITEMW:	$InBOOK $PRODUTO	$LINHA.$TEMPO-UTC" >> $AppIndex; 
+	LISTITEM=`cat $AppIndex | grep -w "$ITEMW:" | awk '{print $3}'`
 	if [ "$LISTITEM" == "$PRODUTO" ]; then   echo -ne "*" >> $JAR/aiostore/$PageName.html; echo "Item adicionado a lista."; else  echo "Item "$ITEMW" não adicionado"; fi
 # fi
 }
@@ -84,8 +89,8 @@ ADDLIBRARY(){
 REMOVELIB(){
 	echo -ne "*" >> $JAR/aiostore/$PageName.html;
 	ITEMW=`cat /tmp/book | grep -w "$InNAME:" | awk '{print $2}'`;
-	sed -i '/'$ITEMW:'/d' $JAR/aio.list;
-	LISTITEM=`cat $JAR/aio.list | grep -w "$ITEMW:" | awk '{print $1}'`
+	sed -i '/'$ITEMW:'/d' $AppIndex;
+	LISTITEM=`cat $AppIndex | grep -w "$ITEMW:" | awk '{print $1}'`
 	if [ "$LISTITEM" == "" ]; then  troca=troca; echo -ne "*" >> $JAR/aiostore/$PageName.html; else echo "Erro ao remover "$LISTITEM" da lista"; fi	#Remove da lista o nome do app existente
 }
 
@@ -271,13 +276,13 @@ LAUNCHLIB(){
 ## OVEN=`cat $RECEITA_PASTA/$ITEMW.yml | grep "app:" | awk '{print $2}'`
 ## MISTURA=$RECEITA_PASTA/$OVEN
  echo -ne "*" >> $JAR/aiostore/$PageName.html;
- if [ -e "$JAR/aio.list" ];then troca=troca; else echo "" > $JAR/aio.list; echo -ne "*" >> $JAR/aiostore/$PageName.html; fi 
+ if [ -e "$AppIndex" ];then troca=troca; else echo "" > $AppIndex; echo -ne "*" >> $JAR/aiostore/$PageName.html; fi 
  if [ -e "$MISTURA" ]; then troca=troca; else echo "Forno não gerado"; PROGRESS="0"; fi
  cd $CAMINHO
  if [ -e "$PRATO" ]; then	#Testa pra ver se foi cozinhado
   echo -ne "*" >> $JAR/aiostore/$PageName.html;
   PRODUTO=`ls $PRATO`	#Pega o nome do app criado
-  APPNMLIST=`cat $JAR/aio.list | grep -w '$ITEMW' | awk '{print $2}'`;
+  APPNMLIST=`cat $AppIndex | grep -w '$ITEMW' | awk '{print $2}'`;
   if [ "$APPNMLIST" == "$PRODUTO" ]; then #Atualiza os dados da lista
    REMOVELIB; ADDLIBRARY
   else ADDLIBRARY	#Coloca o nome do app novo na lista 
@@ -357,7 +362,7 @@ MOUNTLISTS(){
        ITdata=`echo $line | awk '{print $3}'`
        LIsTa=`echo "<li class='I"$Par02"'><a>"$Par02"</a><a>"$ITdata"</a></li>"`
        CList=$CList$LIsTa
-    done < /etc/aio/aio.list
+    done < /home/apps/index/aio.list
     echo $CList > $JAR/aiostore/installed.html
 }
 IMGDOTS='<svg focusable="false" viewBox="0 0 24 24" style="height:1.2em"><path d="M6,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM16,6c0,1.1 0.9,2 2,2s2,-0.9 2,-2 -0.9,-2 -2,-2 -2,0.9 -2,2zM12,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2z"></path></svg>'
@@ -611,7 +616,7 @@ fi
 
 INFOAPP(){
 	ITEMW=`cat /tmp/book | grep -w "$InNAME:" | awk '{print $2}'`
-	ITEMINFO=`cat $JAR/aio.list | grep -w "$ITEMW:"`
+	ITEMINFO=`cat $AppIndex | grep -w "$ITEMW:"`
 	if [ "$ITEMINFO" == "" ]; then echo "Item não listado"; else echo "*#*#*#*#*#*#*#
 <Receita>		<Item>				<Hora>
  "$ITEMINFO"
@@ -693,11 +698,11 @@ if [[ "`whoami`" == "root" ]]; then echo "Os comandos só são executados sem a 
   fi
 
  elif [[ "$1" == "aio:store-up" ]]; then
+  CHECKAIOVERSION
   echo $JsReload$ShReload >> $JAR/aiostore/index.html
   CKWEBSERVER
   MOUNTLISTS
   MOUNTPAGE
-  CHECKAIOVERSION
 
  elif  [[ "$1" == "f-i" ]]; then echo "Vamos instalar... Execute como Root:
 $ sudo ./aio";
@@ -751,6 +756,7 @@ if [[ "$1" == "" ]]; then troca=troca; else
   CHECKAIOVERSION
  fi
  if [[ "$STOREC" == "aio:upd" ]]; then
+  CHECKAIOVERSION
   InNAME=$STORER
   PageName=`echo $InNAME | tr '[:upper:]' '[:lower:]'`
   echo -ne $PageName' ' >> $JAR/aiostore/running.html
@@ -763,7 +769,6 @@ if [[ "$1" == "" ]]; then troca=troca; else
   if [ "$PROGRESS" == "1" ]; then DELOVEN; fi
   if [ "$PROGRESS" == "1" ]; then MOVEAPP; fi
   MOUNTLISTS
-  CHECKAIOVERSION
   sleep 1.5; rm -Rf $JAR/aiostore/running.html; rm -Rf $JAR/aiostore/$PageName.html
  fi
 fi
