@@ -12,6 +12,7 @@ The preference is graphical interation with the user, but commanded by CLI easil
 Example of Store.:
 ![](https://raw.githubusercontent.com/andryeltj/aio/master/images/home.png)
 
+Example: Installing **Sweet Home 3D**
 | Steps | |
 | ------------- | -------------:|
 | Select | Installing |
