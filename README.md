@@ -12,6 +12,11 @@ The preference is graphical interation with the user, but commanded by CLI easil
 Example of Store.:
 ![](https://raw.githubusercontent.com/andryeltj/aio/master/images/home.png)
 
+Steps
+![300x256](https://raw.githubusercontent.com/andryeltj/aio/master/images/select.png)
+![300x256](https://raw.githubusercontent.com/andryeltj/aio/master/images/installing.png)
+![300x256](https://raw.githubusercontent.com/andryeltj/aio/master/images/ready.png)
+
 To install, is run this command in your terminal:
 
 ```$ wget -o aio http://gg.gg/aiotxt && chmod +x aio && sudo ./aio```
@@ -20,7 +25,6 @@ The commands:
  - add or install
  - del or remove
  - list
- - check
  - upd
  - store
  - jar
