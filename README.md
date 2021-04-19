@@ -9,9 +9,11 @@ The intention is turn the base system clean and light.
 
 The preference is graphical interation with the user, but commanded by CLI easily.
 
+Example of Store.:
+![](https://raw.githubusercontent.com/andryeltj/aio/master/images/home.png)
+
 To install, is run this command in your terminal:
 
-<!---```$ w3m gg.gg/aiotxt >> aio  && chmod +x aio && sudo ./aio``` --->
 ```$ wget -o aio http://gg.gg/aiotxt && chmod +x aio && sudo ./aio```
 
 The commands:
@@ -28,8 +30,6 @@ The commands:
  It will mount one Zoom AppImage and turn this disponible for your use.
  
 ***list*** - List the installed apps.
-***mkt*** - Lists the possible recipes for your system.
-***check*** - Check the recent version of the package base on repository system and compares with AppImage builded on folder, and list if this is update. And checks if the recipe files are the most newer to do download the newer.
 ***upd*** - Checks and upgrade expecific app in AppImage (except if add * or all, that will upgrades all packages available).
 ***store*** - Displays the one Store in your browser (in construction).
 ***jar*** - Print the repository of the recipes.
