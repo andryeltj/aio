@@ -12,7 +12,8 @@ The preference is graphical interation with the user, but commanded by CLI easil
 Example of Store.:
 ![](https://raw.githubusercontent.com/andryeltj/aio/master/images/home.png)
 
-Steps
+| Steps | |
+| ------------- | -------------:|
 | ![300x256](https://raw.githubusercontent.com/andryeltj/aio/master/images/select.png) | ![300x256](https://raw.githubusercontent.com/andryeltj/aio/master/images/installing.png)|
 | ![300x256](https://raw.githubusercontent.com/andryeltj/aio/master/images/ready.png) | |
 
