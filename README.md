@@ -36,12 +36,14 @@ The commands:
  ```$ aio add zoom```
  It will mount one Zoom AppImage and turn this disponible for your use.
  
-***list*** - List the installed apps.
-***upd*** - Checks and upgrade expecific app in AppImage (except if add * or all, that will upgrades all packages available).
-***store*** - Displays the one Store in your browser (in construction).
+***list*** - List the disponible apps.
+***upd*** - Upgrade expecific app in AppImage.
+***store*** - Open Store in your browser (automatic upload).
 ***jar*** - Print the repository of the recipes.
  
 The standard folder is /apps
 The recipes folder is /apps/receitas 
 
-Obs.: the file i'ts not all ready, this options is only the purpose.
+Obs.: The repository can be modifyed to be read your repository with your personal recipes on web.
+
+Soon more new updates with more features will appear.
