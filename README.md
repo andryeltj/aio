@@ -14,7 +14,9 @@ Example of Store.:
 
 | Steps | |
 | ------------- | -------------:|
+| Select | Installing |
 | ![300x256](https://raw.githubusercontent.com/andryeltj/aio/master/images/select.png) | ![300x256](https://raw.githubusercontent.com/andryeltj/aio/master/images/installing.png)|
+| Ready | |
 | ![300x256](https://raw.githubusercontent.com/andryeltj/aio/master/images/ready.png) | |
 
 To install, is run this command in your terminal:
