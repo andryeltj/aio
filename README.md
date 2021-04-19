@@ -13,9 +13,8 @@ Example of Store.:
 ![](https://raw.githubusercontent.com/andryeltj/aio/master/images/home.png)
 
 Steps
-![300x256](https://raw.githubusercontent.com/andryeltj/aio/master/images/select.png)
-![300x256](https://raw.githubusercontent.com/andryeltj/aio/master/images/installing.png)
-![300x256](https://raw.githubusercontent.com/andryeltj/aio/master/images/ready.png)
+| ![300x256](https://raw.githubusercontent.com/andryeltj/aio/master/images/select.png) | ![300x256](https://raw.githubusercontent.com/andryeltj/aio/master/images/installing.png)|
+| ![300x256](https://raw.githubusercontent.com/andryeltj/aio/master/images/ready.png) | |
 
 To install, is run this command in your terminal:
 
