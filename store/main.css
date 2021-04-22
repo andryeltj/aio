@@ -44,7 +44,7 @@ div.book li a,div.list li a{display:inline-block;float:left;overflow:hidden;text
 div.list li:hover{background:rgba(180,180,180,.3)}
 div.list li a:nth-child(1){width:12em;text-align:center}
 div.list li a:nth-child(2){float:right;padding-right:2em}
-article{display:inline-block;position:relative;width:97%;height:82.9%;padding:.6em 3% .6em 0;overflow-y:auto}
+article{display:inline-block;position:relative;width:97%;height:82.1%;padding:.6em 3% .6em 0;overflow-y:auto}
 div.pkg_disp{display:inline-block;float:left;width:10.2em;height:12.6em;position:relative;background:red;box-shadow:#000 0 0 .3em;border-radius:38% 10% 10% 10%;margin-bottom:3.3em;}
 div.pkg_disp a{display:inline-block;width:90%;margin:0 5%;color:#EEE;font-family:'Titillium Web', sans-serif;position:absolute;left:0;bottom:2em;text-shadow:#000 0 0 .6em;font-weight:unset;height: 2em;word-wrap: break-word;font-size: 1.15em;line-height: 1em;background:radial-gradient(circle, rgba(109,109,109,0.16341224083533656) 0%, rgba(0,0,0,0) 100%);}
 div.pkg_disp span{display:block;width:1.2em;height:1.2em;position:absolute;top:-0.3em;right:-0.3em;}
