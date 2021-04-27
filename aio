@@ -9,6 +9,7 @@ PRATO=$RECEITA_PASTA/out	#Saida do Produto
 RAIZ="https://raw.githubusercontent.com"
 APPS=/home/apps	#Pasta dos apps
 COMBURENT="pkg2appimage"
+WAI="Wine-4.21-x86_64.AppImage"
 BINS=/usr/bin
 LOCAL=/home/`whoami`/.local
 LOCALBINS=$LOCAL/bin
@@ -27,7 +28,7 @@ CAMINHO=`pwd`
 PROGRESS="0"
 ITEMW="0"
 AUTOINTEGRAR=0
-VERSIONR=2021041811222
+VERSIONR=202104271626
 ISLOCAL=0
 troca=""
 VERSION=""
@@ -198,6 +199,11 @@ echo "isInstall: $isInstall"
   if [ $isInstall == "1" ]; then rm -Rf /tmp/book; fi
 }
 
+GETWAI(){
+	if [ -f "$JAR/$WAI" ]; then troca=troca; else wget -q --show-progress -c https://github.com/sudo-give-me-coffee/wine32-deploy/releases/download/continuous/$WAI -O $JAR/WAI.AppImage; chmod +x WAI.AppImage; fi
+	if [ -f "$JAR/WAI.AppImage" ]; then echo "🖴  <====  🌐"; else echo "🖴  X====  🌐"; PROGRESS="0"; fi
+	}
+
 GETMIND(){
 GETINTEGRATE=https://github.com/TheAssassin/AppImageLauncher/releases/download/v2.2.0
 if [[ "$SYSTEM_ARCH" == "x86_64" || "$SYSTEM_ARCH" == "amd64" || "$SYSTEM_ARCH" == "i686" ]]; then
@@ -263,9 +269,14 @@ GETPAGEBASE(){
  URL1=$RAIZ/andryeltj/aio/master/store/main.css
  URL2=$RAIZ/andryeltj/aio/master/store/jquery.js
  URL3=$RAIZ/andryeltj/aio/master/store/main.js
-# URL3=$RAIZ/andryeltj/aio/master/store/main-a.js
-# URL4=$RAIZ/andryeltj/aio/master/store/main-b.js
  wget -q --show-progress -c -P /tmp/ $URL1 $URL2 $URL3 #$URL4
+}
+
+GETTYPE(){
+	GETOnly=`cat $RECEITA_PASTA/$RECIPE.yml | grep -w "getonly:" | awk '{print $2}'`
+	WINTYPE=`cat $RECEITA_PASTA/$RECIPE.yml | grep -w "type: win" | awk '{print $2}'`
+	if [ "$GETOnly" == "" ]; then troca=troca; else GETONLY; fi
+	if [ "$WINTYPE" == "" ]; then troca=troca; else WINBUILD; fi
 }
 
 JARCONTENT(){
@@ -539,16 +550,18 @@ INSTALLAIO(){
 	if [ -e "$JAR" ]; then yes | mv $CAMINHO/aio $JAR; echo "🖴  <====  📜"; else echo "JARRA nao foi criada"; fi
 	if [ -f "$JAR/jar.aio" ]; then troca=troca; else JARCONTENT; fi
 	if [ -f "$JAR/$COMBURENT" ]; then troca=troca; else GETCOMBURENT; fi
+	if [ -f "$JAR/WAI.AppImage" ]; then troca=troca; else GETWAI; fi
 	MAKEWidgets
     if [ -f "$JAR/system.aio" ]; then troca=troca; else echo "" > $JAR/system.aio; sudo chmod 777 $JAR/system.aio; fi
 #Linka/Copia os binarios
 	if [ -f "$JAR/aio" ]; then if [ -f "$BINS/aio" ]; then rm -Rf $BINS/aio; ln -s $JAR/aio $BINS/aio; else ln -s $JAR/aio $BINS/aio; echo "📜🖴  <_✔_>  ⚙️	-	AIO Linkado"; fi fi
 	if [ -f "$JAR/$COMBURENT" ]; then if [ -f "$BINS/$COMBURENT" ]; then rm -Rf $BINS/$COMBURENT; ln -s $JAR/$COMBURENT $BINS/$COMBURENT; else sudo ln -s $JAR/$COMBURENT $BINS/$COMBURENT; echo "📜  <_✔_>  ⚙️	-	Pkg2AppImage Linkado"; fi else echo "PKG2APPIMAGE nao foi baixado"; fi
+	if [ -f "$JAR/WAI.AppImage" ]; then if [ -f "$BINS/wai" ]; then rm -Rf $BINS/wai; ln -s $JAR/WAI.AppImage $BINS/wai; else sudo ln -s $JAR/WAI.AppImage $BINS/wai; echo "📜  <_✔_>  ⚙️	-	Wine32-AppImage Linkado"; fi else echo "Wine32-AppImage nao foi baixado"; fi
 	if [ -f "$JAR/aio-store.svg" ]; then sudo cp -Rf $JAR/aio-store.svg $SYSICONS/; if [ -f "$SYSICONS/aio-store.svg" ]; then echo "Icone da loja integrado"; else echo "Nao foi possivel integar o Icone da Loja ao sistema"; fi fi
 #Instala o suporte
 	echo "###########################"
 	#Arch an Fedora put here command for install the APT.
-	sudo apt update; sudo apt install build-essential libcurl4 curl rpm2cpio alien imagemagick apache2 -y;
+	sudo apt update; sudo apt install build-essential libcurl4 curl rpm2cpio p7zip-full p7zip-rar alien imagemagick apache2 -y;
 	sudo ln -s /etc/aio/aiostore /var/www/html/aiostore
 #	mutt para emails
 #Instala o Integrador
@@ -629,6 +642,10 @@ if [ "`whoami`" == "root" ]; then troca=troca; else
  if [ -e "$ELINKS" ]; then troca=troca; else mkdir $ELINKS; fi
 fi
 
+WINBUILD(){
+	echo "aqui vai o módulo de criação de AppImage usando o Wine"
+}
+
 ##########################################
 ##
 ##				LAUNCHERS
@@ -659,6 +676,9 @@ if [[ "`whoami`" == "root" ]]; then echo "Os comandos só são executados sem a 
   DEL
   MOUNTLISTS
   CHECKAIOVERSION
+  
+ elif [[ "$1" == "uninstallaio" || "$1" == "aio:uninstallaio" ]]; then
+  sudo rm -Rf /home/APPS && rm /usr/bin/aio && rm -Rf /usr/bin/pkg2appimage && rm -Rf /usr/bin/wai && rm -Rf /usr/share/aio.desktop && rm -Rf /etc/aio
 
  elif [[ "$1" == "info" || "$1" == "-i" ]]; then
   InNAME=$2
@@ -668,6 +688,27 @@ if [[ "`whoami`" == "root" ]]; then echo "Os comandos só são executados sem a 
   GETNETBOOK
   LISTJAR
   CHECKAIOVERSION
+  
+ elif [[ "$1" == "mkrecipe" || "$1" == "-m" ]]; then
+  LUGAR=`pwd`
+  AppMake=$2
+  echo "make a generic recipe, baseed in Input name"
+  echo "app: "$AppMake"
+binpatch: true
+
+ingredients:
+  dist: focal
+  package: "$AppMake"
+  sources:
+    - deb http://archive.ubuntu.com/ubuntu focal main universe
+    - deb http://security.ubuntu.com/ubuntu focal-security main universe
+#  ppas:
+#    - 
+#  script:
+#    - Preparação dos ingredientes
+
+#script:
+#  - Para alocação dentro do Appimage." > $LUGAR/$AppMake.yml
  
  elif [[ "$1" == "upd" || "$1" == "update" || "$1" == "-u" ]]; then
   InNAME=$2
