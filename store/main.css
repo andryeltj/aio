@@ -8,11 +8,11 @@ div.searchbar span.searchbar{width:97%;height:.9em;padding:.45em;background:rgba
 div.searchbar a.x{position:absolute;top:0;right:-.15em;background:rgba(84,84,84,.3);color:black;border-radius:0 .6em .6em 0;text-shadow:0 0 .06em white;background-repeat:no-repeat !important}
 div.mainbar{display:block;position:absolute;top:2.3em;width:4em;height:4em;right:3em;background:rgba(255,255,255,.47);border-radius:50%}
 div.searchbar a, div.searchbar span,.mainbar a, .mainbar span{display:block;float:left;text-align:center}
-div.mainbar a, div.searchbar a{cursor:pointer;padding:.45em 1em;background:rgba(180,180,180,.3);height:1.5em;color:white;text-decoration:none}
+div.mainbar a, div.searchbar a{cursor:pointer;padding:.45em 1em;background:rgba(180,180,180,.3);height:1.5em;text-decoration:none}
 div.mainbar a:hover,div.searchbar a:hover{background:rgba(232,232,232,.3)}
 div.searchbar a:hover{color:black}
-div.mainbar a.aiologo{background:rgba(0,0,0,.3);height:100%;}
-div.aiostyle, div.aiomenu{position:absolute;display:none;top:4em;background: rgba(8,8,8,.9);border-radius: 10px; right:0 !important}
+div.mainbar a.aiologo{background:none;height:100%;}
+div.aiostyle, div.aiomenu{position:absolute;display:none;top:4.5em;background: rgba(198,198,198,.9);border-radius: 10px;color:black;right:1em !important;width:15vh}
 div.aiostyle a, div.aiomenu a{display:inline-block;width:80%;float:right}
 div.aiostyle span, div.aiomenu span{position:absolute;left:0;padding:0 1em;}
 div.aiostyle{right:2.3em;width:285px}
