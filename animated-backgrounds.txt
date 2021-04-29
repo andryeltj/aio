@@ -17,3 +17,4 @@ Science=https://www.youtube.com/watch?v=ng4vzJ_KpLA
 Geometric=https://www.youtube.com/watch?v=nm2j1rbYDdo
 Hardware=https://www.youtube.com/watch?v=ZfFtqIsvQ6U
 linesBlue=https://www.youtube.com/watch?v=KYveurehGC0
+tech/Dev=https://www.youtube.com/watch?v=qXfd2kK3hgQ
