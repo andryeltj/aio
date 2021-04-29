@@ -8,3 +8,6 @@ Multimedia=https://youtu.be/DFW_8AQHcso
 Coloured/Paint=https://youtu.be/RhlQvbvMg-0
 Astronomy/Cience=https://youtu.be/eI7O9jNhesM
 NeonStars=https://youtu.be/MXAlJ3kRKJY
+Math/triangles=https://www.youtube.com/watch?v=gIJxDy25nwM
+Fluid=https://www.youtube.com/watch?v=iGpuQ0ioPrM
+Astronomy/Warp=https://www.youtube.com/watch?v=iGpuQ0ioPrM
