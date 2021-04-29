@@ -11,3 +11,4 @@ NeonStars=https://youtu.be/MXAlJ3kRKJY
 Math/triangles=https://www.youtube.com/watch?v=gIJxDy25nwM
 Fluid=https://www.youtube.com/watch?v=iGpuQ0ioPrM
 Astronomy/Warp=https://www.youtube.com/watch?v=iGpuQ0ioPrM
+Flux/Downloading=https://www.youtube.com/watch?v=IZdcl1685d0
