@@ -12,3 +12,8 @@ Math/triangles=https://www.youtube.com/watch?v=gIJxDy25nwM
 Fluid=https://www.youtube.com/watch?v=iGpuQ0ioPrM
 Astronomy/Warp=https://www.youtube.com/watch?v=iGpuQ0ioPrM
 Flux/Downloading=https://www.youtube.com/watch?v=IZdcl1685d0
+Office=https://www.youtube.com/watch?v=rEagPJY9hwY
+Science=https://www.youtube.com/watch?v=ng4vzJ_KpLA
+Geometric=https://www.youtube.com/watch?v=nm2j1rbYDdo
+Hardware=https://www.youtube.com/watch?v=ZfFtqIsvQ6U
+linesBlue=https://www.youtube.com/watch?v=KYveurehGC0
