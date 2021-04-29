@@ -20,3 +20,6 @@ linesBlue=https://www.youtube.com/watch?v=KYveurehGC0
 tech/Dev=https://www.youtube.com/watch?v=qXfd2kK3hgQ
 colors=https://www.youtube.com/watch?v=R5jIoLnL_nE
 logging=https://www.youtube.com/watch?v=DefL5SR6oTU
+audio=https://www.youtube.com/watch?v=Yl-tyRD3G8c
+audiowave=https://www.youtube.com/watch?v=mFXI_Mt2Vwc
+wave3d=https://www.youtube.com/watch?v=K4mj2DLUhkM
