@@ -1,4 +1,9 @@
 Backgrounds from categories
 
 Games=https://youtu.be/TKmllByzCtU
-Developing=https://youtu.be/KeVb7V9BOAg
+FluxInfo=https://youtu.be/KeVb7V9BOAg
+DataFlux=https://youtu.be/0ul96_XsEIQ
+NetWorld=https://youtu.be/1FnGkJtQJDY
+Multimedia=https://youtu.be/DFW_8AQHcso
+Coloured/Paint=https://youtu.be/RhlQvbvMg-0
+Astronomy/Cience=https://youtu.be/eI7O9jNhesM
