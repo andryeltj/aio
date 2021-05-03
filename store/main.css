@@ -23,7 +23,7 @@ a.applogo{display:block;position:absolute;top:22.5%;left:6%;width:5em;height:5em
 a.applogo{background-image:url('https://raw.githubusercontent.com/andryeltj/aio/master/store/aio-store.svg');background-size:100% auto;background-repeat: no-repeat;background-position: center;}
 div.appinfo i{display:block;float:left;width:60%;margin:-1.2%;color: black;font-family:Titillium web;text-shadow: white 1pt 0 5pt;font-size:unset;}
 .ckrecipe{position: absolute;right:26.5em;top:1.6em;padding:1.3em;cursor: pointer;}
-div.appinfo a.seta,div.appinfo a.openapp,div.appinfo a.updtapp{position:absolute;display:inline-block; right:1em;bottom:1em;width:5em !important;background:transparent;border:none;padding:.5em 2em;border-radius: 0;box-shadow: 0 0 5em white;font-size:1em;text-align:center;text-decoration: none;}
+div.appinfo a.seta,div.appinfo a.openapp,div.appinfo a.updtapp{position:absolute;display:inline-block; right:1em;bottom:5%;width:5em !important;background:transparent;border:none;padding:.5em 2em;border-radius: 0;box-shadow: 0 0 5em white;font-size:1em;text-align:center;text-decoration: none;}
 div.appinfo a.updtapp{right:130px;color:white;background:#1988ff}
 div.appinfo a.openapp{right:248px;color:white;background:#1988ff}
 div.appname{display:block;width:60%;margin:1.9% 0 0 11%;padding:0% 18% 0.6% 4%; font-size:2.3em;float:left;}
@@ -33,7 +33,7 @@ background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(255,255,255,0.
 }
 div.passing{display:block;width:4em;float:left;margin:-.5% 0 0 15%;height:1em}
 div.iteminfo{display:none;position:absolute;top:0;right:0;height:100%;width:23.2em;}
-div.iteminfo div.pdthumbs{display:block;position:absolute;top:1em;right:1em;width:23.2em;height:3em;padding:.3em .09em;background:rgba(0,0,0,0.15);box-shadow: 0 0 5em white;border-radius:10px}
+div.iteminfo div.pdthumbs{display:block;position:absolute;top:1em;right:36%;width:23.2em;height:3em;padding:.3em .09em;background:rgba(0,0,0,0.15);box-shadow: 0 0 5em white;border-radius:10px}
 div.iteminfo div.pdthumbs img{float: left;width: 2em;margin-top: .5em;}
 div.iteminfo div.pdthumbs a{display:block;float:left;width:5em;height:3em;box-shadow:0 0 .1em black;margin-right:.3em;background-size: 100% 100%;}
 div.book,div.list,div.newspaper,textarea.appimageinfo{display:none;width:100%;height:97%;overflow:auto}
