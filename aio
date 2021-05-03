@@ -28,7 +28,7 @@ CAMINHO=`pwd`
 PROGRESS="0"
 ITEMW="0"
 AUTOINTEGRAR=0
-VERSIONR=202104271626
+VERSIONR=202105031326
 ISLOCAL=0
 troca=""
 VERSION=""
@@ -376,7 +376,7 @@ MOUNTLISTS(){
     done < /home/apps/index/aio.list
     echo $CList > $JAR/aiostore/installed.html
 }
-IMGDOTS='<svg focusable="false" viewBox="0 0 24 24" style="height:1.2em"><path d="M6,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM16,6c0,1.1 0.9,2 2,2s2,-0.9 2,-2 -0.9,-2 -2,-2 -2,0.9 -2,2zM12,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2z"></path></svg>'
+IMGDOTS='<svg focusable="false" viewBox="0 0 24 24" fill="#ddd" style="margin:20% -8%;"><path d="M6,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM16,6c0,1.1 0.9,2 2,2s2,-0.9 2,-2 -0.9,-2 -2,-2 -2,0.9 -2,2zM12,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2z"></path></svg>'
 imgloadstore="data:image/webp;base64,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"
 JsReload='<script type="text/javascript"> setTimeout("location.reload();",3000); </script>'
 ShReload='<script type="text/javascript"> $("article, div.book, div.list, div.mural").remove();$("div.container").append("<center><img style=\"margin-top:20%\" src='$imgloadstore'></center>");$(".infoqtd").html("Atualizando informações, aguarde...")</script>'
@@ -417,11 +417,11 @@ MOUNTPAGE(){
  Mural="<div class='mural'><div class='imgview'><center><div class='exhib'></div><div class='rule'><a>📷</a><a>📷</a><a>📷</a><a>📷</a></div></center></div><div class='tutorial'></div><div class='fullinfo'><p></p></div><a class='xview'>X</a></div>";
  CORPO=$HtmlHAreas$Newspaper$AppInfo"<article><center style='margin-top:18%'><img src='"$imgloadstore"'/></center></article><div class='outer'><div class='categories'></div></div>"$Mural
  echo "Abrindo a loja"
- POPUPMENU="<div class='aiomenu'><a>Ver DB</a><a>Crie Uma receita</a><a>Sobre AIO</a><a>Fale conosco</a></div>"
+ POPUPMENU="<div class='aiomenu'><a href='aio:store-up' class='updatestore'>Atualize</a><a class='styaio'>Temas</a><a>Ver DB</a><a>Crie Uma receita</a><a>Sobre AIO</a><a>Fale conosco</a></div>"
  POPUPSTYLE="<div class='aiostyle'><div class='fstyle'><a class='card'><span>🍱</span>Cartão</a><a class='item'><span>▣</span>Item</a><a class='list'><span>▤</span>Lista</a></div><a class='std'><span>📑</span>Padrão</a><a class='cl1'><span>◉</span>Circulo</a><a class='qd1'><span>▢</span>Quadrado</a></div>"
  POPUPS=$POPUPMENU$POPUPSTYLE
- MainBAR="<div class='mainbar'><a class='aiologo'>AIO</a><div style='float:right'><a class='styaio'>$IMGDOTS</a><a href='aio:store-up' class='updatestore'>🔄</a></div><i class='infoqtd'></i>"$POPUPS"</div>"
- echo "$HTMLINFO<body><center></center><div class='container'><div class='backy'></div>$CORPO</div>$MainBAR</body>" > $STOREIN/index.html
+ MainBAR="<div class='mainbar'><a class='aiologo'>$IMGDOTS</a>"$POPUPS"</div>"
+ echo "$HTMLINFO<body><center></center><div class='container'><div class='backy'></div>$CORPO</div>$MainBAR<i class='infoqtd'></i></body>" > $STOREIN/index.html
  yes | cp -Rf $JAR/aio-store.svg $STOREIN/favicon.svg
  rm -Rf /tmp/main.css /tmp/jquery.js /tmp/main.js #/tmp/main-a.js /tmp/main-b.js
 	}
