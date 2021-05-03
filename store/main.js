@@ -280,7 +280,8 @@ $('document').ready(function(){
   $("article").html("<div class='menu'>"+acorpo+"</div><div class='news'></div>");acorpo="";
   CkInstall();
   console.log('Loja Carregada');
-  $("i.infoqtd").html(ctItems+" apps disponíveis.");
+  var versionr=$("i.infoqtd").text();
+  $("i.infoqtd").html(versionr+" | "+ctItems+" apps disponíveis.");
   $("div.news").html($("div.newspaper").html());$('div.newspaper').remove();
 //Pesquisa
   $('span.searchbar').focus();
