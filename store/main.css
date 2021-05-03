@@ -75,13 +75,13 @@ a.xview{display:block;position:absolute;top:0;right:0;color:white;cursor:pointer
 a.xview:hover{background:rgba(255,255,255,.3);color:black}
 a.x:target{background:white;color:red}
 i.infoqtd{float:right;padding: .4em .4em .4em 0; position:absolute;bottom:0;right:2em;}
-div.cl1,div.qd1{border-radius:50%;height:128px;margin-bottom:5.8em}
+div.cl1,div.qd1{border-radius:50%;height:128px !important;margin-bottom:5.8em}
 div.cl1 button,div.qd1 button{border-radius:50%;height:128px;}
 div.cl1 a.nameapp, div.qd1 a{bottom:-2.5em}
 div.cl1 span {right:1.2em}
 div.cl1 span div.onsys {width: 2em; height: 2em;}
-div.qd1{background-size:100% auto !important}
-div.qd1,div.qd1 button{width:168px;border-radius:12px}
+div.qd1{background-size:100% 100% !important}
+div.qd1,div.qd1 button{width:168px !important;border-radius:12px}
 div.qd1 button{background-size:40% auto !important;background-position-x: 2em !important;}
 div.listv{width: 98%;height: 128px;border-radius:12px 0 0 12px;background-position-x: 0 !important;background-size: 128px 128px !important;margin-bottom:.6em;float:none}
 div.listv a.nameapp{margin:0 12px;bottom:none;top:.17em;left: 128px;font-size: x-large;}
