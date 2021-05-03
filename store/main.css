@@ -58,7 +58,7 @@ div.categories{display:flex;min-width:512px;height:30px;flex-wrap:nowrap;justify
 div.categories a{display:inline-block;padding:.6em 1em;border-radius:10px;margin-right:6px;rgba(112, 112, 112, 0.75);text-shadow: 0 0 1px #000;cursor:pointer;color: white;border: 1pt solid rgba(255,255,255,.2);background:rgba(38,38,38,.9)}
 div.categories a:hover{background:linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(5,55,255,0.30) 50%,rgba(25,15,215,0.9) 75%,rgba(255,255,255,0.37) 90%,rgba(125,185,232,0) 100%);}
 div.news{display:inline-block;width:19%;float:left;margin-right:-14%;margin-top:-.7em;background: rgba(180,180,180,.3);}
-button.thumb{display:inline-block;position:relative;width:18em;height:11em;margin: 0 auto 3.5em auto box-shadow:#222 0 0 .3em;font-size: 11px;border: none;border-radius: 12px;}
+button.thumb{display:inline-block;position:relative;width:18em;height:11em;margin: 0 auto 3.5em auto; box-shadow:#222 0 0 .3em;font-size: 11px;border: none;border-radius: 12px;}
 div.weekvideos{margin-top:1em;display: flex;flex-wrap: wrap;justify-content: space-around;}
 div.weekvideos button:link{color:#1988ff}
 div.weekvideos button span{position:absolute;top:104%;display:inline-block;width: 100%;left: 0;color:#fe7a15 !important; text-shadow:black 0 0 2pt;font-weight: bold;font-family: 'Titillium Web', sans-serif;font-size: 1.3em;line-height: 1em;}
