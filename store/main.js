@@ -321,7 +321,8 @@ $('document').ready(function(){
 	  $('div.aiostyle').toggle();
   });
   $('a.aboutaio').click(function(){
-	  $('div.extrwind, div.aboutscreen').toggle();
+	  $('div.extrwind').toggle();
+	  $('div.aboutscreen').show();
   });
   $('div.backy').click(function(){alert("clicou")})
 //Stylers
