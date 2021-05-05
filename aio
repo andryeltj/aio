@@ -28,7 +28,7 @@ CAMINHO=`pwd`
 PROGRESS="0"
 ITEMW="0"
 AUTOINTEGRAR=0
-VERSIONR=202105031326
+VERSIONR=202105050027
 ISLOCAL=0
 troca=""
 VERSION=""
@@ -386,6 +386,9 @@ MOUNTPAGE(){
   GETNETBOOK
   GETPAGEBASE
   GETNEWS
+  QRABOUT="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAV4AAAFeAQAAAADlUEq3AAACsElEQVR42u2bzW3sMAyECbAAl6TWVZILMMAnzpBcZJ8D5Cxq4YMQfb4Q/BmNHLG//x458IEPfOADH3hHWPw3Hhm61hc2rqn3WAu9fU87wb6+STrDB29N4yut4FvW7iPyXL7mrofsclgQ0m6wrkBl5tjtL67QaVfYQ4fosY4eLzTpCEdZrdBNbiF6XlC/1+C2MFtutZefz3t/3hjOcSveZtF71QtK2HBeZ/fGsAfnRoNF5rDZrrJa6zWXH/69DZy/KdwCg4KaK4bPWyJtDCt6SwCsI4iTFU/04WGdYMHcYawyYsbUWq90g0EKeothLjvPsnIxf/eCNSUKYjgp0phaEiFtBLtMFa8j1yRoLIJqwqFvUtD2gf14azzQuUqxnMUa9TWawdVdXa960JBLUV/XbAXTA2Fr9SZzRdthSCUC2wWus0zpVb4Cv0i+m8z+sFXCsIiYWlRuX+N4e9hFCE80gMMUwiuUbb3gzCJqtlyPlCvSCkbaDMziWruep1HWD46xy+6qcQSGGfISus1hLXcIL+btA/Rbllgf2NBdFfO3RCw7LRY/vYLdYbU6udRi0lWW/wbQ9jCVKq5apBQaxzFyrBcMqSbQJ8ZbGK3jfz8Yuh2khTZDFvkRT8I/bATTKX0+lw6wCj2RYqsV7DbIVa6IhGlG2zBUSiNY6YHEdS0vJS3MZE6lVjC/8YiWwnGc95Xpr/aBwwNhVxHayJI+auZYG5hYKHmHhb569OEvzb87TEcoP30Z8XkDqolr7QTbp/HOsgqpSdh7W8E800GmTn4sF8GM9csHhBvDPNQ8ebbVHNByxVWdtoLvz+dPtApDuoeFaNYPZhYZDCJJMY9r/dEQLu2KZ9RgstdE2hjOnLFsLBTznMjy5pxsDFfLzcuXWbZhyrZG8PkfhAMf+MAHPnBP+B/qXDNDI0e3dAAAAABJRU5ErkJggg=="
+  ABOUTSCREEN="<div class='aboutscreen'><h2>AIO Store</h2><h3>Version: "$VERSIONR"</h3><img src='$QRABOUT'></img><p>Esta é uma loja que é mantida por doações. Se gostou, faz um PIX 😉👍</p><p>e-mail: <i>andryel.aio@gmail.com</i></p></div>"
+  EXTRWIND="<div class='extrwind'>"$ABOUTSCREEN"</div>"
 # MainCSS='<link rel="stylesheet" type="text/css" href="'
 # Css01=$MainCSS$RAIZ'/andryeltj/aio/master/store/main.css">'
  rm -Rf /tmp/store.html
@@ -417,11 +420,11 @@ MOUNTPAGE(){
  Mural="<div class='mural'><div class='imgview'><center><div class='exhib'></div><div class='rule'><a>📷</a><a>📷</a><a>📷</a><a>📷</a></div></center></div><div class='tutorial'></div><div class='fullinfo'><p></p></div><a class='xview'>X</a></div>";
  CORPO=$HtmlHAreas$Newspaper$AppInfo"<article><center style='margin-top:18%'><img src='"$imgloadstore"'/></center></article><div class='outer'><div class='categories'></div></div>"$Mural
  echo "Abrindo a loja"
- POPUPMENU="<div class='aiomenu'><a href='aio:store-up' class='updatestore'>Atualize</a><a class='styaio'>Temas</a><a>Ver DB</a><a>Crie Uma receita</a><a>Sobre AIO</a><a>Fale conosco</a></div>"
+ POPUPMENU="<div class='aiomenu'><a href='aio:store-up' class='updatestore'>Atualize</a><a class='styaio'>Temas</a><a>Ver DB</a><a>Crie Uma receita</a><a class='aboutaio'>Sobre AIO</a><a>Fale conosco</a></div>"
  POPUPSTYLE="<div class='aiostyle'><div class='fstyle'><a class='card'><span>🍱</span>Cartão</a><a class='item'><span>▣</span>Item</a><a class='list'><span>▤</span>Lista</a></div><a class='std'><span>📑</span>Padrão</a><a class='cl1'><span>◉</span>Circulo</a><a class='qd1'><span>▢</span>Quadrado</a></div>"
  POPUPS=$POPUPMENU$POPUPSTYLE
  MainBAR="<div class='mainbar'><a class='aiologo'>$IMGDOTS</a>"$POPUPS"</div>"
- echo "$HTMLINFO<body><center></center><div class='container'><div class='backy'></div>$CORPO</div>$MainBAR<i class='infoqtd'>"$VERSIONR"</i></body>" > $STOREIN/index.html
+ echo "$HTMLINFO<body><center></center><div class='container'><div class='backy'></div>$CORPO</div>$EXTRWIND$MainBAR<i class='infoqtd'>"$VERSIONR"</i></body>" > $STOREIN/index.html
  yes | cp -Rf $JAR/aio-store.svg $STOREIN/favicon.svg
  rm -Rf /tmp/main.css /tmp/jquery.js /tmp/main.js #/tmp/main-a.js /tmp/main-b.js
 	}
@@ -658,6 +661,8 @@ GETMIND
 #### COMANDOS E INTEGRAÇÔES
 if [[ "`whoami`" == "root" ]]; then echo "Os comandos só são executados sem a conta de Administrador"; if  [ "$1" == "f-i" ]; then INSTALLAIO; fi else
  if [[ "$1" == "add" || "$1" == "install" || "$1" == "-a" ]]; then
+  GETNETBOOK
+  CHECKAIOVERSION
   InNAME=$2
   PageName=`echo $InNAME | tr '[:upper:]' '[:lower:]'`
   echo -ne "" > $JAR/aiostore/$PageName.html
@@ -667,20 +672,25 @@ if [[ "`whoami`" == "root" ]]; then echo "Os comandos só são executados sem a 
   if [[ "$3" == "-mb" || "$4" == "-mb" ]]; then echo "A Bases serão mantidas"; else if [ "$PROGRESS" == "1" ]; then DELOVEN; fi fi
   if [ "$PROGRESS" == "1" ]; then MOVEAPP; fi
   MOUNTLISTS
-  CHECKAIOVERSION
+  
  
  elif [[ "$1" == "del" || "$1" == "remove" || "$1" == "-d" ]]; then
+  GETNETBOOK
+  CHECKAIOVERSION
   InNAME=$2
   PageName=`echo $InNAME | tr '[:upper:]' '[:lower:]'`
   echo -ne "" > $JAR/aiostore/$PageName.html
   DEL
   MOUNTLISTS
-  CHECKAIOVERSION
+
   
  elif [[ "$1" == "uninstallaio" || "$1" == "aio:uninstallaio" ]]; then
+  GETNETBOOK
+  CHECKAIOVERSION
   sudo rm -Rf /home/APPS && rm /usr/bin/aio && rm -Rf /usr/bin/pkg2appimage && rm -Rf /usr/bin/wai && rm -Rf /usr/share/aio.desktop && rm -Rf /etc/aio
 
  elif [[ "$1" == "info" || "$1" == "-i" ]]; then
+  CHECKAIOVERSION
   InNAME=$2
   INFOAPP
 
@@ -690,6 +700,8 @@ if [[ "`whoami`" == "root" ]]; then echo "Os comandos só são executados sem a 
   CHECKAIOVERSION
   
  elif [[ "$1" == "mkrecipe" || "$1" == "-m" ]]; then
+  GETNETBOOK
+  CHECKAIOVERSION
   LUGAR=`pwd`
   AppMake=$2
   echo "make a generic recipe, baseed in Input name"
@@ -711,6 +723,8 @@ ingredients:
 #  - Para alocação dentro do Appimage." > $LUGAR/$AppMake.yml
  
  elif [[ "$1" == "upd" || "$1" == "update" || "$1" == "-u" ]]; then
+  GETNETBOOK
+  CHECKAIOVERSION
   InNAME=$2
   PageName=`echo $InNAME | tr '[:upper:]' '[:lower:]'`
   echo -ne "" > $JAR/aiostore/$PageName.html
@@ -722,23 +736,26 @@ ingredients:
   if [ "$PROGRESS" == "1" ]; then GETONLY; fi
   if [[ "$3" == "-mb" || "$4" == "-mb" ]]; then echo "A Bases serão mantidas"; else if [ "$PROGRESS" == "1" ]; then DELOVEN; fi fi
   if [ "$PROGRESS" == "1" ]; then MOVEAPP; fi
-  CHECKAIOVERSION
+
 
  elif [[ "$1" == "--help" || "$2" == "--help" || "$3" == "--help" || "$4" == "--help" || "$1" == "help" || "$2" == "help" || "$3" == "help" || "$4" == "help" ]]; then
   HELP
 
  elif [[ "$1" == "store" ]]; then
   if [[ "$3" == "-r" || "$4" == "-r" ]]; then
+   GETNETBOOK
+   CHECKAIOVERSION
    CKWEBSERVER
    MOUNTLISTS
    MOUNTPAGE
-   CHECKAIOVERSION
   else
    RUNPAGE
+   GETNETBOOK
    CHECKAIOVERSION
   fi
 
  elif [[ "$1" == "aio:store-up" ]]; then
+  GETNETBOOK
   CHECKAIOVERSION
   echo $JsReload$ShReload >> $JAR/aiostore/index.html
   CKWEBSERVER
@@ -764,6 +781,8 @@ if [[ "$1" == "" ]]; then troca=troca; else
  STOREC=`echo $cloja | awk '{print $1}'`
  STORER=`echo $cloja | awk '{print $2}'`
  if [[ "$STOREC" == "aio:add" ]]; then
+  GETNETBOOK
+  CHECKAIOVERSION
   InNAME=$STORER
   PageName=`echo $InNAME | tr '[:upper:]' '[:lower:]'`
   echo -ne $PageName' ' >> $JAR/aiostore/running.html
@@ -775,10 +794,11 @@ if [[ "$1" == "" ]]; then troca=troca; else
   if [ "$PROGRESS" == "1" ]; then DELOVEN; fi
   if [ "$PROGRESS" == "1" ]; then MOVEAPP; fi
   MOUNTLISTS
-  CHECKAIOVERSION
   sleep 1.5; rm -Rf $JAR/aiostore/running.html; rm -Rf $JAR/aiostore/$PageName.html
  fi
  if [[ "$STOREC" == "aio:del" ]]; then
+  GETNETBOOK
+  CHECKAIOVERSION
   InNAME=$STORER
   PageName=`echo $InNAME | tr '[:upper:]' '[:lower:]'`
   echo -ne $PageName' ' >> $JAR/aiostore/running.html
@@ -786,7 +806,6 @@ if [[ "$1" == "" ]]; then troca=troca; else
   CKWEBSERVER
   DEL
   MOUNTLISTS
-  CHECKAIOVERSION
   sleep 1.5; rm -Rf $JAR/aiostore/running.html; rm -Rf $JAR/aiostore/$PageName.html
  fi
  if [[ "$STOREC" == "aio:run" ]]; then
@@ -797,6 +816,7 @@ if [[ "$1" == "" ]]; then troca=troca; else
   CHECKAIOVERSION
  fi
  if [[ "$STOREC" == "aio:upd" ]]; then
+  GETNETBOOK
   CHECKAIOVERSION
   InNAME=$STORER
   PageName=`echo $InNAME | tr '[:upper:]' '[:lower:]'`
