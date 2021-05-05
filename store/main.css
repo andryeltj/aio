@@ -105,7 +105,7 @@ div.extrwind .aboutscreen{background:  url('data:image/jpeg;base64,/9j/4AAQSkZJR
 div.extrwind .aboutscreen h2{text-align:center;margin: .3em auto;}
 div.extrwind .aboutscreen h3{text-align:right;float: right;width: 65%;font-weight: 600;}
 div.extrwind .aboutscreen img{filter: invert(100%);width: 164px;float: left;display: block;}
-div.extrwind .aboutscreen p{float:right;display:block;width:65%}
+div.extrwind .aboutscreen p{float:right;display:block;width:65%;font-size:1.2em}
 @-moz-document url-prefix(){
   body{font-size:12px;}
   div.pkg_disp{width:10.67em;height:13.35em;}
