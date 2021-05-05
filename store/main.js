@@ -321,8 +321,15 @@ $('document').ready(function(){
 	  $('div.aiostyle').toggle();
   });
   $('a.aboutaio').click(function(){
-	  $('div.extrwind').toggle();
-	  $('div.aboutscreen').show();
+    if($('div.extrwind').attr('data-click-state') == 1) {
+        $('div.extrwind').attr('data-click-state', 1);
+      $('div.extrwind').hide()
+      }
+    else {
+      $('div.extrwind').attr('data-click-state', 0);
+        $('div.extrwind').slideToggle('400').css('display','flex');
+        $('div.aboutscreen').show();
+    }
   });
   $('div.backy').click(function(){alert("clicou")})
 //Stylers
