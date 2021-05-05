@@ -320,6 +320,9 @@ $('document').ready(function(){
   $('a.styaio').click(function(){
 	  $('div.aiostyle').toggle();
   });
+  $('a.aboutaio').click(function(){
+	  $('div.extrwind, div.aboutscreen').toggle();
+  });
   $('div.backy').click(function(){alert("clicou")})
 //Stylers
   $('.std').click(function(){$('div.pkg_disp, article, div.appinfo').removeClass('cl1, qd1, listv')});
