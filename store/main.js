@@ -342,6 +342,9 @@ $('document').ready(function(){
 	  pagename=$(this).attr('alt');secapp=pagename;pagename=pagename+".html";console.log("Work with: "+pagename);
 	  CallPage="";Working="1";setTimeout(GetProgress(),1000);
   });
+  $('div.pkg_disp').hover(function(){
+	  $('this').children('div.extr').show();
+  });
   $('div.categories a').click(function(){var mcatname=$(this).attr('alt');$('span.searchbar').html(mcatname);$('div.pkg_disp').hide();
 		  $('div.menu div').each(function(){
 			  var identfy=$(this).attr('class');
