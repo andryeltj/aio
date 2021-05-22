@@ -156,7 +156,7 @@ $('document').ready(function(){
 		var appic2='\') no-repeat center 2em;background-size:50% auto"></button>';
         var appic=appic1+appicon+appic2;
         var itBotton="<span>"+itmBT+"</span>"; itmBT="";
-        iteml=ElHead+appic+itName+itBotton+"</div>";
+        iteml=ElHead+appic+itName+itBotton+"<div class='extr'><div class='minidesc'></div></div></div>";
         acorpo=acorpo+iteml;ItmClss="";
 //        console.log(" ");
   };
