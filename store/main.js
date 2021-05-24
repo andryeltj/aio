@@ -356,7 +356,6 @@ $('document').ready(function(){
 		  });
 	  });
 },500);
-$('video').attr("autoṕlay","false");
 $('video').attr("autoṕlay","true");
 //fim
 });
