@@ -355,7 +355,8 @@ $('document').ready(function(){
 			}
 		  });
 	  });
-  $('body').hover(function(){$('video').attr("ṕlay","true");});
+//  $('body').hover(function(){$('video').attr("ṕlay","true");});
 },500);
+$('video').attr("autoṕlay","true");
 //fim
 });
