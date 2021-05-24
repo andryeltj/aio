@@ -31,7 +31,7 @@ The commands:
  - upd
  - store
  - jar
- 
+
  Example.:
  ```$ aio add zoom```
  It will mount one Zoom AppImage and turn this disponible for your use.
@@ -40,7 +40,10 @@ The commands:
 ***upd*** - Upgrade expecific app in AppImage.
 ***store*** - Open Store in your browser (automatic upload).
 ***jar*** - Print the repository of the recipes.
- 
+
+Like it? Contribute!
+![](https://raw.githubusercontent.com/andryeltj/aio/master/images/ready.png) 
+
 The standard folder is /apps
 The recipes folder is /apps/receitas 
 
