@@ -108,7 +108,7 @@ div.extrwind .aboutscreen img{filter: invert(100%);width: 164px;float: left;disp
 div.extrwind .aboutscreen p{float:right;display:block;width:65%;font-size:1.2em}
 div.extr{display:none;position: absolute;width: 211%;height: 100%;top: 0;background: rgba(0,0,0,.5);z-index: 1;border-radius: 12px;}
 div.minidesc{float:right;display:block;width:45%;height:100%;padding:0 1%}
-@-moz-document url-prefix(){
+/*@-moz-document url-prefix(){
   body{font-size:12px;}
   div.pkg_disp{width:10.67em;height:13.35em;}
   div.pkg_disp a{font-weight:bolder;font-size:1.2em;bottom:2.4em;}
@@ -118,4 +118,4 @@ div.minidesc{float:right;display:block;width:45%;height:100%;padding:0 1%}
   div.outer{top:15%;}
   div.menu{top:4em}
   div.searchbar span.searchbar{height:1.5em;}
-}
+} */
