@@ -355,7 +355,7 @@ $('document').ready(function(){
 			}
 		  });
 	  });
+  $('body').mouseover(function(){$('video').attr("autoṕlay","true");});
 },500);
-$('video').attr("autoṕlay","true");
 //fim
 });
