@@ -148,7 +148,7 @@ $('document').ready(function(){
 		if(friendnmf.match(appnamex)){appname=""};
         ItmClss=appcat+appname+idrecipe+" "+friendnmf;appcat="";
 //        console.log(ItmClss);
-        var ElHead1='<div class="pkg_disp '+ItmClss+'" alt="'+appnamex+'" style="background:url(\'';
+        var ElHead1='<div class="pkg_disp anitheme '+ItmClss+'" alt="'+appnamex+'" style="background:url(\'';
 		var ElHead2='\') no-repeat center;background-size:auto 100%">';
         var ElHead=ElHead1+appbg+ElHead2;
 		var itName="<a class='nameapp'>"+friendnm+"</a>"
