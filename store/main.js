@@ -320,17 +320,12 @@ $('document').ready(function(){
   $('a.styaio').click(function(){
 //	  $('div.aiostyle')
 	  $('div.themescreen').toggle();
+	if($('div.extrwind').attr('data-click-state') == 1) { $('div.extrwind').attr('data-click-state', 1);$('div.extrwind,.wind').hide() }
+    else { $('div.extrwind').attr('data-click-state', 0);$('.wind').hide();$('div.extrwind').slideToggle('400').css('display','flex');$('div.themescreen').show();}
   });
   $('a.aboutaio').click(function(){
-    if($('div.extrwind').attr('data-click-state') == 1) {
-        $('div.extrwind').attr('data-click-state', 1);
-      $('div.extrwind').hide()
-      }
-    else {
-      $('div.extrwind').attr('data-click-state', 0);
-        $('div.extrwind').slideToggle('400').css('display','flex');
-        $('div.aboutscreen').show();
-    }
+    if($('div.extrwind').attr('data-click-state') == 1) { $('div.extrwind').attr('data-click-state', 1);$('div.extrwind,.wind').hide() }
+    else { $('div.extrwind').attr('data-click-state', 0);$('.wind').hide();$('div.extrwind').slideToggle('400').css('display','flex');$('div.aboutscreen').show();}
   });
   $('div.backy').click(function(){alert("clicou")})
 //Stylers
