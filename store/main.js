@@ -315,7 +315,8 @@ $('document').ready(function(){
 	  $('div.mural').hide();
   });
   $('a.aiologo').click(function(){
-	  $('div.aiomenu').toggle();
+	  //$('div.aiomenu')
+	  $('div.themescreen').toggle();
   });
   $('a.styaio').click(function(){
 	  $('div.aiostyle').toggle();
@@ -355,7 +356,6 @@ $('document').ready(function(){
 			}
 		  });
 	  });
-  $('a.styaio').click(function(){$('div.themescreen').css("display","flex")});
   $('div.themescreen h3.contey').click(function(){$(this).children('span').css("float","right");});
 },500);
 $('video').attr("autoplay","true");
