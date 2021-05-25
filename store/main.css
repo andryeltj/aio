@@ -115,6 +115,8 @@ div.extrwind .wind{display: flex;flex-direction:column;display: none;width: 41em
 div.extr{display:none;position: absolute;width: 211%;height: 100%;top: 0;background: rgba(0,0,0,.5);z-index: 1;border-radius: 12px;}
 div.minidesc{float:right;display:block;width:45%;height:100%;padding:0 1%}
 div.pkg_disp.anitheme,div.appinfo.anitheme{opacity:.85}
+a.bkey{display:block;width: 5em;height: 2em;background: rgba(255,255,255,.45);float: right;border-radius: 12px;}
+a.bkey span{float: left;height: 100%;width: 2em;background: white;border-radius: 50%;}
 /*@-moz-document url-prefix(){
   body{font-size:12px;}
   div.pkg_disp{width:10.67em;height:13.35em;}
