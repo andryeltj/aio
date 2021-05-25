@@ -315,11 +315,11 @@ $('document').ready(function(){
 	  $('div.mural').hide();
   });
   $('a.aiologo').click(function(){
-	  //$('div.aiomenu')
-	  $('div.themescreen').toggle();
+	  $('div.aiomenu').toggle();
   });
   $('a.styaio').click(function(){
-	  $('div.aiostyle').toggle();
+//	  $('div.aiostyle')
+	  $('div.themescreen').toggle();
   });
   $('a.aboutaio').click(function(){
     if($('div.extrwind').attr('data-click-state') == 1) {
