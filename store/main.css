@@ -118,6 +118,7 @@ div.minidesc{float:right;display:block;width:45%;height:100%;padding:0 1%}
 div.pkg_disp.anitheme,div.appinfo.anitheme{opacity:.85}
 a.bkey{display:block;width: 5em;height: 2em;background: rgba(255,255,255,.45);float: right;border-radius: 12px;cursor:pointer}
 a.bkey span{float: left;height: 100%;width: 2em;background: white;border-radius: 50%;}
+div.thmenu{display: flex;height: max-content;width: 100%;}
 div.thmenu a:nth-child(1){background-image: url('https://github.com/andryeltj/aio/raw/master/images/cobalt.png');}
 div.thmenu a{display: block;border-radius: 12px;width: 7em;height: 6em;background-color: rgba(255,255,255,.3);background-size: 90% auto;background-position: center;background-repeat: no-repeat;}
 /*@-moz-document url-prefix(){
