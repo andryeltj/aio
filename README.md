@@ -42,7 +42,7 @@ The commands:
 ***jar*** - Print the repository of the recipes.
 
 Like it? Contribute!
-![](https://raw.githubusercontent.com/andryeltj/aio/master/images/ready.png) 
+![](https://raw.githubusercontent.com/andryeltj/aio/master/images/contribua.png) 
 
 The standard folder is /apps
 The recipes folder is /apps/receitas 
