@@ -351,7 +351,7 @@ $('document').ready(function(){
 			}
 		  });
 	  });
-  $('div.extrwind .clickout').click(function(){$('div.extrwind, .wind').hide()});
+  $('div.extrwind .clickout').click(function(){$('div.extrwind, .wind, .aiomenu').hide()});
   var ANIVIDEO="<video loop='true' autoplay='true' muted src='background.mp4'></video>", kk="0";
   function PutVideo(){
 	  $('div.vth').html(ANIVIDEO);
