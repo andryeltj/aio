@@ -351,7 +351,7 @@ $('document').ready(function(){
 			}
 		  });
 	  });
-  $('div.themescreen h3.contey').click(function(){$(this).children('a>span').css("float","right");});
+  $('div.themescreen h3.contey').click(function(){$(this).find('span').css("float","right");});
 },500);
 $('video').attr("autoplay","true");
 //fim
