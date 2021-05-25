@@ -111,7 +111,7 @@ div.extrwind .aboutscreen .qr-prop h3 {margin:0;float: unset;width: 89%;text-ali
 div.extrwind .aboutscreen .qr-prop h3 img{width: 6em;height: auto;float: right;}
 div.extrwind .aboutscreen img{filter: invert(100%);width: 164px;float: left;display: block;}
 div.extrwind .aboutscreen p{float:right;display:block;width:65%;font-size:1.2em}
-div.extrwind .wind{display: flex;flex-direction:column;display: none;width: 41em;height: 45%;background-color: black;border-radius: 36px;padding: 1em;background-repeat: no-repeat;background-size: 45%;background-position-x: right;background-position-y: 146%;opacity: 95.3%;min-height: 21em;}
+div.extrwind .wind{display: flex;flex-direction:column;width: 41em;height: 45%;background-color: black;border-radius: 36px;padding: 1em;background-repeat: no-repeat;background-size: 45%;background-position-x: right;background-position-y: 146%;opacity: 95.3%;min-height: 21em;}
 div.extr{display:none;position: absolute;width: 211%;height: 100%;top: 0;background: rgba(0,0,0,.5);z-index: 1;border-radius: 12px;}
 div.minidesc{float:right;display:block;width:45%;height:100%;padding:0 1%}
 div.pkg_disp.anitheme,div.appinfo.anitheme{opacity:.85}
