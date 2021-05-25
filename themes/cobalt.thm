@@ -1,5 +1,5 @@
-name: cobalt
-background: main
-bar: main
-item: main
-video: main
+themename='cobalt'
+background='main'
+bar='main'
+item='main'
+video='main'
