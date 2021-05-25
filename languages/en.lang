@@ -1,6 +1,6 @@
-welcome: welcome
-msghome: Click below to view the App information
-up-store: Update
-thmstore: Themes
-advstore: Advanced
-aboutstore: About...
+welcome='Welcome'
+msghome='Click below to view the App information'
+up-store='Update'
+thmstore='Themes'
+advstore='Advanced'
+aboutstore='About...'
