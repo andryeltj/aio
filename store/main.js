@@ -16,7 +16,7 @@ $('document').ready(function(){
   var stdIC="https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/mimetypes/application-x-iso9660-appimage.svg"
   var iteml, ctItems="0",ItmClss="",appcat="0",fcat="",troca="",knife=0,itemw="",CallPage="",Working="0";
   var ckrecipe="",itmBT="",acorpo="",secapp,ctstp="0",dblista="",dblocal="",catpress="0";
-  var funcao="0";
+  var funcao="0",animated="1";
   function includeHTML() {
 	  var z, i, elmnt, file, xhttp;
 	  /*loop through a collection of all HTML elements:*/
@@ -369,7 +369,8 @@ $('document').ready(function(){
 	  $(this).find('span').attr("estado","0");
 	  $('video').remove();$('div').removeClass('anitheme');
   } else {$(this).find('span').css("float","right");$(this).find('span').attr("estado","1");PutVideo();}
-	});
+  });
+  if (animated=="1"){PutVideo();}
 },500);
 $('video').attr("autoplay","true");
 //fim
