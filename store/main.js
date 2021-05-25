@@ -365,10 +365,10 @@ $('document').ready(function(){
   $('h3.contkey').click(function(){
 	  kk=$(this).find('span').attr('estado');
 	  if(kk == "1"){
-	  $(this).find('span').css("float","right");
+	  $(this).find('span').css("float","left");
 	  $(this).find('span').attr("estado","0");
 	  $('video').remove();$('div').removeClass('anitheme');
-  } else {$(this).find('span').css("float","left");$(this).find('span').attr("estado","1");PutVideo();}
+  } else {$(this).find('span').css("float","right");$(this).find('span').attr("estado","1");PutVideo();}
 	});
 },500);
 $('video').attr("autoplay","true");
