@@ -213,7 +213,7 @@ $('document').ready(function(){
 		  $('div.iteminfo a.seta').addClass("del");
 		  $('div.iteminfo a.seta').attr({'href':"aio:del "+secapp});
 		  $('div.iteminfo a.seta').attr({'alt':secapp});
-		  $('div.iteminfo a.seta').html("Remover");console.log(leaf2+" Está instalado");
+		  $('div.iteminfo a.seta').html("$delsys");console.log(leaf2+" Está instalado");
 		  $('div.iteminfo a.openapp,div.iteminfo a.updtapp').show();
 	  }else{
 		  $('div.iteminfo a.seta').removeAttr('href');
@@ -221,7 +221,7 @@ $('document').ready(function(){
 		  $('div.iteminfo a.seta').addClass("add");
 		  $('div.iteminfo a.seta').attr({'href':"aio:add "+secapp});
 		  $('div.iteminfo a.seta').attr({'alt':secapp});
-		  $('div.iteminfo a.seta').html("Instalar");console.log(leaf2+" Não instalado");
+		  $('div.iteminfo a.seta').html("$inssys");console.log(leaf2+" Não instalado");
 		  $('div.iteminfo a.openapp,div.iteminfo a.updtapp').hide();
 	  }
 	  $('div.iteminfo a.openapp').attr({'href':"aio:run "+secapp});
