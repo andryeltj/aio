@@ -373,7 +373,7 @@ $('document').ready(function(){
   });
   if (animated=="1"){PutVideo();}
   $('h3.menucreatethm').click(function(){
-	  if ($(this).attr('estado') == '0' ) {$('textarea.themearea, a.svthm').show();$(this).attr('estado','1')} else{$('textarea.themearea, a.svthm').hide();$(this).attr('estado','0')}
+	  if ($(this).attr('estado') == '0' ) {$('.themearea, a.svthm').show();$(this).attr('estado','1')} else{$('.themearea, a.svthm').hide();$(this).attr('estado','0')}
   });
   $('.themearea').keyup(function(){
 	  var getText=$('textarea.themearea').val();var themecnt=btoa(getText);$('a.svthm').attr('href','aio:mktheme '+themecnt);
