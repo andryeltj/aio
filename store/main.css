@@ -123,6 +123,8 @@ div.thmenu{display: flex;height: max-content;width: 100%;justify-content: space-
 div.thmenu a:nth-child(1){background-image: url('https://github.com/andryeltj/aio/raw/master/images/cobalt.png');}
 div.thmenu a{display: block;border-radius: 12px;width: 7em;height: 6em;color: white;font-weight: 700;background-color: rgba(255,255,255,.3);background-size: 90% auto;background-position: center;background-repeat: no-repeat;}
 textarea.themearea{display:block;background: rgba(255,255,255,.3);border-radius: 12px;color: white;padding: .5em;font-weight: bold;font-family: 'Titillium Web', sans-serif;font-size: 1em;}
+a.svthm{display:none;position:inherit;background:darkgrey;}
+a.svthm:link{background:orangered;color:white}
 /*@-moz-document url-prefix(){
   body{font-size:12px;}
   div.pkg_disp{width:10.67em;height:13.35em;}
