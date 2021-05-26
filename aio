@@ -29,7 +29,7 @@ CAMINHO=`pwd`
 PROGRESS="0"
 ITEMW="0"
 AUTOINTEGRAR=0
-VERSIONR=202105261811
+VERSIONR=202105261833
 ISLOCAL=0
 troca=""
 VERSION=""
@@ -550,6 +550,9 @@ InstallDEB(){
 	wget -q --show-progress -c $GETINTEGRATE -O AppIL.deb && dpkg -i AppIL.deb && sudo apt --fix-broken install; rm -Rf AppIL.deb;
 	appimagelauncher %f && killall AppImageLauncherSettings;
 }
+REPO=$(cat $JAR/jar.aio | sed 's|receitas|aio|g')
+wget -c $REPO/languages/$LINGU.lang -O $JAR/aio.lang
+if [ -e $JAR/aio.thm ]; then troca=troca; else wget -c $REPO/themes/cobalt.thm -O $JAR/aio.thm; fi
 INSTALLAIO(){
 	isInstall="1"; echo ".............Instalando............";
 #Cria as pastas	
@@ -564,9 +567,6 @@ INSTALLAIO(){
 	if [ -f "$JAR/$COMBURENT" ]; then troca=troca; else GETCOMBURENT; fi
 	if [ -f "$JAR/WAI.AppImage" ]; then troca=troca; else GETWAI; fi
 	if [ -f "$JAR/bdl" ]; then troca=troca; else wget -c https://yt-dl.org/downloads/latest/youtube-dl -O /etc/aio/bdl; sudo chmod a+rx /etc/aio/bdl; fi
-	REPO=$(cat $JAR/jar.aio | sed 's|receitas|aio|g')
-	wget -c $REPO/languages/$LINGU.lang -O aio.lang
-	wget -c $REPO/themes/cobalt.thm -O aio.thm
 	MAKEWidgets
     if [ -f "$JAR/system.aio" ]; then troca=troca; else echo "" > $JAR/system.aio; sudo chmod 777 $JAR/system.aio; fi
 #Linka/Copia os binarios
@@ -856,7 +856,7 @@ if [[ "$1" == "" ]]; then troca=troca; else
   InNAME=$STORER
   REPO=`cat $JAR/jar.aio | sed 's|receitas|aio|g'`
   rm -Rf /etc/aio/aio.thm
-  echo $STOREC $cloja $STORER
+#  echo $STOREC $cloja $STORER
   wget -q -c $REPO/themes/$InNAME.thm -O /etc/aio/aio.thm
   echo $REPO/themes/$InNAME.thm >> aiolog.txt
   thmvideo='https://www.youtube.com/watch?v=jtAm-kgoZ_E'
