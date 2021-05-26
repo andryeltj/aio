@@ -376,7 +376,7 @@ $('document').ready(function(){
 	  stthmnm=$(this).text();stthmnm=stthmnm.toLowerCase();
 	  ANIVIDEO="<video loop='true' autoplay='true' muted src='"+stthmnm+".mp4'></video>"
 	  $('video').remove();
-	  if ($('h3.contkey a span').attr('estado') == "0" ){PutVideo();}
+	  if ($('h3.contkey a span').attr('estado') == "1" ){PutVideo();}
   });
   $('h3.menucreatethm').click(function(){
 	  if ($(this).attr('estado') == '0' ) {$('.themearea, a.svthm').show();$(this).attr('estado','1')} else{$('.themearea, a.svthm').hide();$(this).attr('estado','0')}
