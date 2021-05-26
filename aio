@@ -20,6 +20,7 @@ NEWS="andryeltj/aio/master/store/news.html"
 mail="andryel.aio@gmail.com"
 REGs=$APPS/index
 AppIndex=REGs/aio.list
+LINGU=$(echo $LANG | sed "s/_/-/g" | cut -d '.' -f 1 | tr '[:upper:]' '[:lower:]')
 OVEN=""
 MISTURA=""
 JARRA=""
@@ -28,13 +29,15 @@ CAMINHO=`pwd`
 PROGRESS="0"
 ITEMW="0"
 AUTOINTEGRAR=0
-VERSIONR=202105050027
+VERSIONR=202105261811
 ISLOCAL=0
 troca=""
 VERSION=""
 ITEMDEL=""; RECIPE=""; Pagename='';
 ANO="";MES="";DIA="";LINHA="";TEMPO="";
 echo $1 >> /tmp/aio.log
+source $JAR/aio.lang
+source $JAR/aio.thm
 #CORRECTION
 if [ -e "/etc/aio/aio.list" ]; then mkdir $REGs; mv $JAR/aio.list $REGs; fi
 
@@ -387,10 +390,15 @@ MOUNTPAGE(){
   GETPAGEBASE
   GETNEWS
   QRABOUT="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAV4AAAFeAQAAAADlUEq3AAACsElEQVR42u2bzW3sMAyECbAAl6TWVZILMMAnzpBcZJ8D5Cxq4YMQfb4Q/BmNHLG//x458IEPfOADH3hHWPw3Hhm61hc2rqn3WAu9fU87wb6+STrDB29N4yut4FvW7iPyXL7mrofsclgQ0m6wrkBl5tjtL67QaVfYQ4fosY4eLzTpCEdZrdBNbiF6XlC/1+C2MFtutZefz3t/3hjOcSveZtF71QtK2HBeZ/fGsAfnRoNF5rDZrrJa6zWXH/69DZy/KdwCg4KaK4bPWyJtDCt6SwCsI4iTFU/04WGdYMHcYawyYsbUWq90g0EKeothLjvPsnIxf/eCNSUKYjgp0phaEiFtBLtMFa8j1yRoLIJqwqFvUtD2gf14azzQuUqxnMUa9TWawdVdXa960JBLUV/XbAXTA2Fr9SZzRdthSCUC2wWus0zpVb4Cv0i+m8z+sFXCsIiYWlRuX+N4e9hFCE80gMMUwiuUbb3gzCJqtlyPlCvSCkbaDMziWruep1HWD46xy+6qcQSGGfISus1hLXcIL+btA/Rbllgf2NBdFfO3RCw7LRY/vYLdYbU6udRi0lWW/wbQ9jCVKq5apBQaxzFyrBcMqSbQJ8ZbGK3jfz8Yuh2khTZDFvkRT8I/bATTKX0+lw6wCj2RYqsV7DbIVa6IhGlG2zBUSiNY6YHEdS0vJS3MZE6lVjC/8YiWwnGc95Xpr/aBwwNhVxHayJI+auZYG5hYKHmHhb569OEvzb87TEcoP30Z8XkDqolr7QTbp/HOsgqpSdh7W8E800GmTn4sF8GM9csHhBvDPNQ8ebbVHNByxVWdtoLvz+dPtApDuoeFaNYPZhYZDCJJMY9r/dEQLu2KZ9RgstdE2hjOnLFsLBTznMjy5pxsDFfLzcuXWbZhyrZG8PkfhAMf+MAHPnBP+B/qXDNDI0e3dAAAAABJRU5ErkJggg=="
-  ABOUTSCREEN="<div class='aboutscreen'><h2>AIO Store</h2><h3>Version: "$VERSIONR"</h3><img src='$QRABOUT'></img><p>Esta é uma loja que é mantida por doações. Se gostou, faz um PIX 😉👍</p><p>e-mail: <i>andryel.aio@gmail.com</i></p></div>"
-  EXTRWIND="<div class='extrwind'>"$ABOUTSCREEN"</div>"
+  ABOUTSCREEN="<div class='aboutscreen wind'><h2>AIO Store</h2><h3>Version: "$VERSIONR"</h3><div class='middle'><div class='qr-prop'><h3 style='float:unset'>Faz um <img src='https://logodownload.org/wp-content/uploads/2020/02/pix-bc-logo.png'></h3><img src='$QRABOUT'></img></div><p class='abinfo'>Esta é uma loja que é mantida por doações. Se gostou, faz um PIX 😉👍</p></div><p style='width: 100%;text-align:center;margin:0;'>e-mail: <i>andryel.aio@gmail.com</i></p></div>"
+  THEMESCREEN="<div class='themescreen wind'><h2>Temas</h2><h3 class='contkey'>Efeitos<a class='bkey'><span estado='1'></span></a></h3><div class='thmenu'><a href='aio:theme cobalt'><span>Cobalt</span></a><a href='aio:theme brighted'><span>Brighted</span></a></div><h3 class='menucreatethm' estado='0' >Criar tema</h3><textarea class='themearea'></textarea><div><a class='svthm btn'>Salvar</a></div></div>"
+  REMOVESCREEN="<div class='removescreen wind'><h2>Desinstalar aio</h2><h3 class='contkey'>Manter a pasta de Appimages?<a class='bkey'><span estado='1'>SIM</span></a></h3><div class='thmenu'><a><span>Cobalt</span></a></div></div>"
+  EXTRWIND="<div class='extrwind'><div class='clickout'></div>"$ABOUTSCREEN$THEMESCREEN"</div>"
+  
 # MainCSS='<link rel="stylesheet" type="text/css" href="'
 # Css01=$MainCSS$RAIZ'/andryeltj/aio/master/store/main.css">'
+ sed -i 's|$delsys|'"$delsys"'|g' /tmp/main.js
+ sed -i 's|$inssys|'"$inssys"'|g' /tmp/main.js
  rm -Rf /tmp/store.html
  CssLk01=`cat /tmp/main.css`	#DevMode
  JsLk01=`cat /tmp/jquery.js`
@@ -415,16 +423,17 @@ MOUNTPAGE(){
 # CList=`cat /etc/aio/aio.list`
  HtmlHAreas="<div class='book' w3-include-html='lista.html'></div><div class='list' w3-include-html='installed.html'></div><textarea class='appimageinfo'></textarea>"
  Searchbar="<div class='searchbar'><div style='display:block;position:relative;width:100%;height:100%;left:-50%'><span class='searchbar' contenteditable='true'></span><a class='x'>✖</a></div></div>"
- AppInfo="<div class='appinfo'>"$Searchbar"<div class='appname'>Bem vindo</div><div class='passing'>⚙️</div><i>Clique abaixo para exibir as informações do App</i><a class='applogo'></a><div class='iteminfo'><a class='ckrecipe' alt='Exibe a receita do app instalado'>📑</a><a class='openapp hide'>Abrir</a><a class='updtapp hide'>Atualizar</a><a class='seta'></a><div class='pdthumbs'><img src='https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/devices/camera-photo.svg'><a></a><a></a><a></a><a></a></div></div></div>"
+ AppInfo="<div class='appinfo anitheme'>"$Searchbar"<div class='appname'>$welcome</div><div class='passing'>⚙️</div><i>$msghome</i><a class='applogo'></a><div class='iteminfo'><a class='ckrecipe' alt='Exibe a receita do app instalado'>📑</a><a class='openapp hide'>$msgopen</a><a class='updtapp hide'>$msgupd</a><a class='seta'></a><div class='pdthumbs'><img src='https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/devices/camera-photo.svg'><a></a><a></a><a></a><a></a></div></div></div>"
  Newspaper="<div class='newspaper'>"$varNEWS"</div>"
  Mural="<div class='mural'><div class='imgview'><center><div class='exhib'></div><div class='rule'><a>📷</a><a>📷</a><a>📷</a><a>📷</a></div></center></div><div class='tutorial'></div><div class='fullinfo'><p></p></div><a class='xview'>X</a></div>";
  CORPO=$HtmlHAreas$Newspaper$AppInfo"<article><center style='margin-top:18%'><img src='"$imgloadstore"'/></center></article><div class='outer'><div class='categories'></div></div>"$Mural
  echo "Abrindo a loja"
- POPUPMENU="<div class='aiomenu'><a href='aio:store-up' class='updatestore'>Atualize</a><a class='styaio'>Temas</a><a>Ver DB</a><a>Crie Uma receita</a><a class='aboutaio'>Sobre AIO</a><a>Fale conosco</a></div>"
+ POPUPMENU="<div class='aiomenu'><a href='aio:store-up' class='updatestore'>$msgupd</a><a class='styaio'>$thmstore</a><a>$bdrecipe</a><a class='aboutaio'>$aboutstore</a><a>$advstore</a><a>Fale conosco</a></div>"
  POPUPSTYLE="<div class='aiostyle'><div class='fstyle'><a class='card'><span>🍱</span>Cartão</a><a class='item'><span>▣</span>Item</a><a class='list'><span>▤</span>Lista</a></div><a class='std'><span>📑</span>Padrão</a><a class='cl1'><span>◉</span>Circulo</a><a class='qd1'><span>▢</span>Quadrado</a></div>"
  POPUPS=$POPUPMENU$POPUPSTYLE
  MainBAR="<div class='mainbar'><a class='aiologo'>$IMGDOTS</a>"$POPUPS"</div>"
- echo "$HTMLINFO<body><center></center><div class='container'><div class='backy'></div>$CORPO</div>$EXTRWIND$MainBAR<i class='infoqtd'>"$VERSIONR"</i></body>" > $STOREIN/index.html
+ ANIVIDEO="<div class='vth'></div>"
+ echo "$HTMLINFO<body>$ANIVIDEO<div class='container'><div class='backy'></div>$CORPO</div>$EXTRWIND$MainBAR<i class='infoqtd'>"$VERSIONR"</i></body>" > $STOREIN/index.html
  yes | cp -Rf $JAR/aio-store.svg $STOREIN/favicon.svg
  rm -Rf /tmp/main.css /tmp/jquery.js /tmp/main.js #/tmp/main-a.js /tmp/main-b.js
 	}
@@ -554,17 +563,23 @@ INSTALLAIO(){
 	if [ -f "$JAR/jar.aio" ]; then troca=troca; else JARCONTENT; fi
 	if [ -f "$JAR/$COMBURENT" ]; then troca=troca; else GETCOMBURENT; fi
 	if [ -f "$JAR/WAI.AppImage" ]; then troca=troca; else GETWAI; fi
+	if [ -f "$JAR/bdl" ]; then troca=troca; else wget -c https://yt-dl.org/downloads/latest/youtube-dl -O /etc/aio/bdl; sudo chmod a+rx /etc/aio/bdl; fi
+	REPO=$(cat $JAR/jar.aio | sed 's|receitas|aio|g')
+	wget -c $REPO/languages/$LINGU.lang -O aio.lang
+	wget -c $REPO/themes/cobalt.thm -O aio.thm
 	MAKEWidgets
     if [ -f "$JAR/system.aio" ]; then troca=troca; else echo "" > $JAR/system.aio; sudo chmod 777 $JAR/system.aio; fi
 #Linka/Copia os binarios
 	if [ -f "$JAR/aio" ]; then if [ -f "$BINS/aio" ]; then rm -Rf $BINS/aio; ln -s $JAR/aio $BINS/aio; else ln -s $JAR/aio $BINS/aio; echo "📜🖴  <_✔_>  ⚙️	-	AIO Linkado"; fi fi
-	if [ -f "$JAR/$COMBURENT" ]; then if [ -f "$BINS/$COMBURENT" ]; then rm -Rf $BINS/$COMBURENT; ln -s $JAR/$COMBURENT $BINS/$COMBURENT; else sudo ln -s $JAR/$COMBURENT $BINS/$COMBURENT; echo "📜  <_✔_>  ⚙️	-	Pkg2AppImage Linkado"; fi else echo "PKG2APPIMAGE nao foi baixado"; fi
+	if [ -f "$JAR/$COMBURENT" ]; then if [ -f "$BINS/$COMBURENT" ]; then rm -Rf $BINS/$COMBURENT; ln -s $JAR/$COMBURENT $BINS/$COMBURENT; else sudo ln -s $JAR/$COMBURENT $BINS/$COMBURENT; sudo ln -s $JAR/$COMBURENT $BINS/y2a; echo "📜  <_✔_>  ⚙️	-	Pkg2AppImage Linkado"; fi else echo "PKG2APPIMAGE nao foi baixado"; fi
 	if [ -f "$JAR/WAI.AppImage" ]; then if [ -f "$BINS/wai" ]; then rm -Rf $BINS/wai; ln -s $JAR/WAI.AppImage $BINS/wai; else sudo ln -s $JAR/WAI.AppImage $BINS/wai; echo "📜  <_✔_>  ⚙️	-	Wine32-AppImage Linkado"; fi else echo "Wine32-AppImage nao foi baixado"; fi
 	if [ -f "$JAR/aio-store.svg" ]; then sudo cp -Rf $JAR/aio-store.svg $SYSICONS/; if [ -f "$SYSICONS/aio-store.svg" ]; then echo "Icone da loja integrado"; else echo "Nao foi possivel integar o Icone da Loja ao sistema"; fi fi
+	if [ -f "$JAR/bdl" ]; then if [ -f "$BINS/bdl" ]; then rm -Rf $BINS/bdl; ln -s $JAR/bdl $BINS/bdl; else ln -s $JAR/bdl $BINS/bdl; echo "BDL Plugin <_✔_>"; fi fi
 #Instala o suporte
 	echo "###########################"
 	#Arch an Fedora put here command for install the APT.
-	sudo apt update; sudo apt install build-essential libcurl4 curl rpm2cpio p7zip-full p7zip-rar alien imagemagick apache2 -y;
+	sudo apt update
+	sudo apt install build-essential libcurl4 curl rpm2cpio p7zip-full p7zip-rar alien imagemagick ffmpeg apache2 -y;
 	sudo ln -s /etc/aio/aiostore /var/www/html/aiostore
 #	mutt para emails
 #Instala o Integrador
@@ -601,6 +616,7 @@ if [ -e "/usr/share/applications/aio_store.desktop" ]; then troca=troca; else
 echo "[Desktop Entry]
 Type=Application
 Name=AIO Store
+Name=Loja AIO
 Exec=aio store
 Icon=/usr/share/icons/hicolor/256x256/apps/aio-store.svg
 Categories=System;Settings;Network;" > $JAR/aio_store.desktop
@@ -638,7 +654,11 @@ INFOAPP(){
  "$ITEMINFO"
 *#*#*#*#*#*#*#"; fi
 }
-
+THEMEAPLY(){
+	rm -Rf /etc/aio/aiostore/background.mp4
+#	bdl  -o /etc/aio/aiostore/background.mp4 --no-part
+	
+}
 ##Criando as pastas no Usuario
 if [ "`whoami`" == "root" ]; then troca=troca; else
  if [ -e "$LOCAL" ]; then troca=troca; else mkdir $LOCAL; fi
@@ -831,6 +851,28 @@ if [[ "$1" == "" ]]; then troca=troca; else
   if [ "$PROGRESS" == "1" ]; then MOVEAPP; fi
   MOUNTLISTS
   sleep 1.5; rm -Rf $JAR/aiostore/running.html; rm -Rf $JAR/aiostore/$PageName.html
+ fi
+ if [[ "$STOREC" == "aio:theme" ]]; then
+  InNAME=$STORER
+  REPO=`cat $JAR/jar.aio | sed 's|receitas|aio|g'`
+  rm -Rf /etc/aio/aio.thm
+  echo $STOREC $cloja $STORER
+  wget -q -c $REPO/themes/$InNAME.thm -O /etc/aio/aio.thm
+  echo $REPO/themes/$InNAME.thm >> aiolog.txt
+  thmvideo='https://www.youtube.com/watch?v=jtAm-kgoZ_E'
+  thmvtime='00:10'
+  source /etc/aio/aio.thm
+  echo Link:$thmvideo
+#  VIDBK=`bdl -g $thmvideo | sed "s/.*/-ss 00:00 -i &/"`
+  ffmpeg $(bdl -f best -g $thmvideo | sed "s/.*/-ss 00:00 -i &/") -t $thmvtime -c copy /etc/aio/aiostore/$themename.mp4
+#  THEMEAPLY
+ fi
+ if [[ "$STOREC" == "aio:mktheme" ]]; then
+  InNAME=$STORER
+  if [ -e $APPS/themes ]; then troca=troca; else mkdir $APPS/themes; fi
+  leaftheme=$(echo $InNAME | base64 --decode)
+  thmnmfile=`echo $leaftheme | grep 'themename' | head -n 1 | cut -d "'" -f2 `
+  echo $leaftheme > $APPS/themes/$thmnmfile.thm
  fi
 fi
 #else
