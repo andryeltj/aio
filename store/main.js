@@ -372,6 +372,9 @@ $('document').ready(function(){
   } else {$(this).find('span').css("float","right");$(this).find('span').attr("estado","1");PutVideo();}
   });
   if (animated=="1"){PutVideo();}
+  $('h3.menucreatethm').(function(){
+	  if ($(this).attr('estado') == '0' ) {$('textarea.areatheme, a.svthm').show();$(this).attr('estado','1')} else{$('textarea.areatheme, a.svthm').hide();$(this).attr('estado','0')}
+  });
   $('.themearea').keyup(function(){
 	  var getText=$('textarea.themearea').val();var themecnt=btoa(getText);$('a.svthm').attr('href','aio:mktheme '+themecnt);
   });
