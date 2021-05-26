@@ -183,10 +183,10 @@ GETRECEITA(){
  if [ "$RECIPE" == "" ]; then
   echo "A Receita não está na lista"; RECIPE="0"; PROGRESS="0";
  else
-  PROGRESS="1" 
-  SACOLA=`cat /tmp/book | grep -w "$RECIPE" | awk '{print $4}'`;
+  PROGRESS="1"
+  SACOLA=`cat /tmp/book | grep " $RECIPE " | awk '{print $4}'`;
   if [ -f "$RECEITA_PASTA/$RECIPE.yml" ]; then rm -Rf $RECEITA_PASTA/$RECIPE.yml; fi
-  wget $RAIZ/$SACOLA/$RECIPE.yml -P $RECEITA_PASTA/
+  wget -c $RAIZ/$SACOLA/$RECIPE.yml -P $RECEITA_PASTA/
   SETADDRESS;
  fi 
 }
