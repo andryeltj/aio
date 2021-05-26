@@ -372,6 +372,10 @@ $('document').ready(function(){
   } else {$(this).find('span').css("float","right");$(this).find('span').attr("estado","1");PutVideo();}
   });
   if (animated=="1"){PutVideo();}
+  $('div.thmenu a').click(function(){
+	  $('video').remove();
+	  if ($('h3.contkey a span').attr('estado') == "0" ){PutVideo();}
+  });
   $('h3.menucreatethm').click(function(){
 	  if ($(this).attr('estado') == '0' ) {$('.themearea, a.svthm').show();$(this).attr('estado','1')} else{$('.themearea, a.svthm').hide();$(this).attr('estado','0')}
   });
