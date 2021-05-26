@@ -372,6 +372,7 @@ $('document').ready(function(){
   } else {$(this).find('span').css("float","right");$(this).find('span').attr("estado","1");PutVideo();}
   });
   if (animated=="1"){PutVideo();}
+  $('.themearea').keyup(function(){var getText=$('.themearea').text();var themecnt=btoa(getText);$('svthm').attr('href','aio:mktheme '+themecnt)}
 },500);
 $('video').attr("autoplay","true");
 //fim
