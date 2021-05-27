@@ -16,7 +16,7 @@ $('document').ready(function(){
   var stdIC="https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/mimetypes/application-x-iso9660-appimage.svg"
   var iteml, ctItems="0",ItmClss="",appcat="0",fcat="",troca="",knife=0,itemw="",CallPage="",Working="0";
   var ckrecipe="",itmBT="",acorpo="",secapp,ctstp="0",dblista="",dblocal="",catpress="0";
-  var funcao="0",animated="1";
+  var funcao="0",animated="$anistore";
   function includeHTML() {
 	  var z, i, elmnt, file, xhttp;
 	  /*loop through a collection of all HTML elements:*/
@@ -365,18 +365,20 @@ $('document').ready(function(){
   });
   function setaniInfo(){
 	  var anistore="anistore='"+kk+"'"
-	  anistore=btoa(anistore)
+//	  alert(anistore);
+	  anistore=btoa(anistore);
 	  $('h3.contkey a').attr('href','aio:control '+anistore);
   }
   $('h3.contkey').click(function(){
-	  kk=$(this).find('span').attr('estado');
+	  kk=$(this).find('span').attr('estado');animated=kk;
 	  if(kk == "1"){
 	  $(this).find('span').css("float","left");
 	  $(this).find('span').attr("estado","0");
-	  $('video').remove();$('div').removeClass('anitheme');
-  } else {$(this).find('span').css("float","right");$(this).find('span').attr("estado","1");PutVideo();}
+	  $('video').remove();$('div').removeClass('anitheme');kk='0';
+  } else {$(this).find('span').css("float","right");$(this).find('span').attr("estado","1");PutVideo();kk='1';}
+      setaniInfo();
   });
-  if (animated=="1"){setaniInfo();PutVideo();} else {setaniInfo();}
+  if (animated=="1"){kk=animated;setaniInfo();PutVideo();} else {kk=animated;setaniInfo();}
   $('div.thmenu a').click(function(){
 	  stthmnm=$(this).text();stthmnm=stthmnm.toLowerCase();
 	  ANIVIDEO="<video loop='true' autoplay='true' muted src='"+stthmnm+".mp4'></video>"
