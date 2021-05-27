@@ -363,6 +363,11 @@ $('document').ready(function(){
 	  $(this).css("float","left");
 	} else {$(this).css("float","right");}
   });
+  function setaniInfo(){
+	  var anistore="anistore='"+kk+"'"
+	  anistore=btoa(anistore)
+	  $('h3.contkey a').attr('href','aio:control '+anistore);
+  }
   $('h3.contkey').click(function(){
 	  kk=$(this).find('span').attr('estado');
 	  if(kk == "1"){
@@ -371,7 +376,7 @@ $('document').ready(function(){
 	  $('video').remove();$('div').removeClass('anitheme');
   } else {$(this).find('span').css("float","right");$(this).find('span').attr("estado","1");PutVideo();}
   });
-  if (animated=="1"){PutVideo();}
+  if (animated=="1"){setaniInfo();PutVideo();} else {setaniInfo();}
   $('div.thmenu a').click(function(){
 	  stthmnm=$(this).text();stthmnm=stthmnm.toLowerCase();
 	  ANIVIDEO="<video loop='true' autoplay='true' muted src='"+stthmnm+".mp4'></video>"
