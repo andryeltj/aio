@@ -38,6 +38,7 @@ ANO="";MES="";DIA="";LINHA="";TEMPO="";
 echo $1 >> /tmp/aio.log
 source $JAR/aio.lang
 source $JAR/aio.thm
+source ~/.config/aio.conf
 #CORRECTION
 if [ -e "/etc/aio/aio.list" ]; then mkdir $REGs; mv $JAR/aio.list $REGs; fi
 
@@ -391,12 +392,13 @@ MOUNTPAGE(){
   GETNEWS
   QRABOUT="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAV4AAAFeAQAAAADlUEq3AAACsElEQVR42u2bzW3sMAyECbAAl6TWVZILMMAnzpBcZJ8D5Cxq4YMQfb4Q/BmNHLG//x458IEPfOADH3hHWPw3Hhm61hc2rqn3WAu9fU87wb6+STrDB29N4yut4FvW7iPyXL7mrofsclgQ0m6wrkBl5tjtL67QaVfYQ4fosY4eLzTpCEdZrdBNbiF6XlC/1+C2MFtutZefz3t/3hjOcSveZtF71QtK2HBeZ/fGsAfnRoNF5rDZrrJa6zWXH/69DZy/KdwCg4KaK4bPWyJtDCt6SwCsI4iTFU/04WGdYMHcYawyYsbUWq90g0EKeothLjvPsnIxf/eCNSUKYjgp0phaEiFtBLtMFa8j1yRoLIJqwqFvUtD2gf14azzQuUqxnMUa9TWawdVdXa960JBLUV/XbAXTA2Fr9SZzRdthSCUC2wWus0zpVb4Cv0i+m8z+sFXCsIiYWlRuX+N4e9hFCE80gMMUwiuUbb3gzCJqtlyPlCvSCkbaDMziWruep1HWD46xy+6qcQSGGfISus1hLXcIL+btA/Rbllgf2NBdFfO3RCw7LRY/vYLdYbU6udRi0lWW/wbQ9jCVKq5apBQaxzFyrBcMqSbQJ8ZbGK3jfz8Yuh2khTZDFvkRT8I/bATTKX0+lw6wCj2RYqsV7DbIVa6IhGlG2zBUSiNY6YHEdS0vJS3MZE6lVjC/8YiWwnGc95Xpr/aBwwNhVxHayJI+auZYG5hYKHmHhb569OEvzb87TEcoP30Z8XkDqolr7QTbp/HOsgqpSdh7W8E800GmTn4sF8GM9csHhBvDPNQ8ebbVHNByxVWdtoLvz+dPtApDuoeFaNYPZhYZDCJJMY9r/dEQLu2KZ9RgstdE2hjOnLFsLBTznMjy5pxsDFfLzcuXWbZhyrZG8PkfhAMf+MAHPnBP+B/qXDNDI0e3dAAAAABJRU5ErkJggg=="
   ABOUTSCREEN="<div class='aboutscreen wind'><h2>AIO Store</h2><h3>Version: "$VERSIONR"</h3><div class='middle'><div class='qr-prop'><h3 style='float:unset'>Faz um <img src='https://logodownload.org/wp-content/uploads/2020/02/pix-bc-logo.png'></h3><img src='$QRABOUT'></img></div><p class='abinfo'>Esta é uma loja que é mantida por doações. Se gostou, faz um PIX 😉👍</p></div><p style='width: 100%;text-align:center;margin:0;'>e-mail: <i>andryel.aio@gmail.com</i></p></div>"
-  THEMESCREEN="<div class='themescreen wind'><h2>Temas</h2><h3 class='contkey'>Efeitos<a class='bkey'><span estado='1'></span></a></h3><div class='thmenu'><a href='aio:theme cobalt'><span>Cobalt</span></a><a href='aio:theme brighted'><span>Brighted</span></a></div><h3 class='menucreatethm' estado='0' >Criar tema</h3><textarea class='themearea'></textarea><div><a class='svthm btn'>Salvar</a></div></div>"
+  THEMESCREEN="<div class='themescreen wind'><h2>Temas</h2><h3 class='contkey'>Efeitos<a class='bkey'><span estado='"$anistore"'></span></a></h3><div class='thmenu'><a href='aio:theme cobalt'><span>Cobalt</span></a><a href='aio:theme brighted'><span>Brighted</span></a></div><h3 class='menucreatethm' estado='0' >Criar tema</h3><textarea class='themearea'></textarea><div><a class='svthm btn'>Salvar</a></div></div>"
   REMOVESCREEN="<div class='removescreen wind'><h2>Desinstalar aio</h2><h3 class='contkey'>Manter a pasta de Appimages?<a class='bkey'><span estado='1'>SIM</span></a></h3><div class='thmenu'><a><span>Cobalt</span></a></div></div>"
   EXTRWIND="<div class='extrwind'><div class='clickout'></div>"$ABOUTSCREEN$THEMESCREEN"</div>"
   
 # MainCSS='<link rel="stylesheet" type="text/css" href="'
 # Css01=$MainCSS$RAIZ'/andryeltj/aio/master/store/main.css">'
+sed -i 's|$anistore|'"$anistore"'|g' /tmp/main.js
  sed -i 's|$delsys|'"$delsys"'|g' /tmp/main.js
  sed -i 's|$inssys|'"$inssys"'|g' /tmp/main.js
  rm -Rf /tmp/store.html
@@ -551,7 +553,7 @@ InstallDEB(){
 	appimagelauncher %f && killall AppImageLauncherSettings;
 }
 REPO=$(cat $JAR/jar.aio | sed 's|receitas|aio|g')
-wget -c $REPO/languages/$LINGU.lang -O $JAR/aio.lang
+rm -Rf $JAR/aio.lang; wget $REPO/languages/$LINGU.lang -O $JAR/aio.lang
 if [ -e $JAR/aio.thm ]; then troca=troca; else wget -c $REPO/themes/cobalt.thm -O $JAR/aio.thm; fi
 INSTALLAIO(){
 	isInstall="1"; echo ".............Instalando............";
@@ -858,7 +860,6 @@ if [[ "$1" == "" ]]; then troca=troca; else
   rm -Rf /etc/aio/aio.thm
 #  echo $STOREC $cloja $STORER
   wget -q -c $REPO/themes/$InNAME.thm -O /etc/aio/aio.thm
-  echo $REPO/themes/$InNAME.thm >> aiolog.txt
   thmvideo='https://www.youtube.com/watch?v=jtAm-kgoZ_E'
   thmvtime='00:10'
   source /etc/aio/aio.thm
@@ -873,6 +874,14 @@ if [[ "$1" == "" ]]; then troca=troca; else
   leaftheme=$(echo $InNAME | base64 --decode)
   thmnmfile=`echo $leaftheme | grep 'themename' | head -n 1 | cut -d "'" -f2 `
   echo $leaftheme > $APPS/themes/$thmnmfile.thm
+ fi
+ if [[ "$STOREC" == "aio:control" ]]; then
+  InNAME=$STORER
+  MSGSETTING=$(echo $InNAME | base64 --decode)
+  anistore=`echo $MSGSETTING | grep 'anistore' | head -n 1 | cut -d "'" -f2 `
+  if [ -f ~/.config/aio.conf ]; then echo anistore=\'$anistore\' > ~/.config/aio.conf; 
+  else echo anistore=\'$anistore\' > ~/.config/aio.conf; fi
+#  echo $REPO/themes/$InNAME.thm >> aiolog.txt
  fi
 fi
 #else
