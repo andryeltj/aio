@@ -352,7 +352,7 @@ $('document').ready(function(){
 		  });
 	  });
   $('div.extrwind .clickout').click(function(){$('div.extrwind, .wind, .aiomenu').hide()});
-  var stthmnm='cobalt',ANIVIDEO="<video loop='true' autoplay='true' muted src='"+stthmnm+".mp4'></video>", kk="0";
+  var stthmnm='$themename',ANIVIDEO="<video loop='true' autoplay='true' muted src='"+stthmnm+".mp4'></video>", kk="0";
   function PutVideo(){
 	  $('div.vth').html(ANIVIDEO);
 	  $('div.appinfo,div.pkg_disp').addClass('anitheme');
