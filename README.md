@@ -45,7 +45,7 @@ Like it? Contribute!
 
 ![](https://raw.githubusercontent.com/andryeltj/aio/master/images/contribua.png) 
 
-![48x48](https://raw.githubusercontent.com/andryeltj/receitas/master/icons/buy-me-a-cofee.svg) [Buy Me a Coffee](https://www.buymeacoffee.com/andryel.aio)
+ [Buy Me a Coffee ![48x48](https://raw.githubusercontent.com/andryeltj/receitas/master/icons/buy-me-a-cofee.svg) ](https://www.buymeacoffee.com/andryel.aio)
 
 The standard folder is /apps
 The recipes folder is /apps/receitas 
