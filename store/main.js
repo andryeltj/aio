@@ -13,7 +13,7 @@ $('document').ready(function(){
 
   var appname="", idrecipe="",category="",recipejar="",friendnm="",appicon="",appbg="",appimg1="",appimg2="",appimg3="",appimg4="",appdesc="",recipenm="",appnm="";
   var stdBK="$stdBK";
-  var stdIC="https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/mimetypes/application-x-iso9660-appimage.svg"
+  var stdIC="$stdIC"
   var iteml, ctItems="0",ItmClss="",appcat="0",fcat="",troca="",knife=0,itemw="",CallPage="",Working="0";
   var ckrecipe="",itmBT="",acorpo="",secapp,ctstp="0",dblista="",dblocal="",catpress="0";
   var funcao="0",animated="$anistore";
