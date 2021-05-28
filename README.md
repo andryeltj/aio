@@ -45,7 +45,7 @@ Like it? Contribute!
 
 ![](https://raw.githubusercontent.com/andryeltj/aio/master/images/contribua.png) 
 
-
+<button name="button" onclick="https://www.buymeacoffee.com/andryel.aio">Buy Me a Coffee</button>
 ![24x24](https://raw.githubusercontent.com/andryeltj/receitas/master/icons/buy-me-a-cofee.svg) <a class="bmc-btn" target="_blank" href="https://www.buymeacoffee.com/andryel.aio">  <span style='color:white'>Buy Me a Coffee</span></a>
 
 The standard folder is /apps
