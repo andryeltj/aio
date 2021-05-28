@@ -401,5 +401,6 @@ $('document').ready(function(){
   });
 },500);
 $('video').attr("autoplay","true");
+document.exitPictureInPicture();
 //fim
 });
