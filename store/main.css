@@ -112,7 +112,7 @@ div.extrwind .aboutscreen .qr-prop{display:block;}
 div.extrwind .aboutscreen .qr-prop h3 {margin:0;float: unset;width: 89%;text-align: center;margin-top: -1.5em;}
 div.extrwind .aboutscreen .qr-prop h3 img{width: 6em;height: auto;float: right;}
 div.extrwind .aboutscreen img{filter: invert(100%);width: 164px;float: left;display: block;}
-div.extrwind .aboutscreen p{float:right;display:block;width:65%;font-size:1.2em}
+div.extrwind .aboutscreen p{float:right;display:block;font-size:1.2em}
 div.extrwind .wind{display: flex;flex-direction:column;width: 41em;height: 45%;background-color: black;border-radius: 36px;padding: 1em;background-repeat: no-repeat;background-size: 45%;background-position-x: right;background-position-y: 146%;opacity: 95.3%;min-height: 21em;}
 div.extr{display:none;position: absolute;width: 211%;height: 100%;top: 0;background: rgba(0,0,0,.5);z-index: 1;border-radius: 12px;}
 div.minidesc{float:right;display:block;width:45%;height:100%;padding:0 1%}
@@ -125,6 +125,7 @@ div.thmenu a{display: block;border-radius: 12px;width: 7em;height: 6em;color: wh
 textarea.themearea{display:block;background: rgba(255,255,255,.3);border-radius: 12px;color: white;padding: .5em;font-weight: bold;font-family: 'Titillium Web', sans-serif;font-size: 1em;}
 a.svthm{display:none;position:inherit;background:darkgrey;}
 a.svthm:link{background:orangered;color:white}
+.bmc-btn {min-width: 210px;color: #ffffff !important;background-color: #ff813f !important;height: 1.5em;border-radius: 12px;font-size: 1.6em;font-weight: Normal;border: none;line-height: 27px;text-decoration: none !important;display: inline-flex !important;align-items: center;font-family: "Cookie" !important;-webkit-box-sizing: border-box !important;box-sizing: border-box !important;}.bmc-btn-text {margin-left: 8px;display: inline;line-height: 0;}.bmc-btn svg {height: 32px !important;margin-bottom: 0px !important;box-shadow: none !important;border: none !important;vertical-align: middle !important;transform: scale(0.9);}.bmc-button img {box-shadow: none !important;vertical-align:middle !important;}.bmc-button {display:inline-block !important;padding:0px 10px  !important;color:#ffffff !important;background-color:#ff813f !important;border-radius: 3px !important;border: 1px solid transparent !important;font-size: 28px !important;box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;-webkit-transition: 0.3s all linear !important;transition: 0.3s all linear !important;margin: 0 auto !important;font-family: "Cookie" !important;}.bmc-button: hover,.bmc-button: active,.bmc-button: focus {-webkit-box-shadow: 0 4px 16px 0 rgba(190, 190, 190, .45) !important;box-shadow: 0 4px 16px 0 rgba(190, 190, 190, .45) !important;opacity: 0.85 !important;color:#ffffff !important;}
 /*@-moz-document url-prefix(){
   body{font-size:12px;}
   div.pkg_disp{width:10.67em;height:13.35em;}
