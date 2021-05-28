@@ -47,7 +47,7 @@ Like it? Contribute!
         
         
 <p style="text-align:center !important; padding-bottom: 10px;">
-            <a class="bmc-btn" target="_blank" href="https://www.buymeacoffee.com/andryel.aio" style='background-color:#ff813f !important;padding:0 24px'>![24x24](https://raw.githubusercontent.com/andryeltj/receitas/master/icons/buy-me-a-cofee.svg)<span style='color:white'>Buy Me a Coffee</span></a>
+            <a class="bmc-btn" target="_blank" href="https://www.buymeacoffee.com/andryel.aio"> ![24x24](https://raw.githubusercontent.com/andryeltj/receitas/master/icons/buy-me-a-cofee.svg) <span style='color:white'>Buy Me a Coffee</span></a>
 </p>
 
 The standard folder is /apps
