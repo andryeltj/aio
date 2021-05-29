@@ -138,7 +138,7 @@ $('document').ready(function(){
   function GeraItMenu(){
 	var mainthmbk;
 	ctItems=parseInt(ctItems)+1;
-        if (appbg == "."){mainthmbk='mainthmbk'}else{appbg='style="background:url(\"'+appbg+'\");background-repeat:no-repeat;background-align:center;background-size:auto 100%"'};
+        if (appbg == "."){mainthmbk='mainthmbk'}else{appbg='style="background:url(\''+appbg+'\');background-repeat:no-repeat;background-align:center;background-size:auto 100%"'};
         if (appicon == "."){appicon=stdIC};
         var friendnmf=friendnm.toLowerCase();
         idrecipe=idrecipe.toLowerCase();
