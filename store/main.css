@@ -49,6 +49,7 @@ article{display:flex;position:relative;width:97%;height:82.1%;padding:.6em 3% .6
 div.pkg_disp{display:inline-block;float:left;width:10.2em;height:12.6em;position:relative;background:red;box-shadow:#000 0 0 .3em;border-radius:38% 10% 10% 10%;margin-bottom:3.3em;margin-right:.5em}
 div.pkg_disp a{display:inline-block;width:90%;margin:0 5%;color:#EEE;z-index:2;font-family:'Titillium Web', sans-serif;position:absolute;left:0;bottom:2em;text-shadow:#000 0 0 .6em;font-weight:unset;height: 2em;word-wrap: break-word;font-size: 1.15em;line-height: 1em;background:radial-gradient(circle, rgba(109,109,109,0.16341224083533656) 0%, rgba(0,0,0,0) 100%);}
 div.pkg_disp span{display:block;width:1.2em;height:1.2em;position:absolute;top:-0.3em;right:-0.3em;}
+div.pkg_disp.mainthmbk{background:url('$thmitem');background-repeat:no-repeat;background-align:center;background-size:auto 100%;$thmcssitem}
 button.app{display:block ruby;width:100%;position:sticky;height:100%;border-radius:38% 10% 10% 10%;border:0;box-shadow:0 0 1px #111 inset;z-index:2}
 a.add, a.del{width:100%;font-size:1em;padding:0;border:0;color:white;border-radius:0 0 1em 1em;}
 a.add,.add,.onsys{background:forestgreen !important} a.del,.del{background:#00791a !important}a.del:hover,.del:hover{background:darkorange !important}
