@@ -136,8 +136,9 @@ $('document').ready(function(){
 	  });
   }
   function GeraItMenu(){
-	    ctItems=parseInt(ctItems)+1;
-        if (appbg == "."){appbg=stdBK};
+	var mainthmbk;
+	ctItems=parseInt(ctItems)+1;
+        if (appbg == "."){mainthmbk='mainthmbk'}else{appbg='style="background:url(\"'+appbg+'\");background-repeat:no-repeat;background-align:center;background-size:auto 100%"'};
         if (appicon == "."){appicon=stdIC};
         var friendnmf=friendnm.toLowerCase();
         idrecipe=idrecipe.toLowerCase();
@@ -148,8 +149,8 @@ $('document').ready(function(){
 		if(friendnmf.match(appnamex)){appname=""};
         ItmClss=appcat+appname+idrecipe+" "+friendnmf;appcat="";
 //        console.log(ItmClss);
-        var ElHead1='<div class="pkg_disp anitheme '+ItmClss+'" alt="'+appnamex+'" style="background:url(\'';
-		var ElHead2='\') no-repeat center;background-size:auto 100%">';
+        var ElHead1='<div class="pkg_disp anitheme '+ItmClss+' '+mainthmbk+' " alt="'+appnamex+'" ';
+		var ElHead2='>';
         var ElHead=ElHead1+appbg+ElHead2;
 		var itName="<a class='nameapp'>"+friendnm+"</a>"
 		var appic1='<button class="app" alt="'+appnamex+'"style="background:url(\'';
