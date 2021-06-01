@@ -328,7 +328,11 @@ $('document').ready(function(){
     if($('div.extrwind').attr('data-click-state') == 1) { $('div.extrwind').attr('data-click-state', 1);$('div.extrwind,.wind').hide() }
     else { $('div.extrwind').attr('data-click-state', 0);$('.wind').hide();$('div.extrwind').slideToggle('400').css('display','flex');$('div.aboutscreen').show();}
   });
-  $('div.backy').click(function(){alert("clicou")})
+  $('a.advstore').click(function(){
+    if($('div.extrwind').attr('data-click-state') == 1) { $('div.extrwind').attr('data-click-state', 1);$('div.extrwind,.wind').hide() }
+    else { $('div.extrwind').attr('data-click-state', 0);$('.wind').hide();$('div.extrwind').slideToggle('400').css('display','flex');$('div.advcdscreen').show();}
+  });
+//  $('div.backy').click(function(){alert("clicou")})
 //Stylers
   $('.std').click(function(){$('div.pkg_disp, article, div.appinfo').removeClass('cl1, qd1, listv')});
   $('.cl1').click(function(){$('div.pkg_disp').removeClass('qd1, listv').addClass('cl1')});
