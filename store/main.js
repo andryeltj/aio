@@ -129,7 +129,7 @@ $('document').ready(function(){
     
     $('div.menu div').each(function(){
 	  ckrecipe=$(this).attr('alt');
-	  if($("div.list li.I"+ckrecipe+" a:nth-child(1)").text() > ""){itmBT="<div class='onsys'></div>";		}
+	  if($("div.list li.I"+ckrecipe+" a:nth-child(1)").text() > ""){itmBT="<div class='onsys'>✔</div>";		}
 //		  console.log(ckrecipe+" true")}else{console.log(ckrecipe+" false")};
 	  $(this).children('span').html(itmBT);
 	  ckrecipe="",itmBT="";
