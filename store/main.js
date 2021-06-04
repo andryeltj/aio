@@ -407,5 +407,7 @@ $('document').ready(function(){
 },500);
 $('video').attr("autoplay","true");
 document.exitPictureInPicture();
+//function googleTranslateElementInit() { new google.translate.TranslateElement({ pageLanguage: '$LINGU', autoDisplay: false,layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');}
+//googleTranslateElementInit();
 //fim
 });
