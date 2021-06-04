@@ -7,9 +7,9 @@ $('document').ready(function(){
 //		setInterval(page_refresh, 3000);
 	   setTimeout("location.reload();",3000);
   });
-  var indice_selecionado = -1; //Índice do item selecionado na lista
-  var BOOK = localStorage.getItem("BOOK");// Recupera os dados armazenados
-  BOOK = JSON.parse(BOOK); // Converte string para objeto
+//  var indice_selecionado = -1; //Índice do item selecionado na lista
+//  var BOOK = localStorage.getItem("BOOK");// Recupera os dados armazenados
+//  BOOK = JSON.parse(BOOK); // Converte string para objeto
 
   var appname="", idrecipe="",category="",recipejar="",friendnm="",appicon="",appbg="",appimg1="",appimg2="",appimg3="",appimg4="",appdesc="",recipenm="",appnm="";
   var stdBK="$stdBK";
@@ -269,7 +269,7 @@ $('document').ready(function(){
 			  $('div.piebase').html("");countslice();setTimeout(GetPage(),500);}
 	  };
   }
-  if(BOOK == null){ BOOK = [] };
+//  if(BOOK == null){ BOOK = [] };
 
 //Launchers
   $(".book").html(dblista);
