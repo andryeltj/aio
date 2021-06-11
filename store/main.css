@@ -12,7 +12,7 @@ div.searchbar a, div.searchbar span,.mainbar a, .mainbar span{display:block;floa
 div.mainbar a, div.searchbar a{cursor:pointer;padding:.45em 1em;background:rgba(180,180,180,.3);height:.9em;text-decoration:none}
 div.mainbar a:hover,div.searchbar a:hover{background:rgba(232,232,232,.3)}
 div.searchbar a:hover{color:black}
-div.mainbar a.aiologo{background:none;height:100%;}
+div.mainbar a.aiologo{background:none;height:100%;width:100%; padding:0;display:flex;flex-direction: column;align-items: center;}
 div.aiostyle, div.aiomenu{position:absolute;display:none;top:4.5em;background: rgba(198,198,198,.9);border-radius: 10px;color:black;right:-1em !important;width:15vh}
 div.aiostyle a, div.aiomenu a{display:inline-block;width:80%;float:right}
 div.aiostyle span, div.aiomenu span{position:absolute;left:0;padding:0 1em;}
