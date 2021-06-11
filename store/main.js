@@ -191,7 +191,7 @@ $('document').ready(function(){
 	  if(appicon == "."){appicon=stdIC};
 	  $("a.applogo").css({'background-image':"url('"+appicon+"')"});
 	  if(appbg == "."){appbg=stdBK};
-	  $("div.barbk").css({'background-image':"url('"+appbg+"')";background-size:100% auto; background-repeat:norepeat});
+	  $("div.barbk").css({'background-image':"url('"+appbg+"')","background-size":"100% auto","background-repeat":"norepeat"});
 	  if(appdesc == "" || appdesc == ".")
 	    {appdesc=appname}
 	    else {appdesc=$.base64.decode(appdesc);};
