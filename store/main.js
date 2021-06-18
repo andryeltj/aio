@@ -278,12 +278,13 @@ $('document').ready(function(){
 	LerBOOK();
   
 //Prateleira(MENU)
-  $("article").html("<div class='menu'>"+acorpo+"</div><div class='news'></div>");acorpo="";
+  $("article").html("<div class='poster'></div><div class='menu'>"+acorpo+"</div><div class='news'></div>");acorpo="";
   CkInstall();
   console.log('Loja Carregada');
   var versionr=$("i.infoqtd").text();
   $("i.infoqtd").html(versionr+" | "+ctItems+" apps disponíveis.");
   $("div.news").html($("div.newspaper").html());$('div.newspaper').remove();
+  $("div.poster").html($("div.newsapps").html());$('div.newsapps').remove();
 //Pesquisa
   $('span.searchbar').focus();
   $('span.searchbar').keyup(function(){
