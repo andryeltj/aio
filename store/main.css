@@ -47,7 +47,7 @@ div.list li:hover{background:rgba(180,180,180,.3)}
 div.list li a:nth-child(1){width:12em;text-align:center}
 div.list li a:nth-child(2){float:right;padding-right:2em}
 article{display:flex;position:relative;width:97%;height:82.1%;padding:.6em 3% .6em 0;overflow-y:auto}
-div.poster{display: flex;justify-content: center;align-items: center;margin:3.6em;}
+div.poster{display: flex;justify-content: center;align-items: center;margin:3em;padding: .6em 0;overflow: hidden;}
 div.poster div{width: 256px;height: 128px;border-radius: 12px;display: flex;align-items: center;cursor:pointer;justify-content: center;font-family:Titillium web;background-size: 100% !important;box-shadow: 0 0 0.8em black;margin: 0 .6em;padding: 0 .5em;}
 div.poster div a{display:block;min-width:3em;height:3em;background-size: 100% 100% !important;text-shadow: 0 1.5pt 3pt black;font-size: 2em;}
 div.poster div a:nth-child(2){display: flex;justify-content: center;align-items: center;}
