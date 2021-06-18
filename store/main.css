@@ -49,7 +49,7 @@ div.list li a:nth-child(2){float:right;padding-right:2em}
 article{display:flex;position:relative;width:97%;height:82.1%;padding:.6em 3% .6em 0;overflow-y:auto}
 div.poster{display: flex;position:relative;flex-direction: row-reverse;justify-content: center;align-items: center;font-family:Titillium web;margin:3em 0 .6em 0;padding: .6em 0;overflow: hidden;}
 div.poster span{display: block;padding: .5em 1em .5em 15em;position: absolute;top: 0;left: 0;background-color: #0000002e;border-radius: 0 7px 7px 0;}
-div.poster div{width: 256px;height: 128px;border-radius: 12px;display: flex;align-items: center;cursor:pointer;justify-content: center;background-size: 100% !important;box-shadow: 0 0 0.8em black;margin: 0 .6em;padding: 0 .5em;}
+div.poster div{width: 256px;height: 128px;border-radius: 12px;display: flex;align-items: center;cursor:pointer;justify-content: center;background-size:100% 100% !important;box-shadow: 0 0 0.8em black;margin: 0 .6em;padding: 0 .5em;}
 div.poster div a{display:block;min-width:3em;height:3em;background-size: 100% 100% !important;text-shadow: 0 1.5pt 3pt black;font-size: 2em;}
 div.poster div a:nth-child(2){display: flex;justify-content: center;align-items: center;}
 div.pkg_disp{display:inline-block;float:left;width:10.2em;height:12.6em;position:relative;background:red;box-shadow:#000 0 0 .3em;border-radius:38% 10% 10% 10%;margin-bottom:3.3em;margin-right:.5em}
