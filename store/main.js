@@ -405,6 +405,21 @@ $('document').ready(function(){
   $('.themearea').keyup(function(){
 	  var getText=$('textarea.themearea').val();var themecnt=btoa(getText);$('a.svthm').attr('href','aio:mktheme '+themecnt);
   });
+  $('#posterleft').click(function () {
+    var leftPos = $('div.poster').scrollLeft();
+    console.log(leftPos);
+    $("div.poster").animate({
+        scrollLeft: leftPos - 500
+    }, 800);
+	});
+
+  $('#posterright').click(function () {
+		var leftPos = $('div.poster').scrollLeft();
+		console.log(leftPos);
+		$("div.poster").animate({
+			scrollLeft: leftPos + 500
+		}, 800);
+  });
 },500);
 $('video').attr("autoplay","true");
 document.exitPictureInPicture();
