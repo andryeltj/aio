@@ -115,6 +115,8 @@ if [[ "$VERSIONR" -lt "$AIOR" ]]; then
     MSGU003
     GETAIO
 fi
+sed -i '/pkg2appimage:/d' /tmp/book
+sed -i '/aio:/d' /tmp/book
 }
 
 CKFREELIB(){
@@ -136,7 +138,7 @@ CKFREELIB
 if [ -e "$RECEITA_PASTA/$RECIPE.yml" ]; then
  cd $RECEITA_PASTA; MSGA001;
  echo "##*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*##"
- pkg2appimage "$RECEITA_PASTA/$RECIPE.yml"	#COZINHA
+ r2a "$RECEITA_PASTA/$RECIPE.yml"	#COZINHA
  echo "##*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*##"
  LAUNCHLIB
 fi
@@ -256,7 +258,13 @@ GETNETBOOK(){
 	 do
 		wget -q --show-progress -c $line/book -P /tmp/	#BAIXA O NOVO LIVRO
 	 done < $JAR/jar.aio
-    fi
+	 rm -Rf /tmp/book2
+	 while IFS= read -r line
+	 do
+	   if [[ ${line::1} == "#" ]]; then troca=troca; else echo $line >> /tmp/book2; fi
+	 done < /tmp/book
+#	 MOUNTNEWS
+   fi
 }
 
 GETNEWS(){
@@ -412,16 +420,41 @@ MOUNTLISTS(){
     done < /home/apps/index/aio.list
     echo $CList > $JAR/aiostore/installed.html
 }
-IMGDOTS='<svg focusable="false" viewBox="0 0 24 24" fill="#ddd" style="margin:20% -8%;"><path d="M6,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM16,6c0,1.1 0.9,2 2,2s2,-0.9 2,-2 -0.9,-2 -2,-2 -2,0.9 -2,2zM12,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2z"></path></svg>'
+NcList=""
+MOUNTPOSTERS(){
+	NCList="";NLIsTa=""
+	while IFS= read -r lineposter
+    do
+       dtbk=`echo $lineposter | awk '{print $7}'`
+       dtic=`echo $lineposter | awk '{print $6}'`
+       dtnm=`echo $lineposter | awk '{print $1}'| sed 's|\:||g'`
+       dtnmd=`echo $lineposter | awk '{print $5}'`
+       NLIsTa="<div class='"$dtnm"' style='background:url(\""$dtbk"\")'><a style='background:url(\""$dtic"\")'></a><a>"$dtnmd"</a></div>"
+       NcList=$NcList$NLIsTa
+    done < /home/apps/index/newapps.txt
+    echo $NcList
+}
+MOUNTNEWS(){
+  if [[ `diff "/tmp/book2" "/home/apps/index/book2"` ]]; then
+	diff "/tmp/book2" "/home/apps/index/book2" | grep ">" | sed "s/> //g" >> /home/apps/index/newapps.txt
+	rm -Rf /home/apps/index/book2; cp -Rf /tmp/book2 /home/apps/index/
+  else
+    rm -Rf /home/apps/index/book2; cp -Rf /tmp/book2 /home/apps/index/
+	if [ -f "/home/apps/index/newapps.txt" ]; then troca=troca; else touch /home/apps/index/newapps.txt; fi
+  fi
+  MOUNTPOSTERS
+}
+IMGDOTS='<svg focusable="false" viewBox="0 0 24 24" fill="#ddd" style="margin: 20% 0;width: 100%;"><path d="M6,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM16,6c0,1.1 0.9,2 2,2s2,-0.9 2,-2 -0.9,-2 -2,-2 -2,0.9 -2,2zM12,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2z"></path></svg>'
 imgloadstore="data:image/webp;base64,UklGRvgFAABXRUJQVlA4WAoAAAASAAAAOwAAOwAAQU5JTQYAAAAAAAAAAABBTk1GKgAAAAAAAAAAADsAADsAAFAAAAJWUDhMEQAAAC87wA4AB9D//ve//4GI6H8AAEFOTUY8AAAAAAAAFAAAEwAAEwAAUAAAAlZQOEwjAAAALxPABBAPMP/zP//zH/BQ1LYR097xZ7zH6xBE9H8CcFrqM5wAQU5NRkoAAAAAAAAKAAAnAAAnAABQAAACVlA4TDEAAAAvJ8AJEA8w//M///Mf8FDUSJLSztb6SaIvMwqI6P8EgE6p45P7DOiJWZWko9NLMDMGAEFOTUZcAAAAAAAAAAAAOwAAOwAAUAAAAlZQOExEAAAALzvADhAPMP/zP//zH/Bg20hSpJYIgJBInZDucZHa4gc/ov8TAI9qrBX/y8HTBXRkU9Pj6aAP6OsvhiZjU067wQDoawZBTk1GZgAAAAEAAAAAADkAADkAAFAAAAJWUDhMTQAAAC85QA4QDzD/8z//8x/wYBXZVptD/4wkrD8HsRAJCGAmnS4gov8TACDnaUrSuRfluDqoA6lqeJ5FcpqitM0GdUDd+DmWna8jjAYFNCgGAEFOTUZkAAAAAgAAAAAANwAANwAAUAAAAlZQOExLAAAALzfADRAPMP/zP//zH/BgFElWq6EQgASkYAUpSEMSx/DDO5ERENH/CWBiFNeRpOfVp8AIjGwtpiM6xGS1DzRg6JavhmB7/ABD0OoEAEFOTUZaAAAAAwAAAQAAMwAAMwAAUAAAAlZQOExBAAAALzPADBAPMP/zP//zH/BQE0lSNPwhKWoppCEFCTi4iB8BEf2fADZWMRM9VjH5Ikaw8k0BWphJCyzB6Ot5pqg5WAIAQU5NRlAAAAADAAACAAAxAAAwAABQAAACVlA4TDcAAAAvMQAMEA8w//M///Mf8FATSVI0RFg4tVdIxQnR/QiI6P8EkPmAuz0SIATW19Vzlg9Cn9cMCWABAEFOTUZKAAAAAwAAAwAALwAALwAAUAAAAlZQOEwxAAAALy/ACxAPMP/zP//zH/BQ0EiKs7hALcE5fK8CIvo/AUxiI5cJYOL7CqA9Ph5bXCaAFQBBTk1GUgAAAAIAAAMAADAAADEAAFAAAAJWUDhMOQAAAC8wQAwQDzD/8z//8x/wUBvJVvI/llICrb1SKJvMXfKI/k8ArUWF3n8DT5mJuvPYaBd5N4UJGqF6BgBBTk1GWAAAAAEAAAMAADIAADMAAFAAAAJWUDhMQAAAAC8ywAwQDzD/8z//8x/wUBPJVvOofkmLWgapXwIOfiAHARH9nwD0mZbSQjv4eo2jvFTCHDDztsghGTHdA4ig3QRBTk1GYgAAAAAAAAMAADUAADUAAFAAAAJWUDhMSQAAAC81QA0QDzD/8z//8x/wYBTbVptH2hYJkfKtRdqXxDKd3hEQ0f8JYILPhFNkbRlIGanSWe8cOfZ2AKXhR+pqLetomcPUC5ACFAMAQU5NRmAAAAABAAACAAA1AAA1AABQAAACVlA4TEgAAAAvNUANEA8w//M///Mf8GAU21abS+oSSViPlEhoW2Z6BwER/Z8ArQDIMan77Ae0gljvxpRcZi155CiQAUQqYsxa8BtZotWMIAFBTk1GXAAAAAAAAAEAADkAADkAAFAAAAJWUDhMQwAAAC85QA4QDzD/8z//8x/wYNRIVqVOEPAkYR0Ha2UFkPSJP9wj+j8B1QRAlzFW8mnQB425GkOfeez3dtAVMKCOVdPjgBYAQU5NRlAAAAAAAAAAAAA7AAA7AABQAAACVlA4TDcAAAAvO8AOEA8w//M///Mf8FDTSFa1CQKeJPxXWEEAyXb8oY7of2gA0CvmcfV26AYM1HEzPQ4MNP4FAEFOTUZAAAAACgAAAAAAJwAAJwAAUAAAAlZQOEwoAAAALyfACRAPMP/zP//zH/Aw2rZNPuhJ+x/tpKCyjUf0fwI0UNY5JlA+BEFOTUYqAAAAFAAAAAAAEwAAEwAAUAAAAlZQOEwRAAAALxPABAAH0P/+97//gYjofwAA"
 JsReload='<script type="text/javascript"> setTimeout("location.reload();",3000); </script>'
 ShReload='<script type="text/javascript"> $("article, div.book, div.list, div.mural").remove();$("div.container").append("<center><img style=\"margin-top:20%\" src='$imgloadstore'></center>");$(".infoqtd").html("Atualizando informações, aguarde...")</script>'
 
 MOUNTPAGE(){
+	echo "montando pagina"
   echo $JsReload$ShReload >> $JAR/aiostore/index.html
-  GETNETBOOK
-  GETPAGEBASE
-#  GETNEWS
+#  GETNETBOOK
+#  GETPAGEBASE
+  GETNEWS
   LTHMS=""; rm -Rf /tmp/thmnames
   $(wget -q "https://github.com/andryeltj/aio/tree/master/themes" -O - | grep "thm" | grep "span" | cut -d ">" -f 3 | cut -d "<" -f 1 | cut -d "." -f 1 >> /tmp/thmnames)
   while IFS= read -r line
@@ -439,8 +472,11 @@ MOUNTPAGE(){
   if [ $thmbkglass=="main" ]; then thmbkglass="https://web.whatsapp.com/img/bg-chat-tile-dark_a4be512e7195b6b733d9110b408f075d.png"; fi
 # MainCSS='<link rel="stylesheet" type="text/css" href="'
 # Css01=$MainCSS$RAIZ'/andryeltj/aio/master/store/main.css">'
-  
-sed -i 's|$anistore|'"$anistore"'|g' /tmp/main.js
+
+ wget -q $RAIZ/andryeltj/aio/master/store/main.css -O /tmp/main.css
+ wget -q $RAIZ/andryeltj/aio/master/store/main.js -O /tmp/main.js
+ wget -q $RAIZ/andryeltj/aio/master/store/news.html -O /tmp/news.html
+ sed -i 's|$anistore|'"$anistore"'|g' /tmp/main.js
  sed -i 's|$delsys|'"$delsys"'|g' /tmp/main.js
  sed -i 's|$inssys|'"$inssys"'|g' /tmp/main.js
  sed -i 's|$themename|'"$themename"'|g' /tmp/main.js
@@ -457,11 +493,14 @@ sed -i 's|$anistore|'"$anistore"'|g' /tmp/main.js
  sed -i 's|$thmitem|'"$thmitem"'|g' /tmp/main.css
  sed -i 's|$thmcssitem|'"$thmcssitem"'|g' /tmp/main.css
  sed -i 's|$BMCSVG|'"$BMCSVG"'|g' /tmp/news.html
- varNEWS=`cat /tmp/news.html`	
- rm -Rf /tmp/store.html
- CssLk01=`cat /tmp/main.css`	#DevMode
- JsLk01=`cat /tmp/jquery.js`
+ 
+ CssLk01=`cat /tmp/main.css`
+ JsLk01=`curl $RAIZ/andryeltj/aio/master/store/jquery.js`
  JsLk02=`cat /tmp/main.js`
+ varNEWS=`cat /tmp/news.html`
+ 	
+ rm -Rf /tmp/store.html
+ 
 # JsLk02=`cat /tmp/main-a.js`
 # JsLk03=`cat /tmp/main-b.js`
  Css01="<style>"$CssLk01"</style>"	#DevMode
@@ -476,17 +515,18 @@ sed -i 's|$anistore|'"$anistore"'|g' /tmp/main.js
 "use strict";jQuery.base64=(function($){var _PADCHAR="=",_ALPHA="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",_VERSION="1.0";function _getbyte64(s,i){var idx=_ALPHA.indexOf(s.charAt(i));if(idx===-1){throw"Cannot decode base64"}return idx}function _decode(s){var pads=0,i,b10,imax=s.length,x=[];s=String(s);if(imax===0){return s}if(imax%4!==0){throw"Cannot decode base64"}if(s.charAt(imax-1)===_PADCHAR){pads=1;if(s.charAt(imax-2)===_PADCHAR){pads=2}imax-=4}for(i=0;i<imax;i+=4){b10=(_getbyte64(s,i)<<18)|(_getbyte64(s,i+1)<<12)|(_getbyte64(s,i+2)<<6)|_getbyte64(s,i+3);x.push(String.fromCharCode(b10>>16,(b10>>8)&255,b10&255))}switch(pads){case 1:b10=(_getbyte64(s,i)<<18)|(_getbyte64(s,i+1)<<12)|(_getbyte64(s,i+2)<<6);x.push(String.fromCharCode(b10>>16,(b10>>8)&255));break;case 2:b10=(_getbyte64(s,i)<<18)|(_getbyte64(s,i+1)<<12);x.push(String.fromCharCode(b10>>16));break}return x.join("")}function _getbyte(s,i){var x=s.charCodeAt(i);if(x>255){throw"INVALID_CHARACTER_ERR: DOM Exception 5"}return x}function _encode(s){if(arguments.length!==1){throw"SyntaxError: exactly one argument required"}s=String(s);var i,b10,x=[],imax=s.length-s.length%3;if(s.length===0){return s}for(i=0;i<imax;i+=3){b10=(_getbyte(s,i)<<16)|(_getbyte(s,i+1)<<8)|_getbyte(s,i+2);x.push(_ALPHA.charAt(b10>>18));x.push(_ALPHA.charAt((b10>>12)&63));x.push(_ALPHA.charAt((b10>>6)&63));x.push(_ALPHA.charAt(b10&63))}switch(s.length-imax){case 1:b10=_getbyte(s,i)<<16;x.push(_ALPHA.charAt(b10>>18)+_ALPHA.charAt((b10>>12)&63)+_PADCHAR+_PADCHAR);break;case 2:b10=(_getbyte(s,i)<<16)|(_getbyte(s,i+1)<<8);x.push(_ALPHA.charAt(b10>>18)+_ALPHA.charAt((b10>>12)&63)+_ALPHA.charAt((b10>>6)&63)+_PADCHAR);break}return x.join("")}return{decode:_decode,encode:_encode,VERSION:_VERSION}}(jQuery));
 </script>'
  favicon='<link rel="shortcut icon" href="favicon.svg" />'
- JsTradutor='<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>'
+# JsTradutor='<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>'
  HTMLINFO="<head><title>Store</title><meta charset=UTF-8>"$favicon"<link href='https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap' rel='stylesheet'><link href='https://fonts.googleapis.com/css2?family=Cookie&display=swap' rel='stylesheet'> $Css01 $JsBASIS $JsBase64 $JsMAIN $JsTradutor<link rel='stylesheet' type='text/css' href='"$themename".css'></head>"
 # CBook=`cat /tmp/book`
- MOUNTLISTS
+# MOUNTLISTS
 # CList=`cat /etc/aio/aio.list`
  HtmlHAreas="<div class='book' w3-include-html='lista.html'></div><div class='list' w3-include-html='installed.html'></div><textarea class='appimageinfo'></textarea>"
  Searchbar="<div class='searchbar'><div style='display:block;position:relative;width:100%;height:100%;left:-50%'><span class='searchbar' contenteditable='true'></span><a class='x'>✖</a></div></div>"
  AppInfo="<div class='appinfo anitheme'><div class='barbk'></div>"$Searchbar"<div class='appname'>$welcome</div><div class='passing'>⚙️</div><i id='google_translate_element'>$msghome</i><a class='applogo'></a><div class='iteminfo'><a class='ckrecipe' alt='Exibe a receita do app instalado'>📑</a><a class='openapp hide'>$msgopen</a><a class='updtapp hide'>$msgupd</a><a class='seta'></a><div class='pdthumbs'><img src='https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/devices/camera-photo.svg'><a></a><a></a><a></a><a></a></div></div></div>"
- Newspaper="<div class='newspaper'>"$varNEWS"</div>"
+ Newspaper="<div class='newspaper'>"$varNEWS"</div>"; 
+ NewsApps="<div class='newsapps' style='display:none'>"$NcList"<span class='posterinfo'>Lançamentos *</span></div>"
  Mural="<div class='mural'><div class='imgview'><center><div class='exhib'></div><div class='rule'><a>📷</a><a>📷</a><a>📷</a><a>📷</a></div></center></div><div class='tutorial'></div><div class='fullinfo'><p></p></div><a class='xview'>X</a></div>";
- CORPO=$HtmlHAreas$Newspaper$AppInfo"<article><center style='margin-top:18%'><img src='"$imgloadstore"'/></center></article><div class='outer'><div class='categories'></div></div>"$Mural
+ CORPO=$HtmlHAreas$Newspaper$NewsApps$AppInfo"<article><center style='margin-top:18%'><img src='"$imgloadstore"'/></center></article><div class='outer'><div class='categories'></div></div>"$Mural
  echo "Abrindo a loja"
  POPUPMENU="<div class='aiomenu'><a href='aio:store-up' class='updatestore'>$msgupd</a><a class='styaio'>$thmstore</a><a>$bdrecipe</a><a class='aboutaio'>$aboutstore</a><a class='advstore'>$advstore</a><a>Fale conosco</a></div>"
  POPUPSTYLE="<div class='aiostyle'><div class='fstyle'><a class='card'><span>🍱</span>Cartão</a><a class='item'><span>▣</span>Item</a><a class='list'><span>▤</span>Lista</a></div><a class='std'><span>📑</span>Padrão</a><a class='cl1'><span>◉</span>Circulo</a><a class='qd1'><span>▢</span>Quadrado</a></div>"
@@ -611,7 +651,7 @@ InstallDEB(){
 	appimagelauncher %f && killall AppImageLauncherSettings;
 }
 REPO=$(cat $JAR/jar.aio | sed 's|receitas|aio|g')
-rm -Rf $JAR/aio.lang; wget $REPO/languages/$LINGU.lang -O $JAR/aio.lang
+rm -Rf $JAR/aio.lang; wget -q $REPO/languages/$LINGU.lang -O $JAR/aio.lang
 if [ -e $JAR/aio.thm ]; then troca=troca; else wget -c $REPO/themes/cobalt.thm -O $JAR/aio.thm; source $JAR/aio.thm; fi
 INSTALLAIO(){
 	isInstall="1"; echo ".............Instalando............";
@@ -835,12 +875,12 @@ ingredients:
    CHECKAIOVERSION
   fi
 
- elif [[ "$1" == "aio:store-up" ]]; then
+ elif [[ "$1" == "aio:store-up" || "$1" == "upstore" || "$1" == "storeup" ]]; then
   GETNETBOOK
   CHECKAIOVERSION
   echo $JsReload$ShReload >> $JAR/aiostore/index.html
   CKWEBSERVER
-  MOUNTLISTS
+#  MOUNTLISTS
   MOUNTPAGE
 
  elif  [[ "$1" == "f-i" ]]; then echo "Vamos instalar... Execute como Root:
