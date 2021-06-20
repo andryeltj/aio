@@ -85,7 +85,7 @@ div.mural div.fullinfo{display:block;position:relative;width:30%;float:left}
 a.xview{display:block;position:absolute;top:0;right:0;color:white;cursor:pointer;padding:1em;height:1em;width:.5em;font-size: 1.6em;}
 a.xview:hover{background:rgba(255,255,255,.3);color:black}
 a.x:target{background:white;color:red}
-i.infoqtd{float:right;padding: .4em .4em .4em 0; position:absolute;bottom:0;right:2em;}
+i.infoqtd{float:right;padding: .4em .4em .4em 0; position:absolute;top: 13em;right: 20%;background: #0000002e;border-radius: 6px;}
 div.cl1,div.qd1{border-radius:50%;height:128px !important;margin-bottom:5.8em}
 div.cl1 button,div.qd1 button{border-radius:50%;height:128px;}
 div.cl1 a.nameapp, div.qd1 a{bottom:-2.5em}
