@@ -13,7 +13,7 @@ div.mainbar a, div.searchbar a{cursor:pointer;padding:.45em 1em;background:rgba(
 div.mainbar a:hover,div.searchbar a:hover{background:rgba(232,232,232,.3)}
 div.searchbar a:hover{color:black}
 div.mainbar a.aiologo{background:none;height:100%;width:100%; padding:0;display:flex;flex-direction: column;align-items: center;}
-div.aiostyle, div.aiomenu{position:absolute;display:none;top:4.5em;background: rgba(198,198,198,.9);border-radius: 10px;color:black;right:-1em !important;width:15vh}
+div.aiostyle, div.aiomenu{position:absolute;display:none;top:4.5em;background: rgba(198,198,198,.9);border-radius: 10px;color:black;right:-1em !important;width:10em;overflow:hidden}
 div.aiostyle a, div.aiomenu a{display:inline-block;width:80%;float:right}
 div.aiostyle span, div.aiomenu span{position:absolute;left:0;padding:0 1em;}
 div.aiostyle{right:9em !important;width:285px}
