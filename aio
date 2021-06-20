@@ -34,7 +34,7 @@ CAMINHO=`pwd`
 PROGRESS="0"
 ITEMW="0"
 AUTOINTEGRAR=0
-VERSIONR=202106200026
+VERSIONR=202106200037
 ISLOCAL=0
 troca=""
 VERSION=""
@@ -182,7 +182,8 @@ DELOVEN(){
 
 GETAIO(){
 	rm -Rf $JAR/aio
-	wget -q --show-progress $RAIZ/andryeltj/aio/master/aio -P $JAR
+	curl -q $RAIZ/andryeltj/aio/master/aio > $JAR/aio
+#	wget -q --show-progress $RAIZ/andryeltj/aio/master/aio -P $JAR
 	chmod +x $JAR/aio
 	AIOR=`cat $JAR/aio | grep -w "VERSIONR=" | awk '{print $2}'`
 	echo "🗘 AIO: "$AIOR" < Atualizado para esta versão"
