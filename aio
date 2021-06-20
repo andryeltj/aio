@@ -115,8 +115,8 @@ if [[ "$VERSIONR" -lt "$AIOR" ]]; then
     MSGU003
     GETAIO
 fi
-sed -i '/pkg2appimage:/d' /tmp/book
-sed -i '/aio:/d' /tmp/book
+#sed -i '/pkg2appimage:/d' /tmp/book
+#sed -i '/aio:/d' /tmp/book
 }
 
 CKFREELIB(){
@@ -249,21 +249,24 @@ fi
 }
 
 GETNETBOOK(){
+#	wget -q --show-progress -c $RAIZ/andryeltj/receitas/master/book -P /tmp/	#BAIXA O NOVO LIVRO
+#	curl -q $RAIZ/andryeltj/receitas/master/book > /tmp/book
     if [ "`whoami`" == "root" ]; then
 	 echo "Operando como Root, o livro sera baixado depois";
     else
 	 if [ -f "$JAR/jar.aio" ]; then troca=troca; else JARCONTENT; fi
-	 if [ -f "/tmp/book" ]; then rm -Rf /tmp/book; fi	#REMOVE O LIVRO ANTIGO
-	 while IFS= read -r line
-	 do
-		wget -q --show-progress -c $line/book -P /tmp/	#BAIXA O NOVO LIVRO
+#	 rm -Rf /tmp/book;	#REMOVE O LIVRO ANTIGO
+	 while IFS= read -r lrepo; do
+		#wget -q --show-progress $lrepo/book -O /tmp/book	#BAIXA O NOVO LIVRO
+		curl -q $lrepo/book > /tmp/book
+#		rm -Rf $JAR/book; cp /tmp/book $JAR/book
 	 done < $JAR/jar.aio
-	 rm -Rf /tmp/book2
-	 while IFS= read -r line
-	 do
-	   if [[ ${line::1} == "#" ]]; then troca=troca; else echo $line >> /tmp/book2; fi
-	 done < /tmp/book
-#	 MOUNTNEWS
+	 
+#	 rm -Rf /tmp/book2
+#	 while IFS= read -r line; do
+#	   if [[ ${line::1} == "#" ]]; then troca=troca; else echo $line >> /tmp/book2; fi
+#	 done < /tmp/book
+	 MOUNTNEWS
    fi
 }
 
@@ -399,30 +402,36 @@ CONVTHMCSS(){
 	echo $vVOP$thmcssvid$vCssEND$vCssEND >> $JAR/aiostore/$themename.css
 }
 MOUNTLISTS(){
-	CBook=""
-	sed -i '/pkg2appimage:/d' /tmp/book
-	sed -i '/aio:/d' /tmp/book
+	echo "montando as listas"
+	CBook="";rm -Rf $JAR/aiostore/lista.html;rm -Rf $JAR/aiostore/installed.html
 	while IFS= read -r line
     do
        if [[ ${line::1} == "#" ]]; then troca=troca; else
         Par01=`echo $line | awk '{print $1}' | sed 's|\:||g'`
-        CBook=$CBook`echo "<li class='L"$Par01"'><a>"$Par01"</a>"``echo $line | awk '{print "<a>"$2"</a>"}'``echo $line | awk '{print "<a>"$3"</a>"}'``echo $line | awk '{print "<a>"$4"</a>"}'``echo $line | awk '{print "<a>"$5"</a>"}'``echo $line | awk '{print "<a>"$6"</a>"}'``echo $line | awk '{print "<a>"$7"</a>"}'``echo $line | awk '{print "<a>"$8"</a>"}'``echo $line | awk '{print "<a>"$9"</a>"}'``echo $line | awk '{print "<a>"$10"</a>"}'``echo $line | awk '{print "<a>"$11"</a>"}'``echo $line | awk '{print "<a>"$12"</a></li>"}'`
+        CBook="<li class='L"$Par01"'><a>"$line"</a></li>"
+        echo $CBook >> $JAR/aiostore/lista.html
        fi
     done < /tmp/book
-    echo $CBook > $JAR/aiostore/lista.html
+    
 	CList=""
 	while IFS= read -r line
     do
        Par02=`echo $line | awk '{print $2}' | sed 's|\:||g'`
        ITdata=`echo $line | awk '{print $3}'`
-       LIsTa=`echo "<li class='I"$Par02"'><a>"$Par02"</a><a>"$ITdata"</a></li>"`
-       CList=$CList$LIsTa
+       LIsTa="<li class='I"$Par02"'><a>"$Par02"</a><a>"$ITdata"</a></li>"
+       echo $LIsTa >> $JAR/aiostore/installed.html
     done < /home/apps/index/aio.list
-    echo $CList > $JAR/aiostore/installed.html
+    sed -i 's| |</a><a>|g' $JAR/aiostore/lista.html
+    sed -i 's|<li</a><a>|<li |g' $JAR/aiostore/lista.html
+    sed -i "s|:'|'|g" $JAR/aiostore/lista.html
+    sed -i 's|:<|<|g' $JAR/aiostore/lista.html
+	sed -i '/>pkg2appimage</d' $JAR/aiostore/lista.html
+	sed -i '/>aio</d' $JAR/aiostore/lista.html
+	
 }
 NcList=""
 MOUNTPOSTERS(){
-	NCList="";NLIsTa=""
+	NcList="";NLIsTa=""
 	while IFS= read -r lineposter
     do
        dtbk=`echo $lineposter | awk '{print $7}'`
@@ -433,15 +442,15 @@ MOUNTPOSTERS(){
        NcList=$NcList$NLIsTa
     done < /home/apps/index/newapps.txt
     echo $NcList
+    cp -Rf /tmp/book /home/apps/index/
+#    curl -q $RAIZ/andryeltj/receitas/master/book > /home/apps/index/book
 }
 MOUNTNEWS(){
-  if [[ `diff "/tmp/book2" "/home/apps/index/book2"` ]]; then
-	diff "/tmp/book2" "/home/apps/index/book2" | grep ">" | sed "s/> //g" >> /home/apps/index/newapps.txt
-	rm -Rf /home/apps/index/book2; cp -Rf /tmp/book2 /home/apps/index/
-  else
-    rm -Rf /home/apps/index/book2; cp -Rf /tmp/book2 /home/apps/index/
-	if [ -f "/home/apps/index/newapps.txt" ]; then troca=troca; else touch /home/apps/index/newapps.txt; fi
+  if [ -f "/home/apps/index/newapps.txt" ]; then troca=troca; else touch /home/apps/index/newapps.txt; fi
+  if [[ `diff "/tmp/book" "/home/apps/index/book"` ]]; then
+	diff "/tmp/book" "/home/apps/index/book" | grep ">" | sed "s/> //g" >> /home/apps/index/newapps.txt
   fi
+  
   MOUNTPOSTERS
 }
 IMGDOTS='<svg focusable="false" viewBox="0 0 24 24" fill="#ddd" style="margin: 20% 0;width: 100%;"><path d="M6,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM16,6c0,1.1 0.9,2 2,2s2,-0.9 2,-2 -0.9,-2 -2,-2 -2,0.9 -2,2zM12,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2z"></path></svg>'
@@ -452,9 +461,6 @@ ShReload='<script type="text/javascript"> $("article, div.book, div.list, div.mu
 MOUNTPAGE(){
 	echo "montando pagina"
   echo $JsReload$ShReload >> $JAR/aiostore/index.html
-#  GETNETBOOK
-#  GETPAGEBASE
-  GETNEWS
   LTHMS=""; rm -Rf /tmp/thmnames
   $(wget -q "https://github.com/andryeltj/aio/tree/master/themes" -O - | grep "thm" | grep "span" | cut -d ">" -f 3 | cut -d "<" -f 1 | cut -d "." -f 1 >> /tmp/thmnames)
   while IFS= read -r line
@@ -524,6 +530,7 @@ MOUNTPAGE(){
  Searchbar="<div class='searchbar'><div style='display:block;position:relative;width:100%;height:100%;left:-50%'><span class='searchbar' contenteditable='true'></span><a class='x'>✖</a></div></div>"
  AppInfo="<div class='appinfo anitheme'><div class='barbk'></div>"$Searchbar"<div class='appname'>$welcome</div><div class='passing'>⚙️</div><i id='google_translate_element'>$msghome</i><a class='applogo'></a><div class='iteminfo'><a class='ckrecipe' alt='Exibe a receita do app instalado'>📑</a><a class='openapp hide'>$msgopen</a><a class='updtapp hide'>$msgupd</a><a class='seta'></a><div class='pdthumbs'><img src='https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/devices/camera-photo.svg'><a></a><a></a><a></a><a></a></div></div></div>"
  Newspaper="<div class='newspaper'>"$varNEWS"</div>"; 
+
  NewsApps="<div class='newsapps' style='display:none'>"$NcList"<span class='posterinfo'>Lançamentos *</span></div>"
  Mural="<div class='mural'><div class='imgview'><center><div class='exhib'></div><div class='rule'><a>📷</a><a>📷</a><a>📷</a><a>📷</a></div></center></div><div class='tutorial'></div><div class='fullinfo'><p></p></div><a class='xview'>X</a></div>";
  CORPO=$HtmlHAreas$Newspaper$NewsApps$AppInfo"<article><center style='margin-top:18%'><img src='"$imgloadstore"'/></center></article><div class='outer'><div class='categories'></div></div>"$Mural
@@ -877,11 +884,11 @@ ingredients:
 
  elif [[ "$1" == "aio:store-up" || "$1" == "upstore" || "$1" == "storeup" ]]; then
   GETNETBOOK
-  CHECKAIOVERSION
   echo $JsReload$ShReload >> $JAR/aiostore/index.html
   CKWEBSERVER
-#  MOUNTLISTS
+  MOUNTLISTS
   MOUNTPAGE
+  CHECKAIOVERSION
 
  elif  [[ "$1" == "f-i" ]]; then echo "Vamos instalar... Execute como Root:
 $ sudo ./aio";
