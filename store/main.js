@@ -278,7 +278,7 @@ $('document').ready(function(){
 	LerBOOK();
   
 //Prateleira(MENU)
-  $("article").html("<div style='width:84%;position:relative'><div class='poster'></div><span id='posterleft'><</span><span id='posterright'>></span><div class='amostra'><div class='pdthumbs'><div><i class='appdesc'></i></div><div><img src='https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/devices/camera-photo.svg'><a></a><a></a><a></a><a></a></div></div></div><div class='menu'>"+acorpo+"</div></div><div class='news'></div>");acorpo="";
+  $("article").html("<div style='width:84%;position:relative'><div class='poster'></div><span id='posterleft'><</span><span id='posterright'>></span><div class='amostra'><div class='pdthumbs'><div><i class='appdesc'></i></div><div><a></a><a></a><a></a><a></a></div></div></div><div class='menu'>"+acorpo+"</div></div><div class='news'></div>");acorpo="";
   CkInstall();
   console.log('Loja Carregada');
   var versionr=$("i.infoqtd").text();
