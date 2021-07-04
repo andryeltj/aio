@@ -28,7 +28,7 @@ div.appinfo i{display:block;left:18%;position: absolute;top:63%;width:60%;margin
 div.appinfo a.seta,div.appinfo a.openapp,div.appinfo a.updtapp,a.btn{position:absolute;display:inline-block; right:1em;bottom:5%;width:5em !important;background:transparent;border:none;padding:.5em 2em;border-radius: 0;box-shadow: 0 0 5em white;font-size:1em;text-align:center;text-decoration: none;}
 div.appinfo a.updtapp{right:130px;color:white;background:#1988ff}
 div.appinfo a.openapp{right:248px;color:white;background:#1988ff}
-div.appname{display: block;width: 60%;height:100%;position: absolute;font-size: 2.3em;left: 11%;top: 0;}
+div.appname{display: block;width: 60%;height:100%;position: absolute;font-size: 2.3em;left: 11%;top: 0;font-family: 'Titillium Web', sans-serif;}
 div.appname, div.appinfo i{background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.37) 31%, rgba(125,185,232,0) 100%); /* FF3.6-15 */
 background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(255,255,255,0.37) 31%,rgba(125,185,232,0) 100%); /* Chrome10-25,Safari5.1-6 */
 background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(255,255,255,0.37) 31%,rgba(125,185,232,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
