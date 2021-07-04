@@ -21,7 +21,7 @@ textarea{display:block;margin:0;border:0;background:transparent;width:100%}
 div.appinfo{display:flex;position:relative;width:100%;height:14em;text-shadow:0 1px 3px black;color:white;padding:.6% 0;box-shadow:0 0 .6em black;border-bottom: 1px solid rgba(0,0,0,0.3);}
 div.barbk{background-image:url('https://cdn.pling.com/img/4/e/c/8/cf46deb6ff025ca632bf6306a45f909d1fb1f920a89d0a819628328a75ce3710bfda.png');background-size:100%;opacity:0.93;}
 div.appinfo div.barbk{display: block;width: 100%;height: 100%;position:absolute;top: 0;}
-a.applogo{display:block;position:absolute;top:.3em;left:6%;width:3.5em;height:3.5em}
+a.applogo{display:block;position:absolute;top:.3em;left:3em;width:3.5em;height:3.5em}
 a.applogo{background-image:url('https://raw.githubusercontent.com/andryeltj/aio/master/store/aio-store.svg');background-size:100% auto;background-repeat: no-repeat;background-position: center;}
 div.appinfo i{display:block;left:18%;position: absolute;top:63%;width:60%;margin:-1.2%;color: black;font-family:Titillium web;text-shadow: white 1pt 0 5pt;font-size:unset;}
 .ckrecipe{position: absolute;right:26.5em;top:1.6em;padding:1.3em;cursor: pointer;}
