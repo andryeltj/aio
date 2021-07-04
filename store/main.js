@@ -195,7 +195,7 @@ $('document').ready(function(){
 	  if(appdesc == "" || appdesc == ".")
 	    {appdesc=appname}
 	    else {appdesc=$.base64.decode(appdesc);};
-	  $("div.appinfo i").html(appdesc);
+	  $("i.appdesc").html(appdesc);
 	  $("div.passing").html(category);
 	  $("div.pdthumbs a:nth-child(2),div.rule a:nth-child(1)").css({'background-image':"url('"+appimg1+"')"});
 	  $("div.pdthumbs a:nth-child(3),div.rule a:nth-child(2)").css({'background-image':"url('"+appimg2+"')"});
