@@ -34,7 +34,7 @@ CAMINHO=`pwd`
 PROGRESS="0"
 ITEMW="0"
 AUTOINTEGRAR=0
-VERSIONR=202106200044
+VERSIONR=202108130114
 ISLOCAL=0
 troca=""
 VERSION=""
@@ -529,7 +529,7 @@ MOUNTPAGE(){
 # CList=`cat /etc/aio/aio.list`
  HtmlHAreas="<div class='book' w3-include-html='lista.html'></div><div class='list' w3-include-html='installed.html'></div><textarea class='appimageinfo'></textarea>"
  Searchbar="<div class='searchbar'><div style='display:block;position:relative;width:100%;height:100%;left:-50%'><span class='searchbar' contenteditable='true'></span><a class='x'>✖</a></div></div>"
- AppInfo="<div class='appinfo anitheme'><div class='barbk'></div>"$Searchbar"<div class='appname'>$welcome</div><div class='passing'>⚙️</div><i id='google_translate_element'>$msghome</i><a class='applogo'></a><div class='iteminfo'><a class='ckrecipe' alt='Exibe a receita do app instalado'>📑</a><a class='openapp hide'>$msgopen</a><a class='updtapp hide'>$msgupd</a><a class='seta'></a><div class='pdthumbs'><img src='https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/devices/camera-photo.svg'><a></a><a></a><a></a><a></a></div></div></div>"
+ AppInfo="<div class='appinfo anitheme'><div class='barbk'></div><div class='appname'>$welcome</div><div class='passing'>⚙️</div><i id='google_translate_element'>$msghome</i>"$Searchbar"<a class='applogo'></a><div class='iteminfo'><a class='ckrecipe' alt='Exibe a receita do app instalado'>📑</a><a class='openapp hide'>$msgopen</a><a class='updtapp hide'>$msgupd</a><a class='seta'></a></div></div>"
  Newspaper="<div class='newspaper'>"$varNEWS"</div>"; 
 
  NewsApps="<div class='newsapps' style='display:none'>"$NcList"<span class='posterinfo'>Lançamentos *</span></div>"
@@ -673,7 +673,7 @@ INSTALLAIO(){
 	if [ -e "$JAR" ]; then yes | mv $CAMINHO/aio $JAR; echo "🖴  <====  📜"; else echo "JARRA nao foi criada"; fi
 	if [ -f "$JAR/jar.aio" ]; then troca=troca; else JARCONTENT; fi
 	if [ -f "$JAR/$COMBURENT" ]; then troca=troca; else GETCOMBURENT; fi
-	if [ -f "$JAR/WAI.AppImage" ]; then troca=troca; else GETWAI; fi
+	if [ -f "$JAR/WAI.AppImage" ]; then troca=troca; fi #else GETWAI; fi
 	if [ -f "$JAR/bdl" ]; then troca=troca; else wget -c https://yt-dl.org/downloads/latest/youtube-dl -O /etc/aio/bdl; sudo chmod a+rx /etc/aio/bdl; fi
 	if [ -f "/usr/bin/python" ]; then troca=troca; else sudo ln -s /usr/bin/python3 /usr/bin/python; fi
 	MAKEWidgets
