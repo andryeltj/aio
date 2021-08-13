@@ -8,7 +8,7 @@ BASIS=$RECEITA_PASTA/basis	#Pasta das bases para receitas
 PRATO=$RECEITA_PASTA/out	#Saida do Produto
 RAIZ="https://raw.githubusercontent.com"
 APPS=/home/apps	#Pasta dos apps
-COMBURENT="pkg2appimage"
+COMBURENT="r2a" #pkg2appimage
 WAI="Wine-4.21-x86_64.AppImage"
 BINS=/usr/bin
 LOCAL=/home/`whoami`/.local
@@ -19,7 +19,7 @@ ELINKS=$LOCAL/share/applications
 NEWS="andryeltj/aio/master/store/news.html"
 mail="andryel.aio@gmail.com"
 REGs=$APPS/index
-AppIndex=REGs/aio.list
+AppIndex=$REGs/aio.list
 LINGU=$(echo $LANG | sed "s/_/-/g" | cut -d '.' -f 1 | tr '[:upper:]' '[:lower:]')
 LOCALE=$(echo $LANG | sed "s/_/-/g" | cut -d '.' -f 1 | cut -d '-' -f 1 | tr '[:upper:]' '[:lower:]')
 distro=`cat /etc/apt/sources.list | grep 'ubuntu.com' | head -n 2 | cut -d " " -f 3 | sed "/http/d"`
@@ -132,12 +132,15 @@ CKFREELIB(){
 	fi
 }
 
+getonlyf="false";
 DOCOOK(){
-rm -Rf $PRATO
+GETOnly=`cat $RECEITA_PASTA/$RECIPE.yml | grep -w "getonly:" | awk '{print $2}'`
 CKFREELIB
 if [ -e "$RECEITA_PASTA/$RECIPE.yml" ]; then
  cd $RECEITA_PASTA; MSGA001;
+ if [ "$GETOnly" == "true" ]; then mkdir $PRATO; else rm -Rf $PRATO; fi
  echo "##*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*##"
+# mkdir $PRATO;
  r2a "$RECEITA_PASTA/$RECIPE.yml"	#COZINHA
  echo "##*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*##"
  LAUNCHLIB
@@ -282,13 +285,22 @@ GETONLY(){
 	if [ "$GETOnly" == "" ]; then
 	 DOCOOK
 	else
-	 echo -ne "******" >> $JAR/aiostore/$PageName.html;
-	 echo "GETOnly: YES"
-	 OVEN=`cat $RECEITA_PASTA/$RECIPE.yml | grep -w "app:" | awk '{print $2}'`;
-	 mkdir $RECEITA_PASTA/$OVEN; mkdir $RECEITA_PASTA/$OVEN/$OVEN.AppDir; mkdir $PRATO;
-	 if [ -e "$PRATO" ]; then wget -q --show-progress -P $PRATO/ $GETOnly; fi
-	 PRODUTO=`ls $PRATO`;
-	 if [ "$PRODUTO" == "" ]; then PROGRESS="0"; else chmod +x $PRATO/$PRODUTO; LAUNCHLIB; fi
+     if [ "$GETOnly" == "true" ]; then
+       getonlyf="true"; DOCOOK
+       AiFILE=$(ls $RECEITA_PASTA/$RECIPE/*.AppImage);
+       echo "$AiFILE | $PRATO";
+#       mkdir $PRATO;
+       mv $AiFILE $PRATO; PRODUTO=`ls $PRATO`;
+       if [ "$PRODUTO" == "" ]; then PROGRESS="0"; else chmod +x $PRATO/$PRODUTO; LAUNCHLIB; fi
+     else
+	     echo -ne "******" >> $JAR/aiostore/$PageName.html;
+	     echo "GETOnly: YES"
+	     OVEN=`cat $RECEITA_PASTA/$RECIPE.yml | grep -w "app:" | awk '{print $2}'`;
+	     mkdir $RECEITA_PASTA/$OVEN; mkdir $RECEITA_PASTA/$OVEN/$OVEN.AppDir; mkdir $PRATO;
+	     if [ -e "$PRATO" ]; then wget -q --show-progress -P $PRATO/ $GETOnly; fi
+	     PRODUTO=`ls $PRATO`;
+	     if [ "$PRODUTO" == "" ]; then PROGRESS="0"; else chmod +x $PRATO/$PRODUTO; LAUNCHLIB; fi
+     fi
 	fi
 }
 
