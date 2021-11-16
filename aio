@@ -548,7 +548,7 @@ MOUNTPAGE(){
 # JsTradutor='<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>'
  HTMLINFO="<head><title>Store</title><meta charset=UTF-8>"$favicon"<link href='https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap' rel='stylesheet'><link href='https://fonts.googleapis.com/css2?family=Cookie&display=swap' rel='stylesheet'> $Css01 $JsBASIS $JsBase64 $JsMAIN $JsTradutor<link rel='stylesheet' type='text/css' href='"$themename".css'></head>"
 # CBook=`cat /tmp/book`
-# MOUNTLISTS
+MOUNTLISTS
 # CList=`cat /etc/aio/aio.list`
  HtmlHAreas="<div class='book' w3-include-html='lista.html'></div><div class='list' w3-include-html='installed.html'></div><textarea class='appimageinfo'></textarea>"
  Searchbar="<div class='searchbar'><div style='display:block;position:relative;width:100%;height:100%;left:-50%'><span class='searchbar' contenteditable='true'></span><a class='x'>✖</a></div></div>"
