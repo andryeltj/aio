@@ -204,7 +204,7 @@ $('document').ready(function(){
 	  $("div.pdthumbs a:nth-child(5),div.rule a:nth-child(4)").css({'background-image':"url('"+appimg4+"')"});
 	  $("div.mural").css({'display':"flex"});
 	  $("div.menu,div.news").css({'filter':"blur(8px)"})
-	  $("div.outer").hide();
+	  $("div.outer,i.infoqtd").hide();
   }
   function GetTItem(){
 	  console.log("F 1");
@@ -320,7 +320,7 @@ $('document').ready(function(){
   $('a.xview').click(function(){
 	  $('div.mural').hide();
 	  $('div.menu,div.news').css({'filter':"blur(0)"});
-	  $('div.outer').show();
+	  $('div.outer,i.infoqtd').show();
   });
   $('a.aiologo').click(function(){
 	  $('div.aiomenu').toggle();
