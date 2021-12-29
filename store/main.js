@@ -202,6 +202,7 @@ $('document').ready(function(){
 	  $("div.pdthumbs a:nth-child(3),div.rule a:nth-child(2)").css({'background-image':"url('"+appimg2+"')"});
 	  $("div.pdthumbs a:nth-child(4),div.rule a:nth-child(3)").css({'background-image':"url('"+appimg3+"')"});
 	  $("div.pdthumbs a:nth-child(5),div.rule a:nth-child(4)").css({'background-image':"url('"+appimg4+"')"});
+	  $("div.mural").css({'display':"flex"});
   }
   function GetTItem(){
 	  console.log("F 1");
