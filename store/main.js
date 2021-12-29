@@ -203,7 +203,7 @@ $('document').ready(function(){
 	  $("div.pdthumbs a:nth-child(4),div.rule a:nth-child(3)").css({'background-image':"url('"+appimg3+"')"});
 	  $("div.pdthumbs a:nth-child(5),div.rule a:nth-child(4)").css({'background-image':"url('"+appimg4+"')"});
 	  $("div.mural").css({'display':"flex"});
-	  $("div.menu").css({'filter':"blur(8px)"})
+	  $("div.menu,div.news").css({'filter':"blur(8px)"})
   }
   function GetTItem(){
 	  console.log("F 1");
@@ -318,7 +318,7 @@ $('document').ready(function(){
   });
   $('a.xview').click(function(){
 	  $('div.mural').hide();
-	  $('div.menu').css({'filter':"blur(0)"});
+	  $('div.menu,div.news').css({'filter':"blur(0)"});
   });
   $('a.aiologo').click(function(){
 	  $('div.aiomenu').toggle();
