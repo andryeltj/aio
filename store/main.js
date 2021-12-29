@@ -138,7 +138,7 @@ $('document').ready(function(){
   function GeraItMenu(){
 	var mainthmbk;
 	ctItems=parseInt(ctItems)+1;
-        if (appbg == "."){mainthmbk='mainthmbk'}else{mainthmbk=' ';appbg='style="background:url(\''+appbg+'\');background-repeat:no-repeat;background-position:center;background-size:auto 100%"'};
+        if (appbg == "."){mainthmbk='mainthmbk'};//else{mainthmbk=' ';appbg='style="background:url(\''+appbg+'\');background-repeat:no-repeat;background-position:center;background-size:auto 100%"'};
         if (appicon == "."){appicon=stdIC};
         var friendnmf=friendnm.toLowerCase();
         idrecipe=idrecipe.toLowerCase();
@@ -155,7 +155,7 @@ $('document').ready(function(){
 		var itName="<a class='nameapp'>"+friendnm+"</a>"
 		var appic1='<button class="app" alt="'+appnamex+'"style="background:url(\'';
 		var appic2='\') no-repeat center 2em;background-size:50% auto"></button>';
-        var appic=""//appic1+appicon+appic2;
+        var appic=appic1+appicon+appic2;
         var itBotton="<span>"+itmBT+"</span>"; itmBT="";
         iteml=ElHead+appic+itName+itBotton+"<div class='extr'><div class='minidesc'></div></div></div>";
         acorpo=acorpo+iteml;ItmClss="";
