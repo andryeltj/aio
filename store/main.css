@@ -77,7 +77,7 @@ div.weekvideos button span{position:absolute;top:104%;display:inline-block;width
 div.articles{border-top: 1px solid rgba(180,180,180,.3);margin-top: .5em;}
 div.articles h3{padding-left: .5em;color: #1988ff;font-size: 1.2em;font-family: Titillium web;margin: .3em;}
 div.articles a{display:inline-block;color:white;font-size:1.2em;width:100%;margin-top:.3em;background:#1988ff;text-align:center;text-decoration:none;padding:.5em 0;font-weight: bold;font-family: Titillium web;}
-div.mural{display:none;position: absolute;top: 14.4%;width: 100%;height: 82%;background: rgba(0,0,0,.7);left: 0;}
+div.mural{display:none;position: absolute;top:52px;width: 100%;height: 90%;background: rgba(0,0,0,.7);left: 0;}
 div.mural div.imgview{display:block;width:70%;float:left}
 div.mural div.imgview div.exhib{display:block;width:70%;height:25em;background:rgba(0,0,0,.6);box-shadow:0 0 .1em black;margin-top:3%;background-size:auto 100%;background-repeat: no-repeat;background-position: center;}
 div.mural div.imgview div.rule{display:block;width:100%;height:20%;max-height:12em;padding:.3em .09em;background:rgba(0,0,0,.4);margin-top:3%;text-align:center;}
