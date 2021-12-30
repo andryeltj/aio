@@ -205,9 +205,6 @@ $('document').ready(function(){
 	  $("div.mural").css({'display':"flex"});
 	  $("div.menu,div.news").css({'filter':"blur(8px)"})
 	  $("div.outer,i.infoqtd").hide();
-//	  var imgsw=$("div.exhib").css({"background-image"});
-//	  console.log(imgsw);
-//	  $("div.rule a:nth-child(1)").css({"background-image":imgsw});
   }
   function GetTItem(){
 	  console.log("F 1");
