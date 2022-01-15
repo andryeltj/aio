@@ -4,4 +4,4 @@ thmbar='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAcCAYAAACUJBTQAAAACX
 thmitem=' data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAA9CAYAAAB2kePRAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAKUlEQVRIie3LwREAMAQAsOr+I3OswD/5J7Kq39G/BkmSJEmSJEmSpIUBAUUEb4pQKhoAAAAASUVORK5CYII='
 thmcssitem='background-color: #ffffff4a'
 thmeicon='https://upload.wikimedia.org/wikipedia/commons/c/cc/Gnome-application-x-executable.svg'
-thmnm='color:black !important'
+thmnm='color:#333 !important'
