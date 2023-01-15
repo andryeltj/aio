@@ -16,9 +16,9 @@ Example: Installing **Sweet Home 3D**
 | Steps | |
 | ------------- | -------------:|
 | Select | Installing |
-| ![300x256](https://raw.githubusercontent.com/andryeltj/aio/master/images/select.png) | ![300x256](https://raw.githubusercontent.com/andryeltj/aio/master/images/installing.png)|
+| ![300x256](https://raw.githubusercontent.com/andryeltj/aio/master/themes/images/select.png) | ![300x256](https://raw.githubusercontent.com/andryeltj/aio/master/themes/images/installing.png)|
 | Ready | |
-| ![300x256](https://raw.githubusercontent.com/andryeltj/aio/master/images/ready.png) | |
+| ![300x256](https://raw.githubusercontent.com/andryeltj/aio/master/themes/images/ready.png) | |
 
 To install, is run this command in your terminal:
 
@@ -43,7 +43,7 @@ The commands:
 
 Like it? Contribute!
 
-![](https://raw.githubusercontent.com/andryeltj/aio/master/images/contribua.png) 
+![](https://raw.githubusercontent.com/andryeltj/aio/master/themes/images/contribua.png) 
 
  [Buy Me a Coffee ![48x48](https://raw.githubusercontent.com/andryeltj/receitas/master/icons/buy-me-a-cofee.svg) ](https://www.buymeacoffee.com/andryel.aio)
 
